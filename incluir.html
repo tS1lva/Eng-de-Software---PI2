@@ -23,13 +23,14 @@
       <div id="main">
         <!-- Modificação no título com classe texth2 -->
         <h2 class="texth2">Cadastrar aeronaves:</h2>
-        <form>
+        <form id="formAeronave">
           <div id="cadastroAeronave">
             <!-- Adicionadas classes de estilo (text e box) e placeholder -->
             <label for="modelo" class="text">Modelo: </label>
             <input
               type="text"
               id="modelo"
+              name="modelo"
               class="box"
               placeholder="Airbus A380"
               required
@@ -74,7 +75,9 @@
             />
 
             <br />
-
+             <button id="btnCadAer" >
+              Cadastrar test
+             </button>
             <input
               type="submit"
               id="cadastrar"
@@ -204,5 +207,6 @@
         <hr />
       </div>
     </main>
+    <script src="script.js"></script>
   </body>
 </html>
