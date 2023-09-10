@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Cadastro de Aeronaves e Voos</title>
+  </head>
+  <body>
+    <!-- Cabeçalho adicionado -->
+    <header>
+      <div class="superior">
+        <a href="adm.html"><strong>← Home</strong></a>
+        <p><strong>Administrador</strong></p>
+        <div class="opcoes">
+          <a href="incluir.html"><strong>Incluir</strong></a>
+          <a><strong>Alterar</strong></a>
+          <a><strong>Excluir</strong></a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div id="main">
+        <!-- Modificação no título com classe texth2 -->
+        <h2 class="texth2">Cadastrar aeronaves:</h2>
+        <form>
+          <div id="cadastroAeronave">
+            <!-- Adicionadas classes de estilo (text e box) e placeholder -->
+            <label for="modelo" class="text">Modelo: </label>
+            <input
+              type="text"
+              id="modelo"
+              class="box"
+              placeholder="Airbus A380"
+              required
+            />
+
+            <br />
+
+            <!-- Adicionadas classes de estilo (text e box) e placeholder -->
+            <label for="idAeronave" class="text"
+              >Numero de indentificação da aeronave:</label
+            >
+            <input
+              type="number"
+              id="idAeronave"
+              placeholder="09676"
+              class="box"
+              required
+            />
+
+            <br />
+
+            <!-- Adicionadas classes de estilo (text e box) e placeholder -->
+            <label for="fabricante" class="text">Fabricante: </label>
+            <input
+              type="text"
+              id="fabircante"
+              class="box"
+              placeholder="Airbus"
+              required
+            />
+
+            <br />
+
+            <!-- Adicionadas classes de estilo (text e box) e placeholder -->
+            <label for="anofabricado" class="text">Ano de fabricação:</label>
+            <input
+              type="number"
+              id="anofabricado"
+              placeholder="2019"
+              class="box"
+              required
+            />
+
+            <br />
+
+            <input
+              type="submit"
+              id="cadastrar"
+              class="cadastrar"
+              value="Cadastrar"
+            />
+          </div>
+        </form>
+
+        <hr />
+
+        <!-- Modificação no título com classe texth2 -->
+        <h2 class="texth2">Cadastrar trajetos e aeroportos:</h2>
+        <form>
+          <div id="aeroportosETrajetos">
+            <!-- Adicionadas classes de estilo (text e box) -->
+            <label for="trajetos" class="text">Trajetos: </label>
+            <select id="trajetos" class="box">
+              <option value="cmp - sp">Campinas - São Paulo</option>
+              <!-- Opções de trajetos aqui -->
+            </select>
+
+            <br />
+
+            <!-- Adicionadas classes de estilo (text e box) -->
+            <label for="aeroportos" class="text">Aeroportos: </label>
+            <select id="aeroportos" class="box">
+              <option value="viracopos">Viracopos(CMP)</option>
+              <!-- Opções de aeroportos aqui -->
+            </select>
+
+            <br />
+
+            <input type="button" class="cadastrar" value="Cadastar" />
+          </div>
+        </form>
+
+        <hr />
+
+        <div id="cadastroVoos">
+          <form>
+            <!-- Modificação no título com classe texth2 -->
+            <h2 class="texth2">Cadastrar voos:</h2>
+            <!-- Adicionadas classes de estilo (text e box) -->
+            <label for="data" class="text">Data:</label>
+            <input type="date" class="box" id="data" required />
+
+            <br />
+
+            <!-- Adicionadas classes de estilo (text e box) -->
+            <label for="trajeto" class="text">Trajetos</label>
+            <select class="box" id="trajetos">
+              <option value="cmpsp">Campinas - São Paulo</option>
+              <!-- Opções de trajetos aqui -->
+            </select>
+
+            <br />
+
+            <!-- Adicionadas classes de estilo (text e box) -->
+            <label for="horaPartida:" class="text"
+              >Horario previsto de partida:</label
+            >
+            <input type="time" class="box" id="horaP" required />
+
+            <br />
+
+            <!-- Adicionadas classes de estilo (text e box) -->
+            <label for="horaChegada" class="text"
+              >Horario previsto para chegada:</label
+            >
+            <input type="time" class="box" id="horaC" required />
+
+            <br />
+
+            <!-- Adicionadas classes de estilo (text e box) -->
+            <label for="aeroportoSaida" class="text"
+              >Aeroporto de saida:
+            </label>
+            <select class="box" id="aeroportos">
+              <option value="viracopos">Viracopos(CMP)</option>
+              <!-- Opções de aeroportos aqui -->
+            </select>
+
+            <br />
+
+            <!-- Adicionadas classes de estilo (text e box) -->
+            <label for="aeroportoChegada" class="text"
+              >Aeroporto de chegada</label
+            >
+            <select id="aeroportos" class="box">
+              <option value="viracopos">Viracopos(CMP)</option>
+              <!-- Opções de aeroportos aqui -->
+            </select>
+
+            <br />
+
+            <!-- Adicionadas classes de estilo (text e box) e placeholder -->
+            <label for="idVoo" class="text">ID do voo: </label>
+            <input
+              type="number"
+              id="idVoo"
+              class="box"
+              placeholder="9510"
+              required
+            />
+
+            <br />
+
+            <!-- Adicionadas classes de estilo (text e box) e placeholder -->
+            <label for="valorAssento:" class="text"
+              >Valor por assento: R$</label
+            >
+            <input
+              type="number"
+              id="valorAssento"
+              class="box"
+              placeholder="700"
+              required
+            />
+
+            <br />
+
+            <input type="submit" class="cadastrar" value="Cadastrar" />
+          </form>
+        </div>
+
+        <hr />
+      </div>
+    </main>
+  </body>
+</html>
