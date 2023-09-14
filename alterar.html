@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Alteração de Aeronaves e Voos</title>
+  </head>
+  <body>
+    <header>
+      <div class="superior">
+        <a href="adm.html"><strong>← Home</strong></a>
+        <p><strong>Administrador</strong></p>
+        <div class="opcoes">
+          <a href="incluir.html"><strong>Incluir</strong></a>
+          <a href="alterar.html"><strong>Alterar</strong></a>
+          <a href="excluir.html"><strong>Excluir</strong></a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div id="main">
+        <h2 class="texth2">Alterar Aeronaves:</h2>
+        <form id="formAlterarAeronave">
+          <div id="alteracaoAeronave">
+            <label for="idAeronave" class="text">Número de identificação da aeronave:</label>
+            <input
+              type="number"
+              id="idAeronave"
+              class="box"
+              placeholder="Informe o ID da aeronave a ser alterada"
+              required
+            />
+
+            <br />
+
+            <label for="modelo" class="text">Novo Modelo:</label>
+            <input
+              type="text"
+              id="novoModelo"
+              class="box"
+              placeholder="Novo modelo da aeronave"
+              required
+            />
+
+            <br />
+
+            <label for="fabricante" class="text">Novo Fabricante:</label>
+            <input
+              type="text"
+              id="novoFabricante"
+              class="box"
+              placeholder="Novo fabricante da aeronave"
+              required
+            />
+
+            <br />
+
+            <label for="anofabricado" class="text">Novo Ano de Fabricação:</label>
+            <input
+              type="number"
+              id="novoAnoFabricado"
+              class="box"
+              placeholder="Novo ano de fabricação"
+              required
+            />
+
+            <br />
+
+            <button id="btnAlterarAer">
+              Alterar
+            </button>
+          </div>
+        </form>
+
+        <hr />
+
+        <h2 class="texth2">Alterar Voos:</h2>
+        <form id="formAlterarVoo">
+          <div id="alteracaoVoo">
+            <label for="idVoo" class="text">ID do voo a ser alterado:</label>
+            <input
+              type="number"
+              id="idVoo"
+              class="box"
+              placeholder="Informe o ID do voo a ser alterado"
+              required
+            />
+            <br />
+
+            <!-- Adicione os campos que deseja alterar nos voos, como data, trajetos, horário, etc., da mesma maneira que fizemos com as aeronaves -->
+
+            <button id="btnAlterarVoo">
+              Alterar
+            </button>
+          </div>
+        </form>
+
+        <hr />
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
