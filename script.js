@@ -1,8 +1,20 @@
-var bottonCadAer = document.querySelector("#btnCadAer");
+//CADASTRO DE AERONAVE
+var botaoCadastraAeronave = document.querySelector("#btnCadAer");
+var formCadAeronave = document.querySelector("#formAeronave");
 
-bottonCadAer.addEventListener("click", function(event){
+botaoCadastraAeronave.addEventListener("click", function(event){
     event.preventDefault;
     
-    var formCadAeronave = document.querySelector("#formAeronave");
-    window.alert(formCadAeronave.modelo.value);
-})
+    const cadastroAeronave = {
+        modelo: formCadAeronave.modelo.value,
+        idAeronave: formCadAeronave.idAeronave.value,
+        fabricante: formCadAeronave.fabricante.value,
+        anofabricado: formCadAeronave.anofabricado.value
+    };
+});
+
+//CADASTRO DE TRAJETO E AEROPORTO
+
+//CADASTRO DE VOO
+
+
