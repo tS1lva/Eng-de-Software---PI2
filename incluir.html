@@ -2,15 +2,21 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link rel="stylesheet" href="stylesIncluir.css" />
     <title>Cadastro de Aeronaves e Voos</title>
   </head>
   <body>
-    <!-- Cabeçalho adicionado -->
     <header>
       <div class="superior">
-        <a href="adm.html"><strong>← Home</strong></a>
-        <p><strong>Administrador</strong></p>
+        <a><strong>← Home</strong></a>
+        <a href="adm.html"
+          ><p><strong>Administrador</strong></p></a
+        >
         <div class="opcoes">
           <a href="incluir.html"><strong>Incluir</strong></a>
           <a><strong>Alterar</strong></a>
@@ -20,193 +26,216 @@
     </header>
 
     <main>
-      <div id="main">
-        <!-- Modificação no título com classe texth2 -->
-        <h2 class="texth2">Cadastrar aeronaves:</h2>
-        <form id="formAeronave">
-          <div id="cadastroAeronave">
-            <!-- Adicionadas classes de estilo (text e box) e placeholder -->
-            <label for="modelo" class="text">Modelo: </label>
-            <input
-              type="text"
-              id="modelo"
-              name="modelo"
-              class="box"
-              placeholder="Airbus A380"
-              required
-            />
-
-            <br />
-
-            <!-- Adicionadas classes de estilo (text e box) e placeholder -->
-            <label for="idAeronave" class="text"
-              >Numero de indentificação da aeronave:</label
-            >
-            <input
-              type="number"
-              id="idAeronave"
-              placeholder="09676"
-              class="box"
-              required
-            />
-
-            <br />
-
-            <!-- Adicionadas classes de estilo (text e box) e placeholder -->
-            <label for="fabricante" class="text">Fabricante: </label>
-            <input
-              type="text"
-              id="fabricante"
-              class="box"
-              placeholder="Airbus"
-              required
-            />
-
-            <br />
-
-            <!-- Adicionadas classes de estilo (text e box) e placeholder -->
-            <label for="anofabricado" class="text">Ano de fabricação:</label>
-            <input
-              type="number"
-              id="anofabricado"
-              placeholder="2019"
-              class="box"
-              required
-            />
-
-            <br />
-             <button id="btnCadAer" >
-              Cadastrar
-             </button>
-            <input
-              type="submit"
-              id="cadastrar"
-              class="cadastrar"
-              value="Cadastrar"
-            />
-          </div>
-        </form>
-
-        <hr />
-
-        <!-- Modificação no título com classe texth2 -->
-        <h2 class="texth2">Cadastrar trajetos e aeroportos:</h2>
-        <form>
-          <div id="aeroportosETrajetos">
-            <!-- Adicionadas classes de estilo (text e box) -->
-            <label for="trajetos" class="text">Trajetos: </label>
-            <select id="trajetos" class="box">
-              <option value="cmp - sp">Campinas - São Paulo</option>
-              <!-- Opções de trajetos aqui -->
-            </select>
-
-            <br />
-
-            <!-- Adicionadas classes de estilo (text e box) -->
-            <label for="aeroportos" class="text">Aeroportos: </label>
-            <select id="aeroportos" class="box">
-              <option value="viracopos">Viracopos(CMP)</option>
-              <!-- Opções de aeroportos aqui -->
-            </select>
-
-            <br />
-
-            <input type="button" class="cadastrar" value="Cadastar" />
-          </div>
-        </form>
-
-        <hr />
-
-        <div id="cadastroVoos">
+      <div id="main" class="columns is-desktop is-centered">
+        <div class="column is-4">
+          <h1 class="texth1">Cadastrar aeronaves</h1>
           <form>
-            <!-- Modificação no título com classe texth2 -->
-            <h2 class="texth2">Cadastrar voos:</h2>
-            <!-- Adicionadas classes de estilo (text e box) -->
-            <label for="data" class="text">Data:</label>
-            <input type="date" class="box" id="data" required />
+            <div class="cadastro-div">
+              <label for="modelo" class="textLabel">Modelo: </label>
+              <input
+                type="text"
+                id="modelo"
+                class="box"
+                placeholder="Airbus A380"
+                required
+              />
 
-            <br />
+              <label for="idAeronave" class="textLabel"
+                >Número de identificação da aeronave:</label
+              >
+              <input
+                type="number"
+                id="idAeronave"
+                placeholder="09676"
+                class="box"
+                required
+              />
 
-            <!-- Adicionadas classes de estilo (text e box) -->
-            <label for="trajeto" class="text">Trajetos</label>
-            <select class="box" id="trajetos">
-              <option value="cmpsp">Campinas - São Paulo</option>
-              <!-- Opções de trajetos aqui -->
-            </select>
+              <label for="fabricante" class="textLabel">Fabricante: </label>
+              <input
+                type="text"
+                id="fabricante"
+                class="box"
+                placeholder="Airbus"
+                required
+              />
 
-            <br />
+              <label for="anoFabricacao" class="textLabel"
+                >Ano de fabricação:</label
+              >
+              <input
+                type="number"
+                id="anoFabricacao"
+                placeholder="2019"
+                class="box"
+                required
+              />
 
-            <!-- Adicionadas classes de estilo (text e box) -->
-            <label for="horaPartida:" class="text"
-              >Horario previsto de partida:</label
-            >
-            <input type="time" class="box" id="horaP" required />
-
-            <br />
-
-            <!-- Adicionadas classes de estilo (text e box) -->
-            <label for="horaChegada" class="text"
-              >Horario previsto para chegada:</label
-            >
-            <input type="time" class="box" id="horaC" required />
-
-            <br />
-
-            <!-- Adicionadas classes de estilo (text e box) -->
-            <label for="aeroportoSaida" class="text"
-              >Aeroporto de saida:
-            </label>
-            <select class="box" id="aeroportos">
-              <option value="viracopos">Viracopos(CMP)</option>
-              <!-- Opções de aeroportos aqui -->
-            </select>
-
-            <br />
-
-            <!-- Adicionadas classes de estilo (text e box) -->
-            <label for="aeroportoChegada" class="text"
-              >Aeroporto de chegada</label
-            >
-            <select id="aeroportos" class="box">
-              <option value="viracopos">Viracopos(CMP)</option>
-              <!-- Opções de aeroportos aqui -->
-            </select>
-
-            <br />
-
-            <!-- Adicionadas classes de estilo (text e box) e placeholder -->
-            <label for="idVoo" class="text">ID do voo: </label>
-            <input
-              type="number"
-              id="idVoo"
-              class="box"
-              placeholder="9510"
-              required
-            />
-
-            <br />
-
-            <!-- Adicionadas classes de estilo (text e box) e placeholder -->
-            <label for="valorAssento:" class="text"
-              >Valor por assento: R$</label
-            >
-            <input
-              type="number"
-              id="valorAssento"
-              class="box"
-              placeholder="700"
-              required
-            />
-
-            <br />
-
-            <input type="submit" class="cadastrar" value="Cadastrar" />
+              <button class="button is-link is-medium">Cadastrar</button>
+            </div>
           </form>
         </div>
 
-        <hr />
+        <div class="column is-4">
+          <h1 class="texth1">Cadastrar trajetos e aeroportos</h1>
+          <form>
+            <div class="cadastro-div">
+              <label for="fabricante" class="textLabel">Aeroportos: </label>
+              <input
+                type="text"
+                id="fabricante"
+                class="box"
+                placeholder="Congonhas"
+                required
+              />
+
+              <label for="fabricante" class="textLabel">Trajeto: </label>
+              <input
+                type="text"
+                id="fabricante"
+                class="box"
+                placeholder="Campians - São Paulo"
+                required
+              />
+
+              <button class="button is-link is-medium">Cadastrar</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="column is-4">
+          <h1 class="texth1">Cadastrar voos</h1>
+          <form>
+            <div class="cadastro-div">
+              <label for="data" class="textLabel">Data:</label>
+              <input type="date" class="box" id="data" required />
+
+              <label for="trajeto" class="textLabel">Trajetos</label>
+              <div class="control">
+                <div class="select">
+                  <select id="trajeto" class="box">
+                    <option value="cmpsp">Campinas - São Paulo</option>
+                    <option value="spcmp">São Paulo - Campinas</option>
+                    <option value="trajeto3">Trajeto 3</option>
+                    <option value="trajeto4">Trajeto 4</option>
+                    <option value="trajeto5">Trajeto 5</option>
+                    <option value="trajeto6">Trajeto 6</option>
+                    <option value="trajeto7">Trajeto 7</option>
+                    <option value="trajeto8">Trajeto 8</option>
+                    <option value="trajeto9">Trajeto 9</option>
+                    <option value="trajeto10">Trajeto 10</option>
+                    <option value="trajeto11">Trajeto 11</option>
+                    <option value="trajeto12">Trajeto 12</option>
+                    <option value="trajeto13">Trajeto 13</option>
+                    <option value="trajeto14">Trajeto 14</option>
+                    <option value="trajeto15">Trajeto 15</option>
+                  </select>
+                </div>
+              </div>
+
+              <label for="horaPartida:" class="textLabel"
+                >Horário previsto de partida:</label
+              >
+              <input type="time" class="box" id="horaPartida" required />
+
+              <label for="horaChegada" class="textLabel"
+                >Horário previsto para chegada:</label
+              >
+              <input type="time" class="box" id="horaChegada" required />
+
+              <label for="aeroportoSaida" class="textLabel"
+                >Aeroporto de saída:</label
+              >
+              <div class="control">
+                <div class="select">
+                  <select id="aeroportoSaida" class="box">
+                    <option value="viracopos">Viracopos(CMP)</option>
+                    <option value="congonhas">Congonhas(SP)</option>
+                    <option value="guarulhos">Guarulhos(GRU)</option>
+                    <option value="aeroporto4">Aeroporto4</option>
+                    <option value="aeroporto5">Aeroporto5</option>
+                    <option value="aeroporto6">Aeroporto6</option>
+                    <option value="aeroporto7">Aeroporto7</option>
+                    <option value="aeroporto8">Aeroporto8</option>
+                    <option value="aeroporto9">Aeroporto9</option>
+                    <option value="aeroporto10">Aeroporto10</option>
+                    <option value="aeroporto11">Aeroporto11</option>
+                    <option value="aeroporto12">Aeroporto12</option>
+                    <option value="aeroporto13">Aeroporto13</option>
+                    <option value="aeroporto14">Aeroporto14</option>
+                    <option value="aeroporto15">Aeroporto15</option>
+                    <option value="aeroporto16">Aeroporto16</option>
+                    <option value="aeroporto17">Aeroporto17</option>
+                    <option value="aeroporto18">Aeroporto18</option>
+                    <option value="aeroporto19">Aeroporto19</option>
+                    <option value="aeroporto20">Aeroporto20</option>
+                  </select>
+                </div>
+              </div>
+
+              <label for="aeroportoChegada" class="textLabel"
+                >Aeroporto de chegada</label
+              >
+              <div class="control">
+                <div class="select">
+                  <select id="aeroportoChegada" class="box">
+                    <option value="viracopos">Viracopos(CMP)</option>
+                    <option value="congonhas">Congonhas(SP)</option>
+                    <option value="guarulhos">Guarulhos(GRU)</option>
+                    <option value="aeroporto4">Aeroporto4</option>
+                    <option value="aeroporto5">Aeroporto5</option>
+                    <option value="aeroporto6">Aeroporto6</option>
+                    <option value="aeroporto7">Aeroporto7</option>
+                    <option value="aeroporto8">Aeroporto8</option>
+                    <option value="aeroporto9">Aeroporto9</option>
+                    <option value="aeroporto10">Aeroporto10</option>
+                    <option value="aeroporto11">Aeroporto11</option>
+                    <option value="aeroporto12">Aeroporto12</option>
+                    <option value="aeroporto13">Aeroporto13</option>
+                    <option value="aeroporto14">Aeroporto14</option>
+                    <option value="aeroporto15">Aeroporto15</option>
+                    <option value="aeroporto16">Aeroporto16</option>
+                    <option value="aeroporto17">Aeroporto17</option>
+                    <option value="aeroporto18">Aeroporto18</option>
+                    <option value="aeroporto19">Aeroporto19</option>
+                    <option value="aeroporto20">Aeroporto20</option>
+                  </select>
+                </div>
+              </div>
+
+              <label for="idVoo" class="textLabel">ID do voo: </label>
+              <input
+                type="number"
+                id="idVoo"
+                class="box"
+                placeholder="9510"
+                required
+              />
+
+              <label for="valorAssento:" class="textLabel"
+                >Valor por assento:</label
+              >
+              <div class="field has-addons">
+                <p class="currencySelect">
+                  <span class="select">
+                    <select>
+                      <option>R$</option>
+                      <option>$</option>
+                      <option>£</option>
+                      <option>€</option>
+                    </select>
+                  </span>
+                </p>
+                <p class="control">
+                  <input class="input" type="text" placeholder="700" />
+                </p>
+              </div>
+
+              <button class="button is-link is-medium">Cadastrar</button>
+            </div>
+          </form>
+        </div>
       </div>
     </main>
-    <script src="script.js"></script>
   </body>
 </html>

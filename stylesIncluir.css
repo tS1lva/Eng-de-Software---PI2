@@ -1,0 +1,95 @@
+body {
+  background-image: url('/img/wing.jpg');
+  background-size: cover;
+  color: #d0eaf7;
+  font-family: Arial, sans-serif;
+  font-size: 1.25em;
+}
+
+.superior {
+  background-color: #1D3952;
+  padding: 1% 2%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 0.15em solid black;
+  height: 3.4em;
+}
+
+.superior a {
+  transition: color 0.3s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.superior a:hover {
+  color: rgb(171, 205, 248);
+  text-decoration: underline;
+}
+
+.opcoes {
+  color: inherit;
+  display: flex;
+  margin-right: 14%;
+}
+
+.opcoes a {
+  margin-right: 55%;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s;
+}
+
+.opcoes a:hover {
+  color: hsl(220, 93%, 84%);
+  text-decoration: underline;
+}
+
+#main {
+  display: flex;
+  justify-content: center;
+}
+
+.cadastro-div {
+  padding: 0.6em 1.25em;
+  margin-bottom: 2em;
+  margin-left: 10%;
+}
+
+.button {
+  background-color: #384488;
+  color: antiquewhite;
+  padding: 0.6em 1.25em;
+  font-size: 1em;
+  border: 0.5em solid #252953;
+}
+
+.textLabel {
+  font-weight: bold;
+  font-style: italic;
+  color: #3b57f7;
+}
+
+.texth1 {
+  font-style: italic;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #0584ce;
+  margin-left: 8%;
+}
+
+.box {
+  width: 200px;
+}
+
+.control {
+  width: 50%;
+}
+
+.currencySelect {
+  width: 4.4em;
+}
+
+.input {
+  height: 3.13em;
+}
