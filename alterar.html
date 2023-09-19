@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="styles.css" />
-    <title>Alteração de Aeronaves e Voos</title>
+    <title>Alteração de Aeronaves, Trajetos e Voos</title>
   </head>
   <body>
     <header>
@@ -20,6 +20,7 @@
 
     <main>
       <div id="main">
+        <!-- Alterar Aeronaves -->
         <h2 class="texth2">Alterar Aeronaves:</h2>
         <form id="formAlterarAeronave">
           <div id="alteracaoAeronave">
@@ -34,7 +35,7 @@
 
             <br />
 
-            <label for="modelo" class="text">Novo Modelo:</label>
+            <label for="novoModelo" class="text">Novo Modelo:</label>
             <input
               type="text"
               id="novoModelo"
@@ -45,7 +46,7 @@
 
             <br />
 
-            <label for="fabricante" class="text">Novo Fabricante:</label>
+            <label for="novoFabricante" class="text">Fabricante:</label>
             <input
               type="text"
               id="novoFabricante"
@@ -56,7 +57,7 @@
 
             <br />
 
-            <label for="anofabricado" class="text">Novo Ano de Fabricação:</label>
+            <label for="novoAnoFabricado" class="text">Ano de Fabricação:</label>
             <input
               type="number"
               id="novoAnoFabricado"
@@ -67,14 +68,55 @@
 
             <br />
 
-            <button id="btnAlterarAer">
-              Alterar
+            <button id="btnAlterarAeronave">
+              Alterar Aeronave
             </button>
           </div>
         </form>
 
         <hr />
 
+        <!-- Alterar Trajetos -->
+        <h2 class="texth2">Alterar Trajetos:</h2>
+        <form id="formAlterarTrajeto">
+          <div id="alteracaoTrajeto">
+            <label for="idTrajeto" class="text">ID do trajeto a ser alterado:</label>
+            <input
+              type="number"
+              id="idTrajeto"
+              class="box"
+              placeholder="ID do trajeto"
+              required
+            />
+            <br />
+
+            <label for="novoTrajeto" class="text">Novo Trajeto:</label>
+            <input
+              type="text"
+              id="novoTrajeto"
+              class="box"
+              placeholder="Novo trajeto"
+              required
+            />
+            <br />
+
+            <label for="novoAeroporto" class="text">Novo Aeroporto:</label>
+            <input
+              type="text"
+              id="novoAeroporto"
+              class="box"
+              placeholder="Novo aeroporto"
+              required
+            />
+          </div>
+          <button id="btnAlterarTrajeto">
+            Alterar Trajeto
+          </button>
+        </form>
+
+        <hr />
+
+        <!-- Alterar Voos -->
         <h2 class="texth2">Alterar Voos:</h2>
         <form id="formAlterarVoo">
           <div id="alteracaoVoo">
@@ -83,17 +125,70 @@
               type="number"
               id="idVoo"
               class="box"
-              placeholder="Informe o ID do voo a ser alterado"
+              placeholder="ID do voo"
               required
             />
             <br />
 
-            <!-- Adicione os campos que deseja alterar nos voos, como data, trajetos, horário, etc., da mesma maneira que fizemos com as aeronaves -->
+            <label for="novaData" class="text">Nova Data:</label>
+            <input
+              type="date"
+              id="novaData"
+              class="box"
+              required
+            />
+            <br />
 
-            <button id="btnAlterarVoo">
-              Alterar
-            </button>
+            <label for="novaHoraPartida" class="text">Nova Hora de Partida:</label>
+            <input
+              type="time"
+              id="novaHoraPartida"
+              class="box"
+              required
+            />
+            <br />
+
+            <label for="novaHoraChegada" class="text">Nova Hora de Chegada:</label>
+            <input
+              type="time"
+              id="novaHoraChegada"
+              class="box"
+              required
+            />
+            <br />
+
+            <label for="novoAeroportoSaida" class="text">Novo Aeroporto de Saída:</label>
+            <input
+              type="text"
+              id="novoAeroportoSaida"
+              class="box"
+              placeholder="Novo aeroporto de saída"
+              required
+            />
+            <br />
+
+            <label for="novoAeroportoChegada" class="text">Novo Aeroporto de Chegada:</label>
+            <input
+              type="text"
+              id="novoAeroportoChegada"
+              class="box"
+              placeholder="Novo aeroporto de chegada"
+              required
+            />
+            <br />
+
+            <label for="novoValorAssento" class="text">Novo Valor por Assento:</label>
+            <input
+              type="number"
+              id="novoValorAssento"
+              class="box"
+              placeholder="Novo valor por assento"
+              required
+            />
           </div>
+          <button id="btnAlterarVoo">
+            Alterar Voo
+          </button>
         </form>
 
         <hr />
