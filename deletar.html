@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+
+    <title>Excluir Voo</title>
+  </head>
+  <body>
+    <header>
+      <div class="superior">
+        <a><strong>← Home</strong></a>
+        <a href="adm.html"><p><strong>Administrador</strong></p></a>
+        <div class="opcoes">
+          <a href="incluir.html"><strong>Incluir</strong></a>
+          <a><strong>Alterar</strong></a>
+          <a href="deletar.html"><strong>Excluir</strong></a>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div id="main">
+        <div class="divCadastro">
+          <h2>Excluir aeronave:</h2>
+          <label for="modelo">Modelo:</label>
+          <input type="text" id="modelo" name="modelo" required /><br /><br />
+  
+          <label for="numeroAero">Numero de Identificaçâo da Aeronave:</label>
+          <input
+            type="text"
+            id="numeroAero"
+            name="numeroAero"
+            required
+          /><br /><br />
+  
+          <label for="fabricante">Fabricante:</label>
+          <input
+            type="text"
+            id="fabricante"
+            name="fabricante"
+            required
+          /><br /><br />
+  
+          <label for="anoFabri">Ano de Fabricação:</label>
+          <input type="text" id="anoFabri" name="anoFabri" required /><br /><br />
+  
+          <button type="submit">Excluir</button>
+        </div>
+        <div class="divCadastro">
+          <h2>Excluir trajetos e aeroportos:</h2>
+          <label for="trajetos">Trajetos:</label>
+          <input type="text" id="trajetos" name="trajetos" required /><br /><br />
+  
+          <label for="aeroportos">Aeroportos::</label>
+          <input
+            type="text"
+            id="aeroportos"
+            name="aeroportos"
+            required
+          /><br /><br />
+  
+          <button type="submit">Excluir</button>
+        </div>
+        <div class="divCadastro">
+          <h2>Excluir Voo Cadastrado:</h2>
+          <label for="vooId">ID do Voo:</label>
+          <input type="text" id="vooId" name="vooId" required /><br /><br />
+  
+          <label for="aeroporto">Aeroporto:</label>
+          <input
+            type="text"
+            id="aeroporto"
+            name="aeroportoPartida"
+            required
+          /><br /><br />
+  
+          <form id="excluirVooForm">
+            <label for="dataVoo">Data do Voo:</label>
+            <input type="date" id="dataVoo" name="dataVoo" required /><br /><br />
+  
+            <label for="trajetoVoo">Trajeto:</label>
+            <input
+              type="text"
+              id="trajetoVoo"
+              name="trajetoVoo"
+              required
+            /><br /><br />
+  
+            <button type="submit">Excluir</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

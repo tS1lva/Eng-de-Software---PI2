@@ -16,5 +16,3 @@ botaoCadastraAeronave.addEventListener("click", function(event){
 //CADASTRO DE TRAJETO E AEROPORTO
 
 //CADASTRO DE VOO
-
-
