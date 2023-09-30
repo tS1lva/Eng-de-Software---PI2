@@ -2,25 +2,25 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
-    <link rel="stylesheet" href="stylesIncluir.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
     <title>Cadastro de Aeronaves e Voos</title>
   </head>
   <body>
     <header>
       <div class="superior">
         <a><strong>← Home</strong></a>
-        <a href="adm.html"
-          ><p><strong>Administrador</strong></p></a
+        <a href="/html/adm.html"
+          ><p><strong>Admnistrador</strong></p></a
         >
         <div class="opcoes">
-          <a href="incluir.html"><strong>Incluir</strong></a>
-          <a><strong>Alterar</strong></a>
-          <a><strong>Excluir</strong></a>
+          <a href="/html/incluir.html"><strong>Incluir</strong></a>
+          <a href="/html/alterar.html"><strong>Alterar</strong></a>
+          <a href="/html/deletar.html"><strong>Excluir</strong></a>
         </div>
       </div>
     </header>
@@ -29,14 +29,15 @@
       <div id="main" class="columns is-desktop is-centered">
         <div class="column is-4">
           <h1 class="texth1">Cadastrar aeronaves</h1>
-          <form>
-            <div class="cadastro-div">
+          <form action="" method="POST">
+            <div class="cadastroDiv">
               <label for="modelo" class="textLabel">Modelo: </label>
               <input
                 type="text"
                 id="modelo"
                 class="box"
                 placeholder="Airbus A380"
+                name="modelo"
                 required
               />
 
@@ -48,6 +49,7 @@
                 id="idAeronave"
                 placeholder="09676"
                 class="box"
+                name="idAeronave"
                 required
               />
 
@@ -57,6 +59,7 @@
                 id="fabricante"
                 class="box"
                 placeholder="Airbus"
+                name="fabricante"
                 required
               />
 
@@ -68,10 +71,13 @@
                 id="anoFabricacao"
                 placeholder="2019"
                 class="box"
+                name="anoFabricado"
                 required
               />
 
-              <button class="button is-link is-medium">Cadastrar</button>
+              <button type="submit" class="button is-link is-medium">
+                Cadastrar
+              </button>
             </div>
           </form>
         </div>
@@ -79,13 +85,14 @@
         <div class="column is-4">
           <h1 class="texth1">Cadastrar trajetos e aeroportos</h1>
           <form>
-            <div class="cadastro-div">
+            <div class="cadastroDiv">
               <label for="fabricante" class="textLabel">Aeroportos: </label>
               <input
                 type="text"
                 id="fabricante"
                 class="box"
                 placeholder="Congonhas"
+                name="aeroportos"
                 required
               />
 
@@ -95,6 +102,7 @@
                 id="fabricante"
                 class="box"
                 placeholder="Campians - São Paulo"
+                name="trajetos"
                 required
               />
 
@@ -106,9 +114,9 @@
         <div class="column is-4">
           <h1 class="texth1">Cadastrar voos</h1>
           <form>
-            <div class="cadastro-div">
+            <div class="cadastroDiv">
               <label for="data" class="textLabel">Data:</label>
-              <input type="date" class="box" id="data" required />
+              <input type="date" class="box" id="data" name="data" required />
 
               <label for="trajeto" class="textLabel">Trajetos</label>
               <div class="control">
@@ -136,12 +144,12 @@
               <label for="horaPartida:" class="textLabel"
                 >Horário previsto de partida:</label
               >
-              <input type="time" class="box" id="horaPartida" required />
+              <input type="time" class="box" name="horaPartida" required />
 
               <label for="horaChegada" class="textLabel"
                 >Horário previsto para chegada:</label
               >
-              <input type="time" class="box" id="horaChegada" required />
+              <input type="time" class="box" name="horaChegada" required />
 
               <label for="aeroportoSaida" class="textLabel"
                 >Aeroporto de saída:</label
@@ -206,7 +214,7 @@
               <label for="idVoo" class="textLabel">ID do voo: </label>
               <input
                 type="number"
-                id="idVoo"
+                name="idVoo"
                 class="box"
                 placeholder="9510"
                 required
@@ -230,7 +238,6 @@
                   <input class="input" type="text" placeholder="700" />
                 </p>
               </div>
-
               <button class="button is-link is-medium">Cadastrar</button>
             </div>
           </form>

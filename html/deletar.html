@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <title>Exclusao de dados</title>
+  </head>
+  <body>
+    <header>
+      <div class="superior">
+        <a><strong>← Home</strong></a>
+        <a href="/html/adm.html"
+          ><p><strong>Administrador</strong></p></a
+        >
+        <div class="opcoes">
+          <a href="/html/incluir.html"><strong>Incluir</strong></a>
+          <a href="/html/alterar.html"><strong>Alterar</strong></a>
+          <a href="/html/deletar.html"><strong>Excluir</strong></a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div id="main" class="columns is-desktop is-centered">
+        <div class="column is-4">
+          <h1 class="texth1">Excluir aeronave:</h1>
+          <form>
+            <div class="cadastroDiv">
+              <label for="idAeronave" class="textLabel"
+                >Número de identificação da aeronave:</label
+              >
+              <input
+                type="number"
+                id="idAeronave"
+                placeholder="09676"
+                class="box"
+                required
+              />
+              <button class="button is-link is-medium">Excluir</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="column is-4">
+          <h1 class="texth1">Excluir trajetos e aeroportos</h1>
+          <form>
+            <div class="cadastroDiv">
+              <label for="aeroportoSaida" class="textLabel">Aeroporto:</label>
+              <div class="control">
+                <div class="select">
+                  <select id="aeroportoSaida" class="box">
+                    <option value="viracopos">Viracopos(CMP)</option>
+                    <option value="congonhas">Congonhas(SP)</option>
+                    <option value="guarulhos">Guarulhos(GRU)</option>
+                    <option value="aeroporto4">Aeroporto4</option>
+                    <option value="aeroporto5">Aeroporto5</option>
+                    <option value="aeroporto6">Aeroporto6</option>
+                    <option value="aeroporto7">Aeroporto7</option>
+                    <option value="aeroporto8">Aeroporto8</option>
+                    <option value="aeroporto9">Aeroporto9</option>
+                    <option value="aeroporto10">Aeroporto10</option>
+                    <option value="aeroporto11">Aeroporto11</option>
+                    <option value="aeroporto12">Aeroporto12</option>
+                    <option value="aeroporto13">Aeroporto13</option>
+                    <option value="aeroporto14">Aeroporto14</option>
+                    <option value="aeroporto15">Aeroporto15</option>
+                    <option value="aeroporto16">Aeroporto16</option>
+                    <option value="aeroporto17">Aeroporto17</option>
+                    <option value="aeroporto18">Aeroporto18</option>
+                    <option value="aeroporto19">Aeroporto19</option>
+                    <option value="aeroporto20">Aeroporto20</option>
+                  </select>
+                </div>
+              </div>
+
+              <label for="trajeto" class="textLabel">Trajetos:</label>
+              <div class="control">
+                <div class="select">
+                  <select id="trajeto" class="box">
+                    <option value="cmpsp">Campinas - São Paulo</option>
+                    <option value="spcmp">São Paulo - Campinas</option>
+                    <option value="trajeto3">Trajeto 3</option>
+                    <option value="trajeto4">Trajeto 4</option>
+                    <option value="trajeto5">Trajeto 5</option>
+                    <option value="trajeto6">Trajeto 6</option>
+                    <option value="trajeto7">Trajeto 7</option>
+                    <option value="trajeto8">Trajeto 8</option>
+                    <option value="trajeto9">Trajeto 9</option>
+                    <option value="trajeto10">Trajeto 10</option>
+                    <option value="trajeto11">Trajeto 11</option>
+                    <option value="trajeto12">Trajeto 12</option>
+                    <option value="trajeto13">Trajeto 13</option>
+                    <option value="trajeto14">Trajeto 14</option>
+                    <option value="trajeto15">Trajeto 15</option>
+                  </select>
+                </div>
+              </div>
+
+              <button class="button is-link is-medium">Excluir</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="column is-4">
+          <h1 class="texth1">Excluir voos</h1>
+          <form>
+            <div class="cadastroDiv">
+              <label for="idVoo" class="textLabel">ID do voo:</label>
+              <input
+                type="number"
+                id="idVoo"
+                class="box"
+                placeholder="9510"
+                required
+              />
+              <button class="button is-link is-medium">Excluir</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
