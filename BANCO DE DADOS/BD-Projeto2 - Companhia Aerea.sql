@@ -38,7 +38,7 @@ CREATE TABLE VOO (
     hora_chegada varchar2(255),
     data_chegada DATE,
     id_techo NUMBER,
-    valor FLOAT,
+    valor NUMBER,
     FOREIGN KEY (id_techo) REFERENCES TRECHO (id_trecho)
 );
 
