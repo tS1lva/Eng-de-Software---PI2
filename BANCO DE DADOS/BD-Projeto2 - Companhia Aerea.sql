@@ -52,3 +52,6 @@ CREATE TABLE ASSENTO (
 );
 
 
+-- Vamos criar uma sequence para poder inserir as aeronaves.
+CREATE SEQUENCE SEQ_AERONAVES 
+START WITH 1 INCREMENT BY 1;

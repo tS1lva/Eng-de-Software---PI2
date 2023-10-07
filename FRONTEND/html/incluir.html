@@ -9,6 +9,78 @@
     />
     <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
     <title>Cadastro de aeronaves e voos</title>
+    <script>
+      function fetchInserir(body) {
+        const requestOptions = {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        };
+
+        return fetch('http://localhost:3000/inserirAeronave', requestOptions)
+        .then(T => T.json())
+      }
+
+      
+      function inserirAeronave(){
+/*
+
+        if(!selecionouFabricante()){
+          showStatusMessage("Selecione o fabricante...", true);  
+          return;
+        }
+
+        if(!preencheuModelo()){
+          showStatusMessage("Preencha o modelo...", true);
+          return;
+        }
+
+        if(!preencheuRegistro()){
+          showStatusMessage("Preencha o registro da aeronave...", true);
+          return;
+        }
+
+        if(!anoValido()){
+          showStatusMessage("Ano deve de 1990 até 2026...", true);
+          return;
+        }
+
+        if(!totalAssentosValido()){
+          showStatusMessage("Preencha corretamente o total de assentos.", true);
+          return;
+        }
+*/
+
+        // se chegou até aqui a execução do código, vamos cadastrar a aeronave. 
+        // obtendo os dados: 
+        const fabricante = document.getElementById("fabricante").value;
+        const modelo = document.getElementById("modelo").value;
+        const anoFab = document.getElementById("anoFabricacao").value;
+        const registro = "Registro padrao" //document.getElementById("referencia").value;
+        const totalAssentos = 555 //document.getElementById("totalAssentos").value;
+
+        // ESTUDAR O CONCEITO DE PROMISES.
+        fetchInserir({
+            marca: fabricante, 
+            modelo: modelo, 
+            qtdeAssentos: totalAssentos,
+            registro: registro })
+            .then(resultado => {
+              // obteve resposta, vamos simplesmente exibir como mensagem: 
+              if(resultado.status === "SUCCESS"){
+                showStatusMessage("Aeronave cadastrada... ", false);
+              }else{
+                showStatusMessage("Erro ao cadastrar aeronave...: " + message, true);
+                console.log(resultado.message);
+              }
+            })
+            .catch(()=>{
+              showStatusMessage("Erro técnico ao cadastrar... Contate o suporte.", true);
+              console.log("Falha grave ao cadastrar.")
+            });
+        
+      }
+    </script>
   </head>
   <body>
     <header>
@@ -29,7 +101,7 @@
       <div id="main" class="columns is-desktop is-centered">
         <div class="column is-4">
           <h1 class="texth1">Cadastrar aeronaves</h1>
-          <form action="" method="POST">
+          <form>
             <div class="cadastroDiv">
               <label for="modelo" class="textLabel">Modelo: </label>
               <input
@@ -74,10 +146,11 @@
                 name="anoFabricado"
                 required
               />
-
-              <button type="submit" class="button is-link is-medium">
-                Cadastrar
-              </button>
+              
+              <button type="button" 
+              onclick="inserirAeronave();"
+              id="btnCadastrar"
+              name="btnCadastrar">Cadastrar Tiago</button>
             </div>
           </form>
         </div>

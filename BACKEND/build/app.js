@@ -15,91 +15,152 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 const port = 3000;
-const oracleStr = "(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=adb.sa-saopaulo-1.oraclecloud.com))(connect_data=(service_name=gd02426504b57b9_dbcompanhiaaerea_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))";
 app.use(express_1.default.json());
-app.use(express_1.default.static('public'));
-// o código fornecido será ingênuo. 
+app.use((0, cors_1.default)());
+dotenv_1.default.config();
+//GET Obter Aeronaves do BD
 app.get("/obterAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("\nEnctrou no GET! /obterAeronaves\n");
-    // inicalizando o dotenv
-    dotenv_1.default.config();
-    // o resultado pode ser a lista de aeronaves ou erro.
-    let result;
-    // primeiro: construir o objeto de CONEXAO.
-    const connection = yield oracledb_1.default.getConnection({
-        user: "ADMIN",
-        password: "123456qwertY",
-        connectString: oracleStr
-    });
+    console.log("\nEntrou no GET! /obterAeronaves\n");
+    let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
-        // tentando obter os dados...
-        console.log("passou para tentando obter os dados...\n");
-        result = yield connection.execute("SELECT * FROM AERONAVES");
+        const connAttibs = {
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_PASSWORD,
+            connectionString: process.env.ORACLE_CONN_STR,
+        };
+        const connection = yield oracledb_1.default.getConnection(connAttibs);
+        let resultadoConsulta = yield connection.execute("SELECT * FROM AERONAVES");
+        yield connection.close();
+        cr.status = "SUCCESS";
+        cr.message = "Dados obtidos";
+        cr.payload = resultadoConsulta.rows;
     }
-    catch (erro) {
-        if (erro instanceof Error) {
-            console.log(`O detalhamento do erro é: ${erro.message}`);
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
         }
         else {
-            console.log("Erro desconhecido.");
+            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
         }
-        result = {
-            error: "Erro ao obter aeronaves.",
-        };
     }
     finally {
-        if (connection) {
-            try {
-                yield connection.close();
-            }
-            catch (err) {
-                console.error(err);
-            }
-        }
-        res.send(result);
+        res.send(cr);
     }
 }));
-app.put("/incluirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const connection = yield oracledb_1.default.getConnection({
-        user: "ADMIN",
-        password: "123456qwertY",
-        connectString: oracleStr,
-    });
+//PUT Inserindo Aeronaves no BD
+app.put("/inserirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no PUT! /inserirAeronave\n");
+    // para inserir a aeronave temos que receber os dados na requisição. 
+    const marca = req.body.marca;
+    const modelo = req.body.modelo;
+    const qtdeAssentos = req.body.qtdeAssentos;
+    const registro = req.body.registro;
+    // correção: verificar se tudo chegou para prosseguir com o cadastro.
+    // verificar se chegaram os parametros
+    // VALIDAR se estão bons (de acordo com os critérios - exemplo: 
+    // não pode qtdeAssentos ser número e ao mesmo tempo o valor ser -5)
+    // definindo um objeto de resposta.
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    let conn;
+    // conectando 
     try {
-        console.log("Passou para INCLUIR AERONAVES...\n");
-        // Os dados do formulário são acessados no objeto req.body
-        const { campo1, campo2, campo3, campo4, campo5 } = req.body;
-        console.log(campo1);
-        console.log(campo2);
-        console.log(campo3);
-        console.log(campo4);
-        console.log(campo5);
-        // Verifique se os campos não estão vazios ou nulos e forneça valores padrão se necessário
-        const codigo = campo1 || 9; // Valor padrão de 0 se campo1 estiver vazio ou nulo
-        const marca = campo2 || 'Sem Marca'; // Valor padrão 'Sem Marca' se campo2 estiver vazio ou nulo
-        const modelo = campo3 || 'Sem Modelo';
-        const numeroAssentos = campo4 || 0;
-        const registro = campo5 || 'Sem Registro';
-        const sql = `INSERT INTO AERONAVES (CODIGO, MARCA, MODELO, NUMERO_ASSENTOS, REGISTRO) VALUES (:1, :2, :3, :4, :5)`;
-        const binds = [codigo, marca, modelo, numeroAssentos, registro];
-        yield connection.execute(sql, binds);
-        yield connection.commit(); // Commit após a inserção bem-sucedida
-        res.status(200).send("Inserção concluída com sucesso.");
+        conn = yield oracledb_1.default.getConnection({
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_PASSWORD,
+            connectionString: process.env.ORACLE_CONN_STR,
+        });
+        const cmdInsertAero = `INSERT INTO AERONAVES 
+    (CODIGO, MARCA, MODELO, NUMERO_ASSENTOS, REGISTRO)
+    VALUES
+    (SEQ_AERONAVES.NEXTVAL, :1, :2, :3, :4)`;
+        const dados = [marca, modelo, qtdeAssentos, registro];
+        let resInsert = yield conn.execute(cmdInsertAero, dados);
+        // importante: efetuar o commit para gravar no Oracle.
+        yield conn.commit();
+        // obter a informação de quantas linhas foram inseridas. 
+        // neste caso precisa ser exatamente 1
+        const rowsInserted = resInsert.rowsAffected;
+        if (rowsInserted !== undefined && rowsInserted === 1) {
+            cr.status = "SUCCESS";
+            cr.message = "Aeronave inserida.";
+        }
     }
-    catch (error) {
-        console.error("Erro ao inserir dados:", error);
-        yield connection.rollback(); // Em caso de erro, faça o rollback
-        res.status(500).send("Erro ao inserir dados.");
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
     }
     finally {
-        connection.close(); // Feche a conexão no bloco finally
+        //fechar a conexao.
+        if (conn !== undefined) {
+            yield conn.close();
+        }
+        res.send(cr);
     }
 }));
-app.delete("/excluirAeronave", (req, res) => {
-    // excluir aeronave no Oracle.
-});
+//DELETE Excluindo Aeronaves do BD
+app.delete("/excluirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no DELETE! /excluirAeronave\n");
+    // excluindo a aeronave pelo código dela:
+    const codigo = req.body.codigo;
+    // definindo um objeto de resposta.
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    // conectando 
+    try {
+        const connection = yield oracledb_1.default.getConnection({
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_PASSWORD,
+            connectionString: process.env.ORACLE_CONN_STR,
+        });
+        const cmdDeleteAero = `DELETE AERONAVES WHERE codigo = :1`;
+        const dados = [codigo];
+        let resDelete = yield connection.execute(cmdDeleteAero, dados);
+        // importante: efetuar o commit para gravar no Oracle.
+        yield connection.commit();
+        // encerrar a conexao. 
+        yield connection.close();
+        // obter a informação de quantas linhas foram inseridas. 
+        // neste caso precisa ser exatamente 1
+        const rowsDeleted = resDelete.rowsAffected;
+        if (rowsDeleted !== undefined && rowsDeleted === 1) {
+            cr.status = "SUCCESS";
+            cr.message = "Aeronave excluída.";
+        }
+        else {
+            cr.message = "Aeronave não excluída. Verifique se o código informado está correto.";
+        }
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
+    }
+    finally {
+        // devolvendo a resposta da requisição.
+        res.send(cr);
+    }
+}));
+//LISTEN Servidor Rodando na porta configurada: 3000
 app.listen(port, () => {
     console.log("Servidor HTTP rodando...");
 });
