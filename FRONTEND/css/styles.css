@@ -60,6 +60,13 @@ body {
     margin-bottom: 2em;
     margin-left: 10%;
 }
+  .erro {
+    color: red; /* Cor do texto da mensagem de erro */
+    font-size: 1em; /* Tamanho da fonte da mensagem de erro */
+    margin-top: 0.25em; /* Espaço acima da mensagem de erro */
+    margin-bottom: 1em; /* Espaço abaixo da mensagem de erro */
+  }
+  
 
 .button {
     background-color: #384488;

@@ -14,17 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
-const dotenv_1 = __importDefault(require("dotenv"));
 const app = (0, express_1.default)();
 const port = 3000;
 const oracleStr = "(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=adb.sa-saopaulo-1.oraclecloud.com))(connect_data=(service_name=gd02426504b57b9_dbcompanhiaaerea_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))";
 app.use(express_1.default.json());
 app.use(express_1.default.static('public'));
-// o código fornecido será ingênuo. 
 app.get("/obterAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEnctrou no GET! /obterAeronaves\n");
     // inicalizando o dotenv
-    dotenv_1.default.config();
+    //dotenv.config();
     // o resultado pode ser a lista de aeronaves ou erro.
     let result;
     // primeiro: construir o objeto de CONEXAO.

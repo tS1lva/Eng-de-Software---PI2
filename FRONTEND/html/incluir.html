@@ -29,7 +29,7 @@
       <div id="main" class="columns is-desktop is-centered">
         <div class="column is-4">
           <h1 class="texth1">Cadastrar aeronaves</h1>
-          <form action="" method="POST">
+          <form id="formularioAeronave" action=" ">
             <div class="cadastroDiv">
               <label for="modelo" class="textLabel">Modelo: </label>
               <input
@@ -74,7 +74,7 @@
                 name="anoFabricado"
                 required
               />
-
+              <p id="mensagemErro" class="erro"></p>
               <button type="submit" class="button is-link is-medium">
                 Cadastrar
               </button>
@@ -106,14 +106,14 @@
                 required
               />
 
-              <button class="button is-link is-medium">Cadastrar</button>
+              <button type="button" class="button is-link is-medium">Cadastrar</button>
             </div>
           </form>
         </div>
 
         <div class="column is-4">
           <h1 class="texth1">Cadastrar voos</h1>
-          <form>
+          <form id="cadastarVoos">
             <div class="cadastroDiv">
               <label for="data" class="textLabel">Data:</label>
               <input type="date" class="box" id="data" name="data" required />
@@ -144,12 +144,12 @@
               <label for="horaPartida:" class="textLabel"
                 >Horário previsto de partida:</label
               >
-              <input type="time" class="box" name="horaPartida" required />
+              <input type="time" class="box" id="horaPartida" name="horaPartida" required />
 
               <label for="horaChegada" class="textLabel"
                 >Horário previsto para chegada:</label
               >
-              <input type="time" class="box" name="horaChegada" required />
+              <input type="time" class="box" id="horaChegada" name="horaChegada" required />
 
               <label for="aeroportoSaida" class="textLabel"
                 >Aeroporto de saída:</label
@@ -216,6 +216,7 @@
                 type="number"
                 name="idVoo"
                 class="box"
+                id="idVoo"
                 placeholder="9510"
                 required
               />
@@ -235,8 +236,10 @@
                   </span>
                 </p>
                 <p class="control">
-                  <input class="input" type="text" placeholder="700" />
+                  <input class="input" type="text" id="valorAssento" placeholder="700" />
                 </p>
+                <p id="mensagemErroValor" class="erro"></p>
+                <p id="mensagemErroData" class="erro"></p>
               </div>
               <button class="button is-link is-medium">Cadastrar</button>
             </div>
@@ -244,5 +247,6 @@
         </div>
       </div>
     </main>
+    <script src="/FRONTEND/script/scriptIncluir.js"></script>
   </body>
 </html>

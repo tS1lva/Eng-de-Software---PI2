@@ -30,7 +30,7 @@
         <div class="column is-4">
           <!-- Alterar Aeronaves -->
           <h1 class="texth1">Alterar Aeronaves:</h1>
-          <form>
+          <form id="alterarAeronave">
             <div class="cadastroDiv">
               <label for="idAeronave" class="textLabel"
                 >Número de identificação da aeronave:</label
@@ -71,7 +71,7 @@
                 placeholder="Novo ano de fabricação"
                 required
               />
-
+              <p id="mensagemErro" class="erro"></p>
               <button class="button is-link is-medium">Alterar</button>
             </div>
           </form>
@@ -80,7 +80,7 @@
         <div class="column is-4">
           <!-- Alterar Trajetos -->
           <h1 class="texth1">Alterar Trajetos:</h1>
-          <form>
+          <form id ="alterarTrajetos">
             <div class="cadastroDiv">
               <label for="idTrajeto" class="textLabel"
                 >ID do trajeto a ser alterado:</label
@@ -121,7 +121,7 @@
         <div class="column is-4">
           <!-- Alterar Voos -->
           <h1 class="texth1">Alterar Voos:</h1>
-          <form>
+          <form id="alterarVoos">
             <div class="cadastroDiv">
               <label for="idVoo" class="textLabel"
                 >ID do voo a ser alterado:</label
@@ -179,13 +179,14 @@
                 placeholder="Novo valor por assento"
                 required
               />
-
+              <p id="mensagemErroValor" class="erro"></p>
+              <p id="mensagemErroData" class="erro"></p>
               <button class="button is-link is-medium">Alterar voo</button>
             </div>
           </form>
         </div>
       </div>
     </main>
-    <script src="script.js"></script>
+    <script src="/FRONTEND/script/scriptAlterar.js"></script>
   </body>
 </html>
