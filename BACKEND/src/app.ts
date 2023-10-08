@@ -54,10 +54,9 @@ app.get("/obterAeronaves", async(req, res)=>{
 app.put("/inserirAeronave", async(req,res)=>{
   console.log("\nEntrou no PUT! /inserirAeronave\n")
   // para inserir a aeronave temos que receber os dados na requisição. 
-  const marca = req.body.marca as string;
+  const fabricante = req.body.fabricante as string;
   const modelo = req.body.modelo as string;
-  const qtdeAssentos = req.body.qtdeAssentos as number;
-  const registro = req.body.registro as string; 
+  const anoFabricação = req.body.anoFab as string;
 
   // correção: verificar se tudo chegou para prosseguir com o cadastro.
   // verificar se chegaram os parametros
@@ -81,12 +80,12 @@ app.put("/inserirAeronave", async(req,res)=>{
       connectionString: process.env.ORACLE_CONN_STR,
     });
 
-    const cmdInsertAero = `INSERT INTO AERONAVES 
-    (CODIGO, MARCA, MODELO, NUMERO_ASSENTOS, REGISTRO)
+    const cmdInsertAero = `INSERT INTO AERONAVE 
+    (id_aeronave, modelo, ano_fabri, fabricante)
     VALUES
-    (SEQ_AERONAVES.NEXTVAL, :1, :2, :3, :4)`
+    (SEQ_AERONAVE.NEXTVAL, :1, :2, :3)`
 
-    const dados = [marca, modelo, qtdeAssentos, registro];
+    const dados = [modelo, anoFabricação, fabricante];
     let resInsert = await conn.execute(cmdInsertAero, dados);
     
     // importante: efetuar o commit para gravar no Oracle.

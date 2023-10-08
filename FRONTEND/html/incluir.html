@@ -53,18 +53,14 @@
 
         // se chegou até aqui a execução do código, vamos cadastrar a aeronave. 
         // obtendo os dados: 
-        const fabricante = document.getElementById("fabricante").value;
+        const fabricante = document.getElementById("fabricanteInput").value;
         const modelo = document.getElementById("modelo").value;
         const anoFab = document.getElementById("anoFabricacao").value;
-        const registro = "Registro padrao" //document.getElementById("referencia").value;
-        const totalAssentos = 555 //document.getElementById("totalAssentos").value;
 
         // ESTUDAR O CONCEITO DE PROMISES.
         fetchInserir({
-            marca: fabricante, 
-            modelo: modelo, 
-            qtdeAssentos: totalAssentos,
-            registro: registro })
+            fabricante: fabricante, 
+            modelo: modelo, anoFab})
             .then(resultado => {
               // obteve resposta, vamos simplesmente exibir como mensagem: 
               if(resultado.status === "SUCCESS"){
@@ -128,7 +124,7 @@
               <label for="fabricante" class="textLabel">Fabricante: </label>
               <input
                 type="text"
-                id="fabricante"
+                id="fabricanteInput"
                 class="box"
                 placeholder="Airbus"
                 name="fabricante"
