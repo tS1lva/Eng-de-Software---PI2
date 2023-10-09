@@ -23,39 +23,23 @@
 
       
       function inserirAeronave(){
-/*
 
-        if(!selecionouFabricante()){
-          showStatusMessage("Selecione o fabricante...", true);  
-          return;
-        }
-
-        if(!preencheuModelo()){
-          showStatusMessage("Preencha o modelo...", true);
-          return;
-        }
-
-        if(!preencheuRegistro()){
-          showStatusMessage("Preencha o registro da aeronave...", true);
-          return;
-        }
-
-        if(!anoValido()){
-          showStatusMessage("Ano deve de 1990 até 2026...", true);
-          return;
-        }
-
-        if(!totalAssentosValido()){
-          showStatusMessage("Preencha corretamente o total de assentos.", true);
-          return;
-        }
-*/
-
-        // se chegou até aqui a execução do código, vamos cadastrar a aeronave. 
-        // obtendo os dados: 
         const fabricante = document.getElementById("fabricanteInput").value;
         const modelo = document.getElementById("modelo").value;
         const anoFab = document.getElementById("anoFabricacao").value;
+
+
+      if (anoFab < 2005) {
+        // Se for menor, exibe uma mensagem de erro
+        var mensagemErro = document.getElementById("mensagemErro");
+        mensagemErro.textContent = "O avião é antigo demais, cadastre outro.";
+        return; // Impede o envio do formulário se houver erro
+      }
+      var mensagemErro = document.getElementById("mensagemErro");
+      mensagemErro.textContent = "";
+      // Recarrega a página atual
+      location.reload();
+
 
         // ESTUDAR O CONCEITO DE PROMISES.
         fetchInserir({
@@ -142,7 +126,7 @@
                 name="anoFabricado"
                 required
               />
-              
+              <p id="mensagemErro" class="error"></p>
               <button type="button" 
               onclick="inserirAeronave();"
               id="btnCadastrar"
