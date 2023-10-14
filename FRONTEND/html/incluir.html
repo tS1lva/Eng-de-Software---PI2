@@ -8,87 +8,60 @@
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
     <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
-    <title>Cadastro de aeronaves e voos</title>
+    <title>Cadastro de Aeronaves e Voos</title>
     <script>
       function fetchInserir(body) {
         const requestOptions = {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
         };
 
-        return fetch('http://localhost:3000/inserirAeronave', requestOptions)
-        .then(T => T.json())
+        return fetch(
+          "http://localhost:3000/inserirAeronave",
+          requestOptions
+        ).then((T) => T.json());
       }
 
-      
-      function inserirAeronave(){
-/*
-
-        if(!selecionouFabricante()){
-          showStatusMessage("Selecione o fabricante...", true);  
-          return;
-        }
-
-        if(!preencheuModelo()){
-          showStatusMessage("Preencha o modelo...", true);
-          return;
-        }
-
-        if(!preencheuRegistro()){
-          showStatusMessage("Preencha o registro da aeronave...", true);
-          return;
-        }
-
-        if(!anoValido()){
-          showStatusMessage("Ano deve de 1990 até 2026...", true);
-          return;
-        }
-
-        if(!totalAssentosValido()){
-          showStatusMessage("Preencha corretamente o total de assentos.", true);
-          return;
-        }
-*/
-
-        // se chegou até aqui a execução do código, vamos cadastrar a aeronave. 
-        // obtendo os dados: 
+      function inserirAeronave() {
         const fabricante = document.getElementById("fabricante").value;
         const modelo = document.getElementById("modelo").value;
         const anoFab = document.getElementById("anoFabricacao").value;
-        const registro = "Registro padrao" //document.getElementById("referencia").value;
-        const totalAssentos = 555 //document.getElementById("totalAssentos").value;
+        const registro = "Registro padrao";
+        const totalAssentos = 555;
 
-        // ESTUDAR O CONCEITO DE PROMISES.
         fetchInserir({
-            marca: fabricante, 
-            modelo: modelo, 
-            qtdeAssentos: totalAssentos,
-            registro: registro })
-            .then(resultado => {
-              // obteve resposta, vamos simplesmente exibir como mensagem: 
-              if(resultado.status === "SUCCESS"){
-                showStatusMessage("Aeronave cadastrada... ", false);
-              }else{
-                showStatusMessage("Erro ao cadastrar aeronave...: " + message, true);
-                console.log(resultado.message);
-              }
-            })
-            .catch(()=>{
-              showStatusMessage("Erro técnico ao cadastrar... Contate o suporte.", true);
-              console.log("Falha grave ao cadastrar.")
-            });
-        
+          marca: fabricante,
+          modelo: modelo,
+          qtdeAssentos: totalAssentos,
+          registro: registro,
+        })
+          .then((resultado) => {
+            if (resultado.status === "SUCCESS") {
+              showStatusMessage("Aeronave cadastrada... ", false);
+            } else {
+              showStatusMessage(
+                "Erro ao cadastrar aeronave...: " + message,
+                true
+              );
+              console.log(resultado.message);
+            }
+          })
+          .catch(() => {
+            showStatusMessage(
+              "Erro técnico ao cadastrar... Contate o suporte.",
+              true
+            );
+            console.log("Falha grave ao cadastrar.");
+          });
       }
     </script>
   </head>
   <body>
     <header>
       <div class="superior">
-        <a><strong>← Home</strong></a>
-        <a href="/FRONTEND/html/adm.html"
-          ><p><strong>Administrador</strong></p></a
-        >
+        <a href="#"><strong>← Home</strong></a>
+        <a href="/FRONTEND/html/adm.html"><strong>Administrador</strong></a>
         <div class="opcoes">
           <a href="/FRONTEND/html/incluir.html"><strong>Incluir</strong></a>
           <a href="/FRONTEND/html/alterar.html"><strong>Alterar</strong></a>
@@ -98,7 +71,7 @@
     </header>
 
     <main>
-      <div id="main" class="columns is-desktop is-centered">
+      <div class="columns is-desktop is-centered">
         <div class="column is-4">
           <h1 class="texth1">Cadastrar aeronaves</h1>
           <form>
@@ -110,18 +83,6 @@
                 class="box"
                 placeholder="Airbus A380"
                 name="modelo"
-                required
-              />
-
-              <label for="idAeronave" class="textLabel"
-                >Número de identificação da aeronave:</label
-              >
-              <input
-                type="number"
-                id="idAeronave"
-                placeholder="09676"
-                class="box"
-                name="idAeronave"
                 required
               />
 
@@ -146,167 +107,147 @@
                 name="anoFabricado"
                 required
               />
-              
-              <button type="button" 
-              onclick="inserirAeronave();"
-              id="btnCadastrar"
-              name="btnCadastrar">Cadastrar Tiago</button>
+
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="inserirAeronave();"
+                id="btnCadastrar"
+                name="btnCadastrar"
+              >
+                Cadastrar
+              </button>
             </div>
           </form>
         </div>
-
         <div class="column is-4">
-          <h1 class="texth1">Cadastrar trajetos e aeroportos</h1>
+          <h1 class="texth1">Cadastrar cidades:</h1>
           <form>
             <div class="cadastroDiv">
-              <label for="fabricante" class="textLabel">Aeroportos: </label>
+              <label for="cidade" class="textLabel">Nome: </label>
               <input
                 type="text"
-                id="fabricante"
+                id="cidade"
                 class="box"
-                placeholder="Congonhas"
-                name="aeroportos"
+                placeholder="Campinas"
+                name="cidade"
                 required
               />
-
-              <label for="fabricante" class="textLabel">Trajeto: </label>
-              <input
-                type="text"
-                id="fabricante"
-                class="box"
-                placeholder="Campians - São Paulo"
-                name="trajetos"
-                required
-              />
-
               <button class="button is-link is-medium">Cadastrar</button>
             </div>
           </form>
         </div>
+        <div class="column is-4">
+          <h1 class="texth1">Cadastrar trajetos</h1>
+          <form>
+            <div class="cadastroDiv">
+              <label for="trajeto" class="textLabel">Tipo: </label>
+              <br />
+              <div class="select">
+                <select id="trajeto" class="box">
+                  <option value="cmpsp">Ida</option>
+                  <option value="spcmp">Volta</option>
+                </select>
+              </div>
+              <br />
+              <label for="cidadeSaida" class="textLabel"
+                >Cidade de saída:
+              </label>
+              <input
+                type="text"
+                id="cidadeSaida"
+                class="box"
+                placeholder="Campinas"
+                name="cidadeSaida"
+                required
+              />
+              <label for="cidadeChegada" class="textLabel"
+                >Cidade de chegada:
+              </label>
+              <input
+                type="text"
+                id="cidadeChegada"
+                class="box"
+                placeholder="Sao Paulo"
+                name="cidadeChegada"
+                required
+              />
+              <button class="button is-link is-medium">Cadastrar</button>
+            </div>
+          </form>
+        </div>
+      </div>
 
+      <div class="columns is-desktop is-centered">
+        <div class="column is-4">
+          <h1 class="texth1">Cadastrar aeroportos</h1>
+          <form>
+            <div class="cadastroDiv">
+              <label for="nomeAeroporto" class="textLabel">Nome: </label>
+              <input
+                type="text"
+                id="nomeAeroporto"
+                class="box"
+                placeholder="Viracopos"
+                name="nomeAeroporto"
+                required
+              />
+              <label for="cidadeAeroporto" class="textLabel"
+                >Cidade em que o aeroporto se localiza:
+              </label>
+              <input
+                type="text"
+                id="cidadeAeroporto"
+                class="box"
+                placeholder="Sao Paulo"
+                name="cidadeAeroporto"
+                required
+              />
+              <button class="button is-link is-medium">Cadastrar</button>
+            </div>
+          </form>
+        </div>
         <div class="column is-4">
           <h1 class="texth1">Cadastrar voos</h1>
           <form>
             <div class="cadastroDiv">
-              <label for="data" class="textLabel">Data:</label>
+              <label for="data" class="textLabel">Data de origem:</label>
               <input type="date" class="box" id="data" name="data" required />
 
-              <label for="trajeto" class="textLabel">Trajetos</label>
-              <div class="control">
-                <div class="select">
-                  <select id="trajeto" class="box">
-                    <option value="cmpsp">Campinas - São Paulo</option>
-                    <option value="spcmp">São Paulo - Campinas</option>
-                    <option value="trajeto3">Trajeto 3</option>
-                    <option value="trajeto4">Trajeto 4</option>
-                    <option value="trajeto5">Trajeto 5</option>
-                    <option value="trajeto6">Trajeto 6</option>
-                    <option value="trajeto7">Trajeto 7</option>
-                    <option value="trajeto8">Trajeto 8</option>
-                    <option value="trajeto9">Trajeto 9</option>
-                    <option value="trajeto10">Trajeto 10</option>
-                    <option value="trajeto11">Trajeto 11</option>
-                    <option value="trajeto12">Trajeto 12</option>
-                    <option value="trajeto13">Trajeto 13</option>
-                    <option value="trajeto14">Trajeto 14</option>
-                    <option value="trajeto15">Trajeto 15</option>
-                  </select>
-                </div>
-              </div>
-
-              <label for="horaPartida:" class="textLabel"
+              <label for="horaPartida" class="textLabel"
                 >Horário previsto de partida:</label
               >
               <input type="time" class="box" name="horaPartida" required />
+
+              <label for="dataChegada" class="textLabel"
+                >Data de chegada:</label
+              >
+              <input
+                type="date"
+                class="box"
+                id="dataChegada"
+                name="dataChegada"
+                required
+              />
 
               <label for="horaChegada" class="textLabel"
                 >Horário previsto para chegada:</label
               >
               <input type="time" class="box" name="horaChegada" required />
 
-              <label for="aeroportoSaida" class="textLabel"
-                >Aeroporto de saída:</label
-              >
-              <div class="control">
-                <div class="select">
-                  <select id="aeroportoSaida" class="box">
-                    <option value="viracopos">Viracopos(CMP)</option>
-                    <option value="congonhas">Congonhas(SP)</option>
-                    <option value="guarulhos">Guarulhos(GRU)</option>
-                    <option value="aeroporto4">Aeroporto4</option>
-                    <option value="aeroporto5">Aeroporto5</option>
-                    <option value="aeroporto6">Aeroporto6</option>
-                    <option value="aeroporto7">Aeroporto7</option>
-                    <option value="aeroporto8">Aeroporto8</option>
-                    <option value="aeroporto9">Aeroporto9</option>
-                    <option value="aeroporto10">Aeroporto10</option>
-                    <option value="aeroporto11">Aeroporto11</option>
-                    <option value="aeroporto12">Aeroporto12</option>
-                    <option value="aeroporto13">Aeroporto13</option>
-                    <option value="aeroporto14">Aeroporto14</option>
-                    <option value="aeroporto15">Aeroporto15</option>
-                    <option value="aeroporto16">Aeroporto16</option>
-                    <option value="aeroporto17">Aeroporto17</option>
-                    <option value="aeroporto18">Aeroporto18</option>
-                    <option value="aeroporto19">Aeroporto19</option>
-                    <option value="aeroporto20">Aeroporto20</option>
-                  </select>
-                </div>
-              </div>
-
-              <label for="aeroportoChegada" class="textLabel"
-                >Aeroporto de chegada</label
-              >
-              <div class="control">
-                <div class="select">
-                  <select id="aeroportoChegada" class="box">
-                    <option value="viracopos">Viracopos(CMP)</option>
-                    <option value="congonhas">Congonhas(SP)</option>
-                    <option value="guarulhos">Guarulhos(GRU)</option>
-                    <option value="aeroporto4">Aeroporto4</option>
-                    <option value="aeroporto5">Aeroporto5</option>
-                    <option value="aeroporto6">Aeroporto6</option>
-                    <option value="aeroporto7">Aeroporto7</option>
-                    <option value="aeroporto8">Aeroporto8</option>
-                    <option value="aeroporto9">Aeroporto9</option>
-                    <option value="aeroporto10">Aeroporto10</option>
-                    <option value="aeroporto11">Aeroporto11</option>
-                    <option value="aeroporto12">Aeroporto12</option>
-                    <option value="aeroporto13">Aeroporto13</option>
-                    <option value="aeroporto14">Aeroporto14</option>
-                    <option value="aeroporto15">Aeroporto15</option>
-                    <option value="aeroporto16">Aeroporto16</option>
-                    <option value="aeroporto17">Aeroporto17</option>
-                    <option value="aeroporto18">Aeroporto18</option>
-                    <option value="aeroporto19">Aeroporto19</option>
-                    <option value="aeroporto20">Aeroporto20</option>
-                  </select>
-                </div>
-              </div>
-
-              <label for="idVoo" class="textLabel">ID do voo: </label>
+              <label for="idTrajeto" class="textLabel">ID do trajeto:</label>
               <input
                 type="number"
-                name="idVoo"
+                name="idTrajeto"
                 class="box"
                 placeholder="9510"
                 required
               />
 
-              <label for="valorAssento:" class="textLabel"
-                >Valor por assento:</label
+              <label for="valorAssento" class="textLabel"
+                >Valor por assento (R$):</label
               >
               <div class="field has-addons">
-                <p class="currencySelect">
-                  <span class="select">
-                    <select>
-                      <option>R$</option>
-                      <option>$</option>
-                      <option>£</option>
-                      <option>€</option>
-                    </select>
-                  </span>
-                </p>
                 <p class="control">
                   <input class="input" type="text" placeholder="700" />
                 </p>
