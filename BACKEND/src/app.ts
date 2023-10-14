@@ -1,7 +1,5 @@
 import express from "express";
 import oracledb from "oracledb";
-//import oracledb, { Connection, ConnectionAttributes } from "oracledb";
-//import dotenv from "dotenv";
 import cors from "cors";
 import { CustomResponse } from "./CustomResponse";
 import { Aeronave } from "./Aeronave";
@@ -9,10 +7,8 @@ import { oraConnAttribs } from "./OracleConnAtribs";
 import { rowsToAeronaves } from "./Conversores";
 import { aeronaveValida } from "./Validadores";
 
-
 const app = express();
 const port = 3000;
-
 
 app.use(express.json());
 app.use(cors());
@@ -21,41 +17,44 @@ app.use(cors());
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 
 
-
 //GET Obter Aeronaves do BD
-app.get("/obterAeronaves", async(req, res)=>{
-  console.log("\nEntrou no GET! /obterAeronaves\n")
+app.get("/obterAeronaves", async (req, res) => {
+  console.log("\nEntrou no GET! /obterAeronaves\n");
 
-  let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
   let connection;
-  try{
-
+  try {
     connection = await oracledb.getConnection(oraConnAttribs);
-    let resultadoConsulta = await connection.execute("SELECT * FROM AERONAVE");
-  
-    //await connection.close();APAGAR
-    cr.status = "SUCCESS"; 
-    cr.message = "Dados obtidos";
-    cr.payload = (rowsToAeronaves(resultadoConsulta.rows));
+    // Modifique a consulta SQL para incluir o campo "codigo"
+    let resultadoConsulta = await connection.execute("SELECT id_aeronave, modelo, ano_fabri, fabricante FROM AERONAVE");
 
-  }catch(e){
-    if(e instanceof Error){
+    //await connection.close();APAGAR
+    cr.status = "SUCCESS";
+    cr.message = "Dados obtidos";
+    cr.payload = rowsToAeronaves(resultadoConsulta.rows);
+  } catch (e) {
+    if (e instanceof Error) {
       cr.message = e.message;
-      console.log(e.message);
-    }else{
-      cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+      console.error(e.message);
+    } else {
+      cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
     }
   } finally {
-    if(connection !== undefined){
+    if (connection !== undefined) {
       await connection.close();
     }
-    res.send(cr);  
+    res.send(cr);
   }
 });
 
+
 //PUT Inserindo Aeronaves no BD
 app.put("/inserirAeronave", async(req,res)=>{
-  console.log("\nEntrou no PUT! /inserirAeronave\n")
+  console.log("\nEntrou no PUT! /inserirAeronave\n");
   // para inserir a aeronave temos que receber os dados na requisição. 
 
 
@@ -127,41 +126,43 @@ app.put("/inserirAeronave", async(req,res)=>{
 });
 
 
+//PUT Alterando Aeronaves no BD
+app.put("/alterarAeronave", async (req, res)=>{
+  console.log("\nEntrou no PUT! /alterarAeronave\n");
+  // objeto para resposta
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined
+  }
 
+  const updateAero: Aeronave = req.body as Aeronave;
+  const codigo = req.body.codigo as number;
+  const modelo = req.body.modelo as string;
 
-
-
-
-
-
-/*APAGAR
-  // conectando 
+  let connection;
   try{
-    conn = await oracledb.getConnection({
-      user: process.env.ORACLE_DB_USER,
-      password: process.env.ORACLE_DB_PASSWORD,
-      connectionString: process.env.ORACLE_CONN_STR,
-    });
+    const cmdUpdateAero =   `UPDATE AERONAVE 
+                            SET 
+                            MODELO = :1,
+                            ANO_FABRI = :2,
+                            FABRICANTE = :3
+                            WHERE id_aeronave = :4`
+    const dadosUpdate = [updateAero.modelo, updateAero.anoFabricacao,updateAero.fabricante, updateAero.codigo];//[modelo, codigo]
 
-    const cmdInsertAero = `INSERT INTO AERONAVE 
-    (id_aeronave, modelo, ano_fabri, fabricante)
-    VALUES
-    (SEQ_AERONAVE.NEXTVAL, :1, :2, :3)`
+    console.log(`Dados que serao inseridos: ${dadosUpdate}`);
 
-    const dados = [modelo, anoFabricação, fabricante];
-    let resInsert = await conn.execute(cmdInsertAero, dados);
-    
-    // importante: efetuar o commit para gravar no Oracle.
-    await conn.commit();
-  
-    // obter a informação de quantas linhas foram inseridas. 
-    // neste caso precisa ser exatamente 1
-    const rowsInserted = resInsert.rowsAffected
-    if(rowsInserted !== undefined &&  rowsInserted === 1) {
-      cr.status = "SUCCESS"; 
-      cr.message = "Aeronave inserida.";
+    connection = await oracledb.getConnection(oraConnAttribs);
+    let resUpdateAero = await connection.execute(cmdUpdateAero, dadosUpdate);
+    await connection.commit();
+
+    const rowsInserted = resUpdateAero.rowsAffected;
+    if(rowsInserted !== undefined &&  rowsInserted !== 0){
+      console.log(`Linhas afetadas: ${resUpdateAero.rowsAffected}`);
+
+      cr.status = "SUCCESS";
+      cr.message = `${resUpdateAero.rowsAffected} linha(s) modificada(s).`;
     }
-
   }catch(e){
     if(e instanceof Error){
       cr.message = e.message;
@@ -171,12 +172,13 @@ app.put("/inserirAeronave", async(req,res)=>{
     }
   } finally {
     //fechar a conexao.
-    if(conn!== undefined){
-      await conn.close();
+    if(connection!== undefined){
+      await connection.close();
     }
     res.send(cr);  
   }
-});*/
+});
+
 
 //DELETE Excluindo Aeronaves do BD
 app.delete("/excluirAeronave", async(req,res)=>{
@@ -228,7 +230,6 @@ app.delete("/excluirAeronave", async(req,res)=>{
     res.send(cr);  
   }
 });
-
 
 //LISTEN Servidor Rodando na porta configurada: 3000
 app.listen(port, ()=>{

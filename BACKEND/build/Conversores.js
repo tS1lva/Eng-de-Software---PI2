@@ -14,10 +14,10 @@ function rowsToAeronaves(oracleRows) {
     if (oracleRows !== undefined) {
         oracleRows.forEach((registro) => {
             aeronave = {
-                codigo: registro.CODIGO,
+                codigo: registro.ID_AERONAVE,
                 fabricante: registro.FABRICANTE,
                 modelo: registro.MODELO,
-                anoFabricacao: registro.ANO_FABRICACAO,
+                anoFabricacao: registro.ANO_FABRI,
                 totalAssentos: registro.TOTAL_ASSENTOS,
                 referencia: registro.REFERENCIA,
             };

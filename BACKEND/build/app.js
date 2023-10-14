@@ -14,8 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
-//import oracledb, { Connection, ConnectionAttributes } from "oracledb";
-//import dotenv from "dotenv";
 const cors_1 = __importDefault(require("cors"));
 const OracleConnAtribs_1 = require("./OracleConnAtribs");
 const Conversores_1 = require("./Conversores");
@@ -29,23 +27,28 @@ oracledb_1.default.outFormat = oracledb_1.default.OUT_FORMAT_OBJECT;
 //GET Obter Aeronaves do BD
 app.get("/obterAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou no GET! /obterAeronaves\n");
-    let cr = { status: "ERROR", message: "", payload: undefined, };
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
     let connection;
     try {
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
-        let resultadoConsulta = yield connection.execute("SELECT * FROM AERONAVE");
+        // Modifique a consulta SQL para incluir o campo "codigo"
+        let resultadoConsulta = yield connection.execute("SELECT id_aeronave, modelo, ano_fabri, fabricante FROM AERONAVE");
         //await connection.close();APAGAR
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
-        cr.payload = ((0, Conversores_1.rowsToAeronaves)(resultadoConsulta.rows));
+        cr.payload = (0, Conversores_1.rowsToAeronaves)(resultadoConsulta.rows);
     }
     catch (e) {
         if (e instanceof Error) {
             cr.message = e.message;
-            console.log(e.message);
+            console.error(e.message);
         }
         else {
-            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
         }
     }
     finally {
@@ -120,49 +123,55 @@ app.put("/inserirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, func
         }
     }
 }));
-/*APAGAR
-  // conectando
-  try{
-    conn = await oracledb.getConnection({
-      user: process.env.ORACLE_DB_USER,
-      password: process.env.ORACLE_DB_PASSWORD,
-      connectionString: process.env.ORACLE_CONN_STR,
-    });
-
-    const cmdInsertAero = `INSERT INTO AERONAVE
-    (id_aeronave, modelo, ano_fabri, fabricante)
-    VALUES
-    (SEQ_AERONAVE.NEXTVAL, :1, :2, :3)`
-
-    const dados = [modelo, anoFabricação, fabricante];
-    let resInsert = await conn.execute(cmdInsertAero, dados);
-    
-    // importante: efetuar o commit para gravar no Oracle.
-    await conn.commit();
-  
-    // obter a informação de quantas linhas foram inseridas.
-    // neste caso precisa ser exatamente 1
-    const rowsInserted = resInsert.rowsAffected
-    if(rowsInserted !== undefined &&  rowsInserted === 1) {
-      cr.status = "SUCCESS";
-      cr.message = "Aeronave inserida.";
+//PUT Alterando Aeronaves no BD
+app.put("/alterarAeronave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no PUT! /alterarAeronave\n");
+    // objeto para resposta
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined
+    };
+    const updateAero = req.body;
+    const codigo = req.body.codigo;
+    const modelo = req.body.modelo;
+    let connection;
+    try {
+        const cmdUpdateAero = `UPDATE AERONAVE 
+                            SET 
+                            MODELO = :1,
+                            ANO_FABRI = :2,
+                            FABRICANTE = :3
+                            WHERE id_aeronave = :4`;
+        const dadosUpdate = [updateAero.modelo, updateAero.anoFabricacao, updateAero.fabricante, updateAero.codigo]; //[modelo, codigo]
+        console.log(`Dados que serao inseridos: ${dadosUpdate}`);
+        connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
+        let resUpdateAero = yield connection.execute(cmdUpdateAero, dadosUpdate);
+        yield connection.commit();
+        const rowsInserted = resUpdateAero.rowsAffected;
+        if (rowsInserted !== undefined && rowsInserted !== 0) {
+            console.log(`Linhas afetadas: ${resUpdateAero.rowsAffected}`);
+            cr.status = "SUCCESS";
+            cr.message = `${resUpdateAero.rowsAffected} linha(s) modificada(s).`;
+        }
     }
-
-  }catch(e){
-    if(e instanceof Error){
-      cr.message = e.message;
-      console.log(e.message);
-    }else{
-      cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
     }
-  } finally {
-    //fechar a conexao.
-    if(conn!== undefined){
-      await conn.close();
+    finally {
+        //fechar a conexao.
+        if (connection !== undefined) {
+            yield connection.close();
+        }
+        res.send(cr);
     }
-    res.send(cr);
-  }
-});*/
+}));
 //DELETE Excluindo Aeronaves do BD
 app.delete("/excluirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou no DELETE! /excluirAeronave\n");
