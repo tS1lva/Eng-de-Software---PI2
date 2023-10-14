@@ -1,7 +1,7 @@
 {
   "name": "oracleexemplo",
   "version": "1.0.0",
-  "description": "",
+  "description": ">Para Testar o BackEnd:\r     1 - Instalar as dependencias do node através node install\r     2 - Abrir a pasta BACKEND no terminal e rodar o comando npm start",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,7 +13,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.14",
     "@types/express": "^4.17.19",
-    "@types/node": "^20.8.5",
+    "@types/node": "^20.8.6",
     "@types/oracledb": "^6.0.1",
     "typescript": "^5.2.2"
   },

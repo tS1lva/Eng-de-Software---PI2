@@ -27,24 +27,14 @@
         const fabricante = document.getElementById("fabricanteInput").value;
         const modelo = document.getElementById("modelo").value;
         const anoFab = document.getElementById("anoFabricacao").value;
-
-
-      if (anoFab < 2005) {
-        // Se for menor, exibe uma mensagem de erro
-        var mensagemErro = document.getElementById("mensagemErro");
-        mensagemErro.textContent = "O avião é antigo demais, cadastre outro.";
-        return; // Impede o envio do formulário se houver erro
-      }
-      var mensagemErro = document.getElementById("mensagemErro");
-      mensagemErro.textContent = "";
-      // Recarrega a página atual
-      location.reload();
-
+        /*const referencia = document.getElementById("referencia").value;
+        const totalAssentos = document.getElementById("totalAssentos").value;*/
 
         // ESTUDAR O CONCEITO DE PROMISES.
         fetchInserir({
             fabricante: fabricante, 
-            modelo: modelo, anoFab})
+            modelo: modelo, 
+            anoFabricacao: anoFab})
             .then(resultado => {
               // obteve resposta, vamos simplesmente exibir como mensagem: 
               if(resultado.status === "SUCCESS"){
