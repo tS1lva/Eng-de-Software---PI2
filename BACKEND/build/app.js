@@ -126,33 +126,36 @@ app.put("/inserirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, func
 //PUT Alterando Aeronaves no BD
 app.put("/alterarAeronave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou no PUT! /alterarAeronave\n");
-    // objeto para resposta
+    // Objeto de resposta
     let cr = {
         status: "ERROR",
         message: "",
-        payload: undefined
+        payload: undefined,
     };
-    const updateAero = req.body;
-    const codigo = req.body.codigo;
-    const modelo = req.body.modelo;
+    const aero = req.body;
+    let [valida, mensagem] = (0, Validadores_1.aeronaveValida)(aero);
+    if (!valida) {
+        cr.message = mensagem;
+        return res.send(cr);
+    }
     let connection;
     try {
         const cmdUpdateAero = `UPDATE AERONAVE 
-                            SET 
-                            MODELO = :1,
-                            ANO_FABRI = :2,
-                            FABRICANTE = :3
-                            WHERE id_aeronave = :4`;
-        const dadosUpdate = [updateAero.modelo, updateAero.anoFabricacao, updateAero.fabricante, updateAero.codigo]; //[modelo, codigo]
-        console.log(`Dados que serao inseridos: ${dadosUpdate}`);
+                          SET 
+                          MODELO = :1,
+                          ANO_FABRI = :2,
+                          FABRICANTE = :3
+                          WHERE id_aeronave = :4`;
+        const dadosUpdate = [aero.modelo, aero.anoFabricacao, aero.fabricante, aero.codigo];
+        console.log(aero);
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
         let resUpdateAero = yield connection.execute(cmdUpdateAero, dadosUpdate);
         yield connection.commit();
-        const rowsInserted = resUpdateAero.rowsAffected;
-        if (rowsInserted !== undefined && rowsInserted !== 0) {
-            console.log(`Linhas afetadas: ${resUpdateAero.rowsAffected}`);
+        const rowsUpdated = resUpdateAero.rowsAffected;
+        if (rowsUpdated !== undefined && rowsUpdated !== 0) {
+            console.log(`Linhas afetadas: ${rowsUpdated}`);
             cr.status = "SUCCESS";
-            cr.message = `${resUpdateAero.rowsAffected} linha(s) modificada(s).`;
+            cr.message = `${rowsUpdated} linha(s) modificada(s).`;
         }
     }
     catch (e) {
@@ -161,7 +164,7 @@ app.put("/alterarAeronave", (req, res) => __awaiter(void 0, void 0, void 0, func
             console.log(e.message);
         }
         else {
-            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
         }
     }
     finally {

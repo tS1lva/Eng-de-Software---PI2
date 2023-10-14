@@ -127,57 +127,63 @@ app.put("/inserirAeronave", async(req,res)=>{
 
 
 //PUT Alterando Aeronaves no BD
-app.put("/alterarAeronave", async (req, res)=>{
+app.put("/alterarAeronave", async (req, res) => {
   console.log("\nEntrou no PUT! /alterarAeronave\n");
-  // objeto para resposta
+
+  // Objeto de resposta
   let cr: CustomResponse = {
     status: "ERROR",
     message: "",
-    payload: undefined
+    payload: undefined,
+  };
+
+  const aero: Aeronave = req.body as Aeronave;
+
+  let [valida, mensagem] = aeronaveValida(aero);
+  if (!valida) {
+    cr.message = mensagem;
+    return res.send(cr);
   }
 
-  const updateAero: Aeronave = req.body as Aeronave;
-  const codigo = req.body.codigo as number;
-  const modelo = req.body.modelo as string;
-
   let connection;
-  try{
-    const cmdUpdateAero =   `UPDATE AERONAVE 
-                            SET 
-                            MODELO = :1,
-                            ANO_FABRI = :2,
-                            FABRICANTE = :3
-                            WHERE id_aeronave = :4`
-    const dadosUpdate = [updateAero.modelo, updateAero.anoFabricacao,updateAero.fabricante, updateAero.codigo];//[modelo, codigo]
+  try {
+    const cmdUpdateAero = `UPDATE AERONAVE 
+                          SET 
+                          MODELO = :1,
+                          ANO_FABRI = :2,
+                          FABRICANTE = :3
+                          WHERE id_aeronave = :4`;
+    const dadosUpdate = [aero.modelo, aero.anoFabricacao, aero.fabricante, aero.codigo];
 
-    console.log(`Dados que serao inseridos: ${dadosUpdate}`);
+    console.log(aero);
 
     connection = await oracledb.getConnection(oraConnAttribs);
     let resUpdateAero = await connection.execute(cmdUpdateAero, dadosUpdate);
     await connection.commit();
 
-    const rowsInserted = resUpdateAero.rowsAffected;
-    if(rowsInserted !== undefined &&  rowsInserted !== 0){
-      console.log(`Linhas afetadas: ${resUpdateAero.rowsAffected}`);
+    const rowsUpdated = resUpdateAero.rowsAffected;
+    if (rowsUpdated !== undefined && rowsUpdated !== 0) {
+      console.log(`Linhas afetadas: ${rowsUpdated}`);
 
       cr.status = "SUCCESS";
-      cr.message = `${resUpdateAero.rowsAffected} linha(s) modificada(s).`;
+      cr.message = `${rowsUpdated} linha(s) modificada(s).`;
     }
-  }catch(e){
-    if(e instanceof Error){
+  } catch (e) {
+    if (e instanceof Error) {
       cr.message = e.message;
       console.log(e.message);
-    }else{
-      cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+    } else {
+      cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
     }
-  } finally {
-    //fechar a conexao.
-    if(connection!== undefined){
-      await connection.close();
-    }
-    res.send(cr);  
+  }finally {
+      //fechar a conexao.
+      if(connection!== undefined){
+        await connection.close();
+      }
+      res.send(cr);  
+    }  
   }
-});
+);
 
 
 //DELETE Excluindo Aeronaves do BD

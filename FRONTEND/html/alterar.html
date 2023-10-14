@@ -9,6 +9,41 @@
     />
     <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
     <title>Alterar dados</title>
+    <script>
+      function fetchAlterar(body) {
+        const requestOptions = {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        };
+
+        return fetch('http://localhost:3000/alterarAeronave', requestOptions)
+          .then(response => response.json());
+        }
+
+
+      function alterarAeronave() {
+        const modelo = document.getElementById("novoModelo").value;
+        const anoFabricacao = document.getElementById("novoAnoFabricado").value;
+        const fabricante = document.getElementById("novoFabricante").value;
+        const codigo = document.getElementById("idAeronave").value;
+
+        fetchAlterar({
+          modelo: modelo,
+          anoFabricacao: anoFabricacao,
+          fabricante: fabricante,
+          codigo: codigo
+        })
+          .then(data => {
+            // Lida com a resposta da operação de alteração, se necessário
+            console.log("Aeronave alterada com sucesso:", data);
+          })
+          .catch(error => {
+            // Lida com erros, se houver algum
+            console.error("Erro ao alterar aeronave:", error);
+          });
+      }
+    </script>
   </head>
   <body>
     <header>
@@ -72,7 +107,10 @@
                 required
               />
 
-              <button class="button is-link is-medium">Alterar</button>
+              <button type="button" 
+          onclick="alterarAeronave();"
+          id="btnAlterar"
+          name="btnAlterar">Alterar Tiago</button>
             </div>
           </form>
         </div>
@@ -186,6 +224,5 @@
         </div>
       </div>
     </main>
-    <script src="script.js"></script>
   </body>
 </html>
