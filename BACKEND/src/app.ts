@@ -235,6 +235,7 @@ app.delete("/excluirAeronave", async(req,res)=>{
     // devolvendo a resposta da requisição.
     res.send(cr);  
   }
+  console.log(`codigo da aeronave deletada ${codigo}`)
 });
 
 //LISTEN Servidor Rodando na porta configurada: 3000

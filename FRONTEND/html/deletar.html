@@ -9,6 +9,28 @@
     />
     <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
     <title>Excluir dados</title>
+    <script>
+      function excluirAeronave() {
+      const codigo = document.getElementById("idAeronave").value;
+
+      fetch(`http://localhost:3000/excluirAeronave`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ codigo: codigo })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === "SUCCESS") {
+            alert("Aeronave excluída com sucesso: " + data.message);
+          } else {
+            alert("Erro ao excluir aeronave: " + data.message);
+          }
+        })
+        .catch(error => {
+          alert("Erro ao excluir aeronave: " + error.message);
+        });
+    }
+    </script>
   </head>
   <body>
     <header>
@@ -41,7 +63,10 @@
                 class="box"
                 required
               />
-              <button class="button is-link is-medium">Excluir</button>
+              <button type="button" 
+              onclick="excluirAeronave();"
+              id="btnExcluir"
+              name="btnExcluir">Excluir Tiago</button>
             </div>
           </form>
         </div>
