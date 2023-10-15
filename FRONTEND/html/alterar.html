@@ -28,7 +28,6 @@
     <main>
       <div id="main" class="columns is-desktop is-centered">
         <div class="column is-4">
-          <!-- Alterar Aeronaves -->
           <h1 class="texth1">Alterar Aeronaves:</h1>
           <form>
             <div class="cadastroDiv">
@@ -40,7 +39,6 @@
                 id="idAeronave"
                 class="box"
                 placeholder="Informe o ID da aeronave a ser alterada"
-                required
               />
 
               <label for="novoModelo" class="textLabel">Novo Modelo:</label>
@@ -49,7 +47,6 @@
                 id="novoModelo"
                 class="box"
                 placeholder="Novo modelo da aeronave"
-                required
               />
 
               <label for="novoFabricante" class="textLabel">Fabricante:</label>
@@ -58,7 +55,6 @@
                 id="novoFabricante"
                 class="box"
                 placeholder="Novo fabricante da aeronave"
-                required
               />
 
               <label for="novoAnoFabricado" class="textLabel"
@@ -69,7 +65,6 @@
                 id="novoAnoFabricado"
                 class="box"
                 placeholder="Novo ano de fabricação"
-                required
               />
 
               <button class="button is-link is-medium">Alterar</button>
@@ -78,7 +73,6 @@
         </div>
 
         <div class="column is-4">
-          <!-- Alterar Trajetos -->
           <h1 class="texth1">Alterar Trajetos:</h1>
           <form>
             <div class="cadastroDiv">
@@ -90,27 +84,26 @@
                 id="idTrajeto"
                 class="box"
                 placeholder="ID do trajeto"
-                required
               />
 
-              <label for="novoTrajeto" class="textLabel">Novo Trajeto:</label>
-              <input
-                type="text"
-                id="novoTrajeto"
-                class="box"
-                placeholder="Novo trajeto"
-                required
-              />
-
-              <label for="novoAeroporto" class="textLabel"
-                >Novo Aeroporto:</label
+              <label for="novoTrajeto" class="textLabel"
+                >Nova cidade de saida:</label
               >
               <input
                 type="text"
-                id="novoAeroporto"
+                id="novaCidadeSaida"
                 class="box"
-                placeholder="Novo aeroporto"
-                required
+                placeholder="Campinas"
+              />
+
+              <label for="novoAeroporto" class="textLabel"
+                >Nova cidade de chegada:</label
+              >
+              <input
+                type="text"
+                id="novaCidadeChegada"
+                class="box"
+                placeholder="Sao Paulo"
               />
 
               <button class="button is-link is-medium">Alterar trajeto</button>
@@ -119,7 +112,6 @@
         </div>
 
         <div class="column is-4">
-          <!-- Alterar Voos -->
           <h1 class="texth1">Alterar Voos:</h1>
           <form>
             <div class="cadastroDiv">
@@ -131,21 +123,27 @@
                 id="idVoo"
                 class="box"
                 placeholder="ID do voo"
-                required
               />
 
-              <label for="novaData" class="textLabel">Nova Data:</label>
-              <input type="date" id="novaData" class="box" required />
+              <label for="novaData" class="textLabel"
+                >Nova data de partida:</label
+              >
+              <input type="date" id="novaData" class="box" />
 
               <label for="novaHoraPartida" class="textLabel"
-                >Nova Hora de Partida:</label
+                >Nova hora de partida:</label
               >
-              <input type="time" id="novaHoraPartida" class="box" required />
+              <input type="time" id="novaHoraPartida" class="box" />
+
+              <label for="novaData" class="textLabel"
+                >Nova data de chegada:</label
+              >
+              <input type="date" id="novaData" class="box" />
 
               <label for="novaHoraChegada" class="textLabel"
-                >Nova Hora de Chegada:</label
+                >Nova hora de chegada:</label
               >
-              <input type="time" id="novaHoraChegada" class="box" required />
+              <input type="time" id="novaHoraChegada" class="box" />
 
               <label for="novoAeroportoSaida" class="textLabel"
                 >Novo Aeroporto de Saída:</label
@@ -155,7 +153,6 @@
                 id="novoAeroportoSaida"
                 class="box"
                 placeholder="Novo aeroporto de saída"
-                required
               />
 
               <label for="novoAeroportoChegada" class="textLabel"
@@ -166,7 +163,6 @@
                 id="novoAeroportoChegada"
                 class="box"
                 placeholder="Novo aeroporto de chegada"
-                required
               />
 
               <label for="novoValorAssento" class="textLabel"
@@ -177,14 +173,12 @@
                 id="novoValorAssento"
                 class="box"
                 placeholder="Novo valor por assento"
-                required
               />
 
               <button class="button is-link is-medium">Alterar voo</button>
             </div>
           </form>
         </div>
-      </div>
     </main>
     <script src="script.js"></script>
   </body>

@@ -1,14 +1,15 @@
 body {
     background-image: url('/FRONTEND/img/wing.jpg');
     background-size: cover;
-    height: 215vh;
     color: #d0eaf7;
     font-family: Arial, sans-serif;
     font-size: 1.25em;
 }
 
 .imagem {
-    margin-left: 37%;
+    margin-left: 18em;
+    padding-bottom: 3em;
+    height: 90vh;
 }
 
 .superior {
@@ -22,6 +23,7 @@ body {
 }
 
 .superior a {
+    font-size: 0.9em;
     transition: color 0.3s;
     text-decoration: none;
     color: inherit;
