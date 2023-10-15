@@ -1,4 +1,6 @@
 import { Aeronave } from "./Aeronave";
+import { Cidade } from "./Cidade";
+import { Aeroporto } from "./Aeroportos";
 
 // neste arquivo colocaremos TODAS as funções de validação para todo tipo de objeto. 
 
@@ -39,8 +41,6 @@ export function aeronaveValida(aero: Aeronave) {
 
 //Validando cidade
 
-import { Cidade } from "./Cidade";
-
 export function cidadeValida(cida: Cidade) {
 
   let valida = false;
@@ -49,6 +49,30 @@ export function cidadeValida(cida: Cidade) {
   if (cida.nome === undefined){
     mensagem = "Nome não informado";
   }
+  if (mensagem === "") {
+    valida = true;
+  }
+
+  return [valida, mensagem] as const;
+}
+
+//Validando Aeroporto
+
+export function aeroportoValida(aeropt: Aeroporto) {
+
+  let valida = false;
+  let mensagem = "";
+
+  if (aeropt.nome === undefined){
+    mensagem = "Nome não informado";
+  }
+  if (aeropt.cidade_id === undefined) {
+    mensagem = "Id não informado";
+  }
+  if ((aeropt.cidade_id !== undefined) && aeropt.cidade_id < 1) {
+    mensagem = "Id tem que ser maior que 0";
+  }
+  
   if (mensagem === "") {
     valida = true;
   }

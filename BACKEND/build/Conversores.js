@@ -5,7 +5,7 @@
 // que convertam de "linha do oracle" para um array javascript onde
 // cada elemento represente um elemento de um tipo. 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rowsToCidades = exports.rowsToAeronaves = void 0;
+exports.rowsToAeroportos = exports.rowsToCidades = exports.rowsToAeronaves = void 0;
 function rowsToAeronaves(oracleRows) {
     // vamos converter um array any (resultados do oracle)
     // em um array de Aeronave
@@ -42,3 +42,20 @@ function rowsToCidades(oracleRows) {
     return cidades;
 }
 exports.rowsToCidades = rowsToCidades;
+function rowsToAeroportos(oracleRows) {
+    let Aeroportos = [];
+    let Aeroporto;
+    if (oracleRows !== undefined) {
+        oracleRows.forEach((registro) => {
+            Aeroporto = {
+                codigo: registro.ID_AEROPORTO,
+                nome: registro.NOME,
+                cidade_id: registro.CIDADE_ID
+            };
+            // inserindo o novo Array convertido.
+            Aeroportos.push(Aeroporto);
+        });
+    }
+    return Aeroportos;
+}
+exports.rowsToAeroportos = rowsToAeroportos;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cidadeValida = exports.aeronaveValida = void 0;
+exports.aeroportoValida = exports.cidadeValida = exports.aeronaveValida = void 0;
 // neste arquivo colocaremos TODAS as funções de validação para todo tipo de objeto. 
 // diferentemente de outras linguagens, podemos fazer uma função
 // que possa retornar ou um booleano, ou uma string ou um tipo não definido.
@@ -30,6 +30,7 @@ function aeronaveValida(aero) {
     return [valida, mensagem];
 }
 exports.aeronaveValida = aeronaveValida;
+//Validando cidade
 function cidadeValida(cida) {
     let valida = false;
     let mensagem = "";
@@ -42,3 +43,22 @@ function cidadeValida(cida) {
     return [valida, mensagem];
 }
 exports.cidadeValida = cidadeValida;
+//Validando Aeroporto
+function aeroportoValida(aeropt) {
+    let valida = false;
+    let mensagem = "";
+    if (aeropt.nome === undefined) {
+        mensagem = "Nome não informado";
+    }
+    if (aeropt.cidade_id === undefined) {
+        mensagem = "Id não informado";
+    }
+    if ((aeropt.cidade_id !== undefined) && aeropt.cidade_id < 1) {
+        mensagem = "Id tem que ser maior que 0";
+    }
+    if (mensagem === "") {
+        valida = true;
+    }
+    return [valida, mensagem];
+}
+exports.aeroportoValida = aeroportoValida;

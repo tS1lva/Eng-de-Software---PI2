@@ -408,6 +408,193 @@ app.delete("/excluirCidade", (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.send(cr);
     }
 }));
+//GET Obter Aeroportos no BD
+app.get("/obterAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no GET! /obterAeroporto\n");
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    let connection;
+    try {
+        connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
+        // Modifique a consulta SQL para incluir o campo "codigo"
+        let resultadoConsulta = yield connection.execute("SELECT id_aeroporto, nome, cidade_id FROM AEROPORTO");
+        //await connection.close();APAGAR
+        cr.status = "SUCCESS";
+        cr.message = "Dados obtidos";
+        cr.payload = (0, Conversores_1.rowsToAeroportos)(resultadoConsulta.rows);
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.error(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        if (connection !== undefined) {
+            yield connection.close();
+        }
+        res.send(cr);
+    }
+}));
+//PUT Inserindo Aeroportos no BD
+app.put("/inserirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no PUT! /inserirAeroporto\n");
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    const aeropt = req.body;
+    console.log(aeropt);
+    let [valida, mensagem] = (0, Validadores_1.aeroportoValida)(aeropt);
+    if (!valida) {
+        // já devolvemos a resposta com o erro e terminamos o serviço.
+        cr.message = mensagem;
+        res.send(cr);
+    }
+    else {
+        // continuamos o processo porque passou na validação.
+        let connection;
+        try {
+            const cmdInsertAeropt = `INSERT INTO AEROPORTO  
+      (id_aeroporto, nome, cidade_id)
+      VALUES
+      (SEQ_AEROPORTO.NEXTVAL, :1, :2)`;
+            const dados = [aeropt.nome, aeropt.cidade_id];
+            connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
+            let resInsert = yield connection.execute(cmdInsertAeropt, dados);
+            // importante: efetuar o commit para gravar no Oracle.
+            yield connection.commit();
+            // obter a informação de quantas linhas foram inseridas. 
+            // neste caso precisa ser exatamente 1
+            const rowsInserted = resInsert.rowsAffected;
+            if (rowsInserted !== undefined && rowsInserted === 1) {
+                cr.status = "SUCCESS";
+                cr.message = "Aeroporto inserido.";
+            }
+        }
+        catch (e) {
+            if (e instanceof Error) {
+                cr.message = e.message;
+                console.log(e.message);
+            }
+            else {
+                cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+            }
+        }
+        finally {
+            //fechar a conexao.
+            if (connection !== undefined) {
+                yield connection.close();
+            }
+            res.send(cr);
+        }
+    }
+}));
+//PUT Alterar Aeroportos no BD
+app.put("/alterarAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no PUT! /alterarAeroporto\n");
+    // Objeto de resposta
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    const aeropt = req.body;
+    let [valida, mensagem] = (0, Validadores_1.aeroportoValida)(aeropt);
+    if (!valida) {
+        cr.message = mensagem;
+        return res.send(cr);
+    }
+    let connection;
+    try {
+        const cmdUpdateAeropt = `UPDATE AEROPORTO 
+                          SET 
+                          NOME = :1,
+                          cidade_id = :2
+                          WHERE ID_AEROPORTO = :3`;
+        const dadosUpdate = [aeropt.nome, aeropt.cidade_id, aeropt.codigo];
+        console.log(aeropt);
+        connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
+        let resUpdateAeropt = yield connection.execute(cmdUpdateAeropt, dadosUpdate);
+        yield connection.commit();
+        const rowsUpdated = resUpdateAeropt.rowsAffected;
+        if (rowsUpdated !== undefined && rowsUpdated !== 0) {
+            console.log(`Linhas afetadas: ${rowsUpdated}`);
+            cr.status = "SUCCESS";
+            cr.message = `${rowsUpdated} linha(s) modificada(s).`;
+        }
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        //fechar a conexao.
+        if (connection !== undefined) {
+            yield connection.close();
+        }
+        res.send(cr);
+    }
+}));
+//DELETE Excluindo Aeroportos do BD
+app.delete("/excluirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no DELETE! /excluirAeroporto\n");
+    const codigo = req.body.codigo;
+    console.log('Codigo recebido: ' + codigo);
+    // definindo um objeto de resposta.
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    let connection;
+    // conectando 
+    try {
+        connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
+        const cmdDeleteAeropt = `DELETE AEROPORTO WHERE id_aeroporto = :1`;
+        const dados = [codigo];
+        let resDelete = yield connection.execute(cmdDeleteAeropt, dados);
+        // importante: efetuar o commit para gravar no Oracle.
+        yield connection.commit();
+        // obter a informação de quantas linhas foram inseridas. 
+        // neste caso precisa ser exatamente 1
+        const rowsDeleted = resDelete.rowsAffected;
+        if (rowsDeleted !== undefined && rowsDeleted === 1) {
+            cr.status = "SUCCESS";
+            cr.message = "Aeroporto excluída.";
+        }
+        else {
+            cr.message = "Aeroporto não excluído. Verifique se o código informado está correto.";
+        }
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
+    }
+    finally {
+        if (connection !== undefined)
+            yield connection.close();
+        // devolvendo a resposta da requisição.
+        res.send(cr);
+    }
+}));
 //LISTEN Servidor Rodando na porta configurada: 3000
 app.listen(port, () => {
     console.log("Servidor HTTP rodando...");
