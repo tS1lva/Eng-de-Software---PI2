@@ -5,6 +5,7 @@
 // cada elemento represente um elemento de um tipo. 
 
 import { Aeronave } from "./Aeronave";
+import { Cidade } from "./Cidade";
 
 export function rowsToAeronaves(oracleRows: unknown[] | undefined) : Array<Aeronave> {
   // vamos converter um array any (resultados do oracle)
@@ -18,8 +19,6 @@ export function rowsToAeronaves(oracleRows: unknown[] | undefined) : Array<Aeron
         fabricante: registro.FABRICANTE,
         modelo: registro.MODELO,
         anoFabricacao: registro.ANO_FABRI,
-        totalAssentos: registro.TOTAL_ASSENTOS,
-        referencia: registro.REFERENCIA,
       } as Aeronave;
 
       // inserindo o novo Array convertido.
@@ -27,4 +26,23 @@ export function rowsToAeronaves(oracleRows: unknown[] | undefined) : Array<Aeron
     })
   }
   return aeronaves;
+}
+
+
+export function rowsToCidades(oracleRows: unknown[] | undefined) : Array<Cidade> {
+  
+  let cidades: Array<Cidade> = [];
+  let cidade;
+  if (oracleRows !== undefined){
+    oracleRows.forEach((registro: any) => {
+      cidade = {
+        codigo: registro.ID_CIDADE,
+        nome: registro.NOME,
+      } as Cidade;
+
+      // inserindo o novo Array convertido.
+      cidades.push(cidade);
+    })
+  }
+  return cidades;
 }

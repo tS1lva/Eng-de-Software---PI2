@@ -4,8 +4,9 @@ import cors from "cors";
 import { CustomResponse } from "./CustomResponse";
 import { Aeronave } from "./Aeronave";
 import { oraConnAttribs } from "./OracleConnAtribs";
-import { rowsToAeronaves } from "./Conversores";
-import { aeronaveValida } from "./Validadores";
+import { rowsToAeronaves, rowsToCidades } from "./Conversores";
+import { aeronaveValida, cidadeValida } from "./Validadores";
+import { Cidade } from "./Cidade";
 
 const app = express();
 const port = 3000;
@@ -236,6 +237,205 @@ app.delete("/excluirAeronave", async(req,res)=>{
     res.send(cr);  
   }
   console.log(`codigo da aeronave deletada ${codigo}`)
+});
+
+//GET Obter cidades do BD
+app.get("/obterCidades", async (req, res) => {
+  console.log("\nEntrou no GET! /obterCidades\n");
+
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
+  let connection;
+  try {
+    connection = await oracledb.getConnection(oraConnAttribs);
+    // Modifique a consulta SQL para incluir o campo "codigo"
+    let resultadoConsulta = await connection.execute("SELECT id_cidade, nome from CIDADE");
+
+    cr.status = "SUCCESS";
+    cr.message = "Dados obtidos";
+    cr.payload = rowsToCidades(resultadoConsulta.rows);
+  } catch (e) {
+    if (e instanceof Error) {
+      cr.message = e.message;
+      console.error(e.message);
+    } else {
+      cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+    }
+  } finally {
+    if (connection !== undefined) {
+      await connection.close();
+    }
+    res.send(cr);
+  }
+});
+
+//PUT Inserindo cidades no BD
+app.put("/inserirCidade",async (req, res)=>{
+  console.log("\nEntrou no PUT! /InserirAronave\n");
+
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
+
+  const cida: Cidade = req.body as Cidade;
+  console.log(cida);
+
+  let [valida, mensagem] = cidadeValida(cida);
+  if(!valida) {
+    cr.message = mensagem;
+      res.send(cr);
+    }else {
+      // continuamos o processo porque passou na validação.
+      let connection;
+      try{
+        const cmdInsertAero = `INSERT INTO CIDADE  
+        (id_cidade, nome)
+        VALUES
+        (SEQ_CIDADE.NEXTVAL, :1)`
+        const dados = [cida.nome];
+    
+        connection = await oracledb.getConnection(oraConnAttribs);
+        let resInsert = await connection.execute(cmdInsertAero, dados);
+        
+        // importante: efetuar o commit para gravar no Oracle.
+        await connection.commit();
+      
+        // obter a informação de quantas linhas foram inseridas. 
+        // neste caso precisa ser exatamente 1
+        const rowsInserted = resInsert.rowsAffected
+        if(rowsInserted !== undefined &&  rowsInserted === 1) {
+          cr.status = "SUCCESS"; 
+          cr.message = "cidade inserida.";
+        }
+    
+      }catch(e){
+        if(e instanceof Error){
+          cr.message = e.message;
+          console.log(e.message);
+        }else{
+          cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
+      } finally {
+        //fechar a conexao.
+        if(connection!== undefined){
+          await connection.close();
+        }
+        res.send(cr);  
+      }  
+    }
+});
+
+//PUT Alterar cidades no BD
+app.put("/alterarCidade", async (req, res) => {
+    console.log("\nEntrou no PUT! /alterarCidade\n");
+  
+    // Objeto de resposta
+    let cr: CustomResponse = {
+      status: "ERROR",
+      message: "",
+      payload: undefined,
+    };
+  
+    const cida: Cidade = req.body as Cidade;
+  
+    let [valida, mensagem] = cidadeValida(cida);
+    if (!valida) {
+      cr.message = mensagem;
+      return res.send(cr);
+    }
+  
+    let connection;
+    try {
+      const cmdUpdateCida = `UPDATE CIDADE 
+                            SET 
+                            NOME = :1
+                            WHERE id_cidade = :2`;
+      const dadosUpdate = [cida.nome, cida.codigo];
+  
+      console.log(cida);
+  
+      connection = await oracledb.getConnection(oraConnAttribs);
+      let resUpdateCida = await connection.execute(cmdUpdateCida, dadosUpdate);
+      await connection.commit();
+  
+      const rowsUpdated = resUpdateCida.rowsAffected;
+      if (rowsUpdated !== undefined && rowsUpdated !== 0) {
+        console.log(`Linhas afetadas: ${rowsUpdated}`);
+  
+        cr.status = "SUCCESS";
+        cr.message = `${rowsUpdated} linha(s) modificada(s).`;
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        cr.message = e.message;
+        console.log(e.message);
+      } else {
+        cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+      }
+    }finally {
+        //fechar a conexao.
+        if(connection!== undefined){
+          await connection.close();
+        }
+        res.send(cr);  
+      }  
+    }
+);
+
+//DELETE Excluindo cidades do BD
+app.delete("/excluirCidade", async(req,res)=>{
+  console.log("\nEntrou no DELETE! /excluirCidade\n")
+
+  const codigo = req.body.codigo as number;
+  console.log('Codigo recebido: ' + codigo);
+ 
+  // definindo um objeto de resposta.
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
+  let connection;
+  // conectando 
+  try{
+    connection = await oracledb.getConnection(oraConnAttribs);
+
+    const cmdDeleteCida = `DELETE CIDADE WHERE id_cidade = :1`
+    const dados = [codigo];
+
+    let resDelete = await connection.execute(cmdDeleteCida, dados);
+    
+    // importante: efetuar o commit para gravar no Oracle.
+    await connection.commit();
+    
+    // obter a informação de quantas linhas foram inseridas. 
+    // neste caso precisa ser exatamente 1
+    const rowsDeleted = resDelete.rowsAffected
+    if(rowsDeleted !== undefined &&  rowsDeleted === 1) {
+      cr.status = "SUCCESS"; 
+      cr.message = "cidade excluída.";
+    }else{
+      cr.message = "cidade não excluída. Verifique se o código informado está correto.";
+    }
+
+  }catch(e){
+    if(e instanceof Error){
+      cr.message = e.message;
+      console.log(e.message);
+    }else{
+      cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+    }
+  } finally {
+    if(connection!==undefined)
+    await connection.close();
+    // devolvendo a resposta da requisição.
+    res.send(cr);  
+  }
 });
 
 //LISTEN Servidor Rodando na porta configurada: 3000
