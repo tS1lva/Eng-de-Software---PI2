@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Aeronaves</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      button {
+        padding: 10px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      #popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1;
+        overflow: auto;
+      }
+      #popup-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+      }
+      #close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
+      .leftText {
+        text-align: left;
+      }
+      .centerText {
+        text-align: center;
+      }
+      .rightText {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Aeronaves</h1>
+    <button id="openPopup">Mostrar Aeronaves</button>
+
+    <div id="popup">
+      <div id="popup-content">
+        <span id="close-button" onclick="fecharPopup()">&times;</span>
+        <h2>Aeronaves</h2>
+        <table id="tblAeronaves" border="0" cellspacing="5" cellpadding="10">
+          <thead>
+            <tr>
+              <th width="5%" class="leftText">Código</th>
+              <th width="20%" class="leftText">Fabricante</th>
+              <th width="20%" class="leftText">Modelo</th>
+              <th width="10%" class="rightText">Ano Fab.</th>
+            </tr>
+          </thead>
+          <tbody id="dados-aeronave"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      // Função que busca as aeronaves chamando o serviço.
+      function requestListaDeAeronaves() {
+        const requestOptions = {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        };
+        return fetch('http://localhost:3000/obterAeronaves', requestOptions)
+          .then((response) => response.json());
+      }
+
+      function preencherTabela(aeronaves) {
+        // Acessando o tbody pelo id.
+        const tblBody = document.getElementById("dados-aeronave");
+
+        aeronaves.forEach((aeronave, index) => {
+          const row = document.createElement("tr");
+
+          // Definindo classes de linha com base no índice para listras alternadas.
+          row.className = index % 2 === 0 ? "evenRow" : "oddRow";
+
+          // Preenchendo as colunas com os campos desejados.
+          row.innerHTML = `
+            <td class="leftText">${aeronave.codigo}</td>
+            <td class="leftText">${aeronave.fabricante}</td>
+            <td class="leftText">${aeronave.modelo}</td>
+            <td class="rightText">${aeronave.anoFabricacao}</td>`;
+
+          tblBody.appendChild(row);
+        });
+      }
+
+      function exibirAeronaves() {
+        requestListaDeAeronaves()
+          .then((customResponse) => {
+            if (customResponse.status === "SUCCESS") {
+              preencherTabela(customResponse.payload);
+            } else {
+              console.log(customResponse.message);
+            }
+          })
+          .catch((error) => {
+            console.error("Erro ao exibir aeronaves:", error);
+          });
+      }
+
+      // Chamando a função para carregar as aeronaves ao renderizar a página.
+      exibirAeronaves();
+          function mostrarPopup() {
+            const popup = document.getElementById("popup");
+            popup.style.display = "block";
+            exibirAeronaves(); // Exibe os dados das aeronaves ao abrir o popup.
+          }
+
+      // Função para fechar o popup
+      function fecharPopup() {
+        const popup = document.getElementById("popup");
+        popup.style.display = "none";
+      }
+
+      // Adicionar evento de clique ao botão para abrir o popup
+      const openPopupButton = document.getElementById("openPopup");
+      openPopupButton.addEventListener("click", mostrarPopup);
+    </script>
+  </body>
+</html>
