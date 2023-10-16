@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trechos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2; /* Cor de fundo suave */
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333; /* Cor de fundo escura para o cabeçalho */
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    hr {
+      margin: 10px 0;
+      border: 1px solid #ccc;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff; /* Cor de fundo branca para a tabela */
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 15px;
+    }
+
+    th {
+      background-color: #1e90ff; /* Azul médio para o cabeçalho da tabela */
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2; /* Cor de fundo suave para linhas pares da tabela */
+    }
+  </style>
+  <script>
+    function requestListaDeTrechos() {
+      const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      };
+      return fetch('http://localhost:3000/obterTrecho', requestOptions)
+        .then((response) => response.json());
+    }
+    
+    function preencherTabela(trechos) {
+      // Acessando o tbody pelo id.
+      const tblBody = document.getElementById("TblTrechosDados");
+  
+      trechos.forEach((trecho) => {
+        const row = document.createElement("tr");
+  
+        // Preenchendo as colunas com os campos desejados.
+        row.innerHTML = `
+          <td class="leftText">${trecho.codigo}</td>
+          <td class="leftText">${trecho.tipo}</td>
+          <td class="leftText">${trecho.cidade_origem}</td>
+          <td class="leftText">${trecho.cidade_destino}</td>`;
+  
+        tblBody.appendChild(row);
+      });
+    }
+  
+    function exibirTrechos() {
+      requestListaDeTrechos()
+        .then((customResponse) => {
+          if (customResponse.status === "SUCCESS") {
+            preencherTabela(customResponse.payload);
+          } else {
+            console.log(customResponse.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Erro ao exibir trechos:", error);
+        });
+    }
+  
+    document.addEventListener("DOMContentLoaded", exibirTrechos); // Executa quando a página é carregada.
+  </script>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Lista de Trechos</h1>
+      <hr>
+    </div>
+  </header>
+  <main>
+    <div>
+      <table id="TblTrechos">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Tipo</th>
+            <th>Cidade de Origem</th>
+            <th>Cidade de Destino</th>
+          </tr>
+        </thead>
+        <tbody id="TblTrechosDados">
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>
