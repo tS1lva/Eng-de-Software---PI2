@@ -1,6 +1,7 @@
 import { Aeronave } from "./Aeronave";
 import { Cidade } from "./Cidade";
 import { Aeroporto } from "./Aeroportos";
+import { Trecho } from "./trecho";
 
 // neste arquivo colocaremos TODAS as funções de validação para todo tipo de objeto. 
 
@@ -74,6 +75,33 @@ export function aeroportoValida(aeropt: Aeroporto) {
   }
   
   if (mensagem === "") {
+    valida = true;
+  }
+
+  return [valida, mensagem] as const;
+}
+
+//Validando Trecho
+
+export function trechoValida(trecho: Trecho) {
+
+  let valida = false;
+  let mensagem = "";
+
+  if(trecho.tipo === undefined){
+      mensagem = "Tipo não informado";
+  }
+  if(trecho.tipo !== 'Ida' && trecho.tipo !== 'Ida e volta') {
+    mensagem = "O tipo deve ser 'ida' ou 'ida ou volta'";
+  }
+  if(trecho.cidade_origem === undefined){
+    mensagem = "Cidade origem não informado";
+  }
+  if(trecho.cidade_destino === undefined){
+    mensagem = "Cidade destino não informado";
+  }  
+
+  if(mensagem === ""){
     valida = true;
   }
 

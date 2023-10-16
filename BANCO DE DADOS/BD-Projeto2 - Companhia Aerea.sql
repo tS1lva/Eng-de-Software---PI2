@@ -29,7 +29,7 @@ START WITH 1 INCREMENT BY 1;
 --TRECHO
 create table trecho (
     id_trecho number primary key,
-    tipo integer,
+    tipo varchar2(20),
     cidade_origem number,
     cidade_destino number,
     CONSTRAINT fk_cidadeO_cidade FOREIGN KEY (cidade_origem) REFERENCES cidade(id_cidade),
