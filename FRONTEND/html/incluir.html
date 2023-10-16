@@ -101,7 +101,46 @@
             });
       }  
 
-      
+
+      //INSERIR VOO
+      function inserirVoo(){
+
+        const horaPartida = document.getElementById("horaPartida").value;
+        const horaChegada = document.getElementById("horaChegada").value;
+        const dataPartida = document.getElementById("dataPartida").value;
+        const dataChegada = document.getElementById("dataChegada").value;
+        const idTrecho = document.getElementById("idTrecho").value;
+        const idValor = document.getElementById("idValor").value;
+        const aeroportoPartida = document.getElementById("aeroportoPartida").value;
+        const aeroportoChegada = document.getElementById("aeroportoChegada").value;
+
+        let rota = 'http://localhost:3000/inserirVoo';
+
+        fetchInserir(rota, {
+          hora_origem: horaPartida , 
+          hora_chegada: horaChegada, 
+          data_origem: dataPartida,
+          data_chegada:dataChegada,
+          id_techo: idTrecho,
+          valor: idValor,
+          aeroporto_origem: aeroportoPartida,
+          aeroporto_chegada: aeroportoChegada
+
+        })
+            .then(resultado => {
+              // obteve resposta, vamos simplesmente exibir como mensagem: 
+              if(resultado.status === "SUCCESS"){
+                showStatusMessage("Aeronave cadastrada... ", false);
+              }else{
+                showStatusMessage("Erro ao cadastrar aeronave...: " + message, true);
+                console.log(resultado.message);
+              }
+            })
+            .catch(()=>{
+              showStatusMessage("Erro técnico ao cadastrar... Contate o suporte.", true);
+              console.log("Falha grave ao cadastrar.")
+            });
+      }
     </script>
   </head>
   <body>
@@ -121,7 +160,7 @@
 
     <main>
       <div id="main" class="columns is-desktop is-centered">
-        <div class="column is-4">
+        <div class="column is-2">
           <h1 class="texth1">Cadastrar aeronaves</h1>
           <form>
             <div class="cadastroDiv">
@@ -176,7 +215,7 @@
             </div>
           </form>
         </div>
-        <div>
+        <div class="column is-2">
           <h1 class="texth1">Cadastrar cidades</h1>
           <form>
             <div class="cadastroDiv">
@@ -196,7 +235,7 @@
             </div>
           </form>
         </div>
-        <div class="column is-4">
+        <div class="column is-2">
           <h1 class="texth1">Cadastrar trajetos</h1>
           <form>
             <div class="cadastroDiv">
@@ -238,110 +277,52 @@
           </form>
         </div>
 
-        <div class="column is-4">
+        <div class="column is-2">
           <h1 class="texth1">Cadastrar voos</h1>
           <form>
             <div class="cadastroDiv">
-              <label for="data" class="textLabel">Data:</label>
-              <input type="date" class="box" id="data" name="data" required />
+              <label for="dataPartida" class="textLabel">Data Partida:</label>
+              <input type="date" class="box" id="dataPartida" name="data" required />
 
-              <label for="trajeto" class="textLabel">Trajetos</label>
-              <div class="control">
-                <div class="select">
-                  <select id="trajeto" class="box">
-                    <option value="cmpsp">Campinas - São Paulo</option>
-                    <option value="spcmp">São Paulo - Campinas</option>
-                    <option value="trajeto3">Trajeto 3</option>
-                    <option value="trajeto4">Trajeto 4</option>
-                    <option value="trajeto5">Trajeto 5</option>
-                    <option value="trajeto6">Trajeto 6</option>
-                    <option value="trajeto7">Trajeto 7</option>
-                    <option value="trajeto8">Trajeto 8</option>
-                    <option value="trajeto9">Trajeto 9</option>
-                    <option value="trajeto10">Trajeto 10</option>
-                    <option value="trajeto11">Trajeto 11</option>
-                    <option value="trajeto12">Trajeto 12</option>
-                    <option value="trajeto13">Trajeto 13</option>
-                    <option value="trajeto14">Trajeto 14</option>
-                    <option value="trajeto15">Trajeto 15</option>
-                  </select>
-                </div>
-              </div>
+              <label for="dataChegada" class="textLabel">Data Chegada:</label>
+              <input type="date" class="box" id="dataChegada" name="data" required />
+
+              <label for="trajeto" class="textLabel">Aeroporto Partida</label>
+
+              <input
+              type="number"
+              id="aeroportoPartida"
+              class="box"
+              placeholder=""
+              required
+            />
+
+              <label for="trajeto" class="textLabel">Aeroporto Chegada</label>
+
+              <input
+              type="number"
+              id="aeroportoChegada"
+              class="box"
+              placeholder=""
+              required
+            />
 
               <label for="horaPartida:" class="textLabel"
                 >Horário previsto de partida:</label
               >
-              <input type="time" class="box" name="horaPartida" required />
+              <input type="time" class="box" id="horaPartida" name="horaPartida" required />
 
               <label for="horaChegada" class="textLabel"
                 >Horário previsto para chegada:</label
               >
-              <input type="time" class="box" name="horaChegada" required />
+              <input type="time" class="box" id="horaChegada" name="horaChegada" required />
 
-              <label for="aeroportoSaida" class="textLabel"
-                >Aeroporto de saída:</label
-              >
-              <div class="control">
-                <div class="select">
-                  <select id="aeroportoSaida" class="box">
-                    <option value="viracopos">Viracopos(CMP)</option>
-                    <option value="congonhas">Congonhas(SP)</option>
-                    <option value="guarulhos">Guarulhos(GRU)</option>
-                    <option value="aeroporto4">Aeroporto4</option>
-                    <option value="aeroporto5">Aeroporto5</option>
-                    <option value="aeroporto6">Aeroporto6</option>
-                    <option value="aeroporto7">Aeroporto7</option>
-                    <option value="aeroporto8">Aeroporto8</option>
-                    <option value="aeroporto9">Aeroporto9</option>
-                    <option value="aeroporto10">Aeroporto10</option>
-                    <option value="aeroporto11">Aeroporto11</option>
-                    <option value="aeroporto12">Aeroporto12</option>
-                    <option value="aeroporto13">Aeroporto13</option>
-                    <option value="aeroporto14">Aeroporto14</option>
-                    <option value="aeroporto15">Aeroporto15</option>
-                    <option value="aeroporto16">Aeroporto16</option>
-                    <option value="aeroporto17">Aeroporto17</option>
-                    <option value="aeroporto18">Aeroporto18</option>
-                    <option value="aeroporto19">Aeroporto19</option>
-                    <option value="aeroporto20">Aeroporto20</option>
-                  </select>
-                </div>
-              </div>
 
-              <label for="aeroportoChegada" class="textLabel"
-                >Aeroporto de chegada</label
-              >
-              <div class="control">
-                <div class="select">
-                  <select id="aeroportoChegada" class="box">
-                    <option value="viracopos">Viracopos(CMP)</option>
-                    <option value="congonhas">Congonhas(SP)</option>
-                    <option value="guarulhos">Guarulhos(GRU)</option>
-                    <option value="aeroporto4">Aeroporto4</option>
-                    <option value="aeroporto5">Aeroporto5</option>
-                    <option value="aeroporto6">Aeroporto6</option>
-                    <option value="aeroporto7">Aeroporto7</option>
-                    <option value="aeroporto8">Aeroporto8</option>
-                    <option value="aeroporto9">Aeroporto9</option>
-                    <option value="aeroporto10">Aeroporto10</option>
-                    <option value="aeroporto11">Aeroporto11</option>
-                    <option value="aeroporto12">Aeroporto12</option>
-                    <option value="aeroporto13">Aeroporto13</option>
-                    <option value="aeroporto14">Aeroporto14</option>
-                    <option value="aeroporto15">Aeroporto15</option>
-                    <option value="aeroporto16">Aeroporto16</option>
-                    <option value="aeroporto17">Aeroporto17</option>
-                    <option value="aeroporto18">Aeroporto18</option>
-                    <option value="aeroporto19">Aeroporto19</option>
-                    <option value="aeroporto20">Aeroporto20</option>
-                  </select>
-                </div>
-              </div>
-
-              <label for="idVoo" class="textLabel">ID do voo: </label>
+              <label for="idTrecho" class="textLabel">ID do Trecho: </label>
               <input
                 type="number"
-                name="idVoo"
+                name="idTrecho"
+                id="idTrecho"
                 class="box"
                 placeholder="9510"
                 required
@@ -362,10 +343,13 @@
                   </span>
                 </p>
                 <p class="control">
-                  <input class="input" type="text" placeholder="700" />
+                  <input class="input" type="number" id="idValor" placeholder="700" />
                 </p>
               </div>
-              <button class="button is-link is-medium">Cadastrar</button>
+              <button type="button"
+              onclick="inserirVoo();"
+              id="btnCadastrar"
+              name="btnCadastrar">Cadastrar Voo</button>
             </div>
           </form>
         </div>
