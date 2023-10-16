@@ -275,7 +275,7 @@ app.get("/obterCidades", async (req, res) => {
 
 //PUT Inserindo cidades no BD
 app.put("/inserirCidade",async (req, res)=>{
-  console.log("\nEntrou no PUT! /InserirAronave\n");
+  console.log("\nEntrou no PUT! /InserirCidade\n");
 
   let cr: CustomResponse = {
     status: "ERROR",

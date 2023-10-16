@@ -10,28 +10,28 @@
     <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
     <title>Cadastro de aeronaves e voos</title>
     <script>
-      function fetchInserir(body) {
+
+      //FUNCAO PADRAO PARA ENVIO
+      function fetchInserir(rota, body) {
         const requestOptions = {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
         };
 
-        return fetch('http://localhost:3000/inserirAeronave', requestOptions)
+        return fetch(rota, requestOptions)
         .then(T => T.json())
       }
 
-      
+      //INSERIR AERONAVE
       function inserirAeronave(){
 
         const fabricante = document.getElementById("fabricanteInput").value;
         const modelo = document.getElementById("modelo").value;
         const anoFab = document.getElementById("anoFabricacao").value;
-        /*const referencia = document.getElementById("referencia").value;
-        const totalAssentos = document.getElementById("totalAssentos").value;*/
+        let rota = 'http://localhost:3000/inserirAeronave';
 
-        // ESTUDAR O CONCEITO DE PROMISES.
-        fetchInserir({
+        fetchInserir(rota, {
             fabricante: fabricante, 
             modelo: modelo, 
             anoFabricacao: anoFab})
@@ -48,8 +48,59 @@
               showStatusMessage("Erro técnico ao cadastrar... Contate o suporte.", true);
               console.log("Falha grave ao cadastrar.")
             });
-        
+      }      
+
+      //INSERIR CIDADE
+      function inserirCidade(){
+
+        const nomeCidade = document.getElementById("nomeCidade").value;
+        let rota = 'http://localhost:3000/inserirCidade';
+
+        fetchInserir(rota, {
+            nome: nomeCidade})
+            .then(resultado => {
+              // obteve resposta, vamos simplesmente exibir como mensagem: 
+              if(resultado.status === "SUCCESS"){
+                showStatusMessage("Cidade cadastrada... ", false);
+              }else{
+                showStatusMessage("Erro ao cadastrar cidade...: " + message, true);
+                console.log(resultado.message);
+              }
+            })
+            .catch(()=>{
+              showStatusMessage("Erro técnico ao cadastrar... Contate o suporte.", true);
+              console.log("Falha grave ao cadastrar.")
+            });
       }
+
+      //INSERIR TRAJETO
+      function inserirTrajeto(){
+
+        const tipo = document.getElementById("tipo").value;
+        const cidade_origem = document.getElementById("cidade_origem").value;
+        const cidade_destino = document.getElementById("cidade_destino").value;
+
+        let rota = 'http://localhost:3000/inserirTrecho';
+
+        fetchInserir(rota, {
+            tipo: tipo,
+            cidade_origem: cidade_origem,
+            cidade_destino: cidade_destino})
+            .then(resultado => {
+              // obteve resposta, vamos simplesmente exibir como mensagem: 
+              if(resultado.status === "SUCCESS"){
+                showStatusMessage("Trajeto cadastrado... ", false);
+              }else{
+                showStatusMessage("Erro ao cadastrar trajeto...: " + message, true);
+                console.log(resultado.message);
+              }
+            })
+            .catch(()=>{
+              showStatusMessage("Erro técnico ao cadastrar... Contate o suporte.", true);
+              console.log("Falha grave ao cadastrar.")
+            });
+      }  
+
       
     </script>
   </head>
@@ -139,37 +190,50 @@
                 required
               />
               <button type="button"
-              onclick=""
+              onclick="inserirCidade();"
               id="btnCadastrar"
               name="btnCadastrar">Cadastrar Cidade Tiago</button>
             </div>
           </form>
         </div>
         <div class="column is-4">
-          <h1 class="texth1">Cadastrar trajetos e aeroportos</h1>
+          <h1 class="texth1">Cadastrar trajetos</h1>
           <form>
             <div class="cadastroDiv">
-              <label for="fabricante" class="textLabel">Aeroportos: </label>
+              <label for="fabricante" class="textLabel">Tipo: </label>
               <input
                 type="text"
-                id="fabricante"
+                id="tipo"
                 class="box"
-                placeholder="Congonhas"
+                placeholder="Ida | Volta"
                 name="aeroportos"
                 required
               />
 
-              <label for="fabricante" class="textLabel">Trajeto: </label>
+              <label for="fabricante" class="textLabel">Cidade Origem: </label>
               <input
                 type="text"
-                id="fabricante"
+                id="cidade_origem"
                 class="box"
-                placeholder="Campians - São Paulo"
+                placeholder="Campians"
                 name="trajetos"
                 required
               />
 
-              <button class="button is-link is-medium">Cadastrar</button>
+              <label for="fabricante" class="textLabel">Cidade Destino: </label>
+              <input
+                type="text"
+                id="cidade_destino"
+                class="box"
+                placeholder="Salvador"
+                name="trajetos"
+                required
+              />
+              <button type="button"
+              onclick="inserirTrajeto();"
+              id="btnCadastrar"
+              name="btnCadastrar">Cadastrar Trajeto</button>
+              
             </div>
           </form>
         </div>

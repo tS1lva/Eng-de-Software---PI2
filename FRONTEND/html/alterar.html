@@ -10,25 +10,27 @@
     <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
     <title>Alterar dados</title>
     <script>
-      function fetchAlterar(body) {
+      //FUNCAO PADRAO PARA ALTERAR
+      function fetchAlterar(rota, body) {
         const requestOptions = {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
         };
 
-        return fetch('http://localhost:3000/alterarAeronave', requestOptions)
+        return fetch(rota, requestOptions)
           .then(response => response.json());
         }
 
-
+      //ALTERAR AERONAVE
       function alterarAeronave() {
         const modelo = document.getElementById("novoModelo").value;
         const anoFabricacao = document.getElementById("novoAnoFabricado").value;
         const fabricante = document.getElementById("novoFabricante").value;
         const codigo = document.getElementById("idAeronave").value;
+        let rota = 'http://localhost:3000/alterarAeronave';
 
-        fetchAlterar({
+        fetchAlterar(rota, {
           modelo: modelo,
           anoFabricacao: anoFabricacao,
           fabricante: fabricante,
@@ -43,6 +45,32 @@
             console.error("Erro ao alterar aeronave:", error);
           });
       }
+      
+      //ALTERAR TRAJETO
+      function alterarTrajeto() {
+        const modelo = document.getElementById("novoModelo").value;
+        const anoFabricacao = document.getElementById("novoAnoFabricado").value;
+        const fabricante = document.getElementById("novoFabricante").value;
+        const codigo = document.getElementById("idAeronave").value;
+        let rota = 'http://localhost:3000/alterarAeronave';
+
+        fetchAlterar(rota, {
+          modelo: modelo,
+          anoFabricacao: anoFabricacao,
+          fabricante: fabricante,
+          codigo: codigo
+        })
+          .then(data => {
+            // Lida com a resposta da operação de alteração, se necessário
+            console.log("Aeronave alterada com sucesso:", data);
+          })
+          .catch(error => {
+            // Lida com erros, se houver algum
+            console.error("Erro ao alterar aeronave:", error);
+          });
+      }
+    
+    
     </script>
   </head>
   <body>

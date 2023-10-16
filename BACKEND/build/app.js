@@ -259,7 +259,7 @@ app.get("/obterCidades", (req, res) => __awaiter(void 0, void 0, void 0, functio
 }));
 //PUT Inserindo cidades no BD
 app.put("/inserirCidade", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("\nEntrou no PUT! /InserirAronave\n");
+    console.log("\nEntrou no PUT! /InserirCidade\n");
     let cr = {
         status: "ERROR",
         message: "",
