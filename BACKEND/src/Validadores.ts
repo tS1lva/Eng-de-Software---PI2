@@ -2,6 +2,7 @@ import { Aeronave } from "./Aeronave";
 import { Cidade } from "./Cidade";
 import { Aeroporto } from "./Aeroportos";
 import { Trecho } from "./trecho";
+import { Voo } from "./voo";
 
 // neste arquivo colocaremos TODAS as funções de validação para todo tipo de objeto. 
 
@@ -101,6 +102,30 @@ export function trechoValida(trecho: Trecho) {
     mensagem = "Cidade destino não informado";
   }  
 
+  if(mensagem === ""){
+    valida = true;
+  }
+
+  return [valida, mensagem] as const;
+}
+
+//Validando Voo
+
+export function vooValida(voo: Voo) {
+
+  let valida = false;
+  let mensagem = "";
+
+  if(voo.id_techo === undefined){
+      mensagem = "Trecho não informado";
+  }
+  if(voo.valor === undefined){
+    mensagem = "Preço não informado";
+  }
+  if((voo.valor !== undefined) && (voo.valor < 500)){
+    mensagem = "Voo está muito barato";
+  }
+    
   if(mensagem === ""){
     valida = true;
   }
