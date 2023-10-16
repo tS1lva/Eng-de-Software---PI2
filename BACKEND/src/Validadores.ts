@@ -125,7 +125,13 @@ export function vooValida(voo: Voo) {
   if((voo.valor !== undefined) && (voo.valor < 500)){
     mensagem = "Voo está muito barato";
   }
-    
+  if(voo.aeroporto_origem === undefined){
+    mensagem = "Aeroporto de origem não informado";
+  }
+  if(voo.aeroporto_chegada === undefined){
+    mensagem = "Aeroporto de chegada não informado";
+  }
+  
   if(mensagem === ""){
     valida = true;
   }

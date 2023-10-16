@@ -793,7 +793,7 @@ app.get("/obterVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
         // Modifique a consulta SQL para incluir o campo "codigo"
-        let resultadoConsulta = yield connection.execute("SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor FROM VOO");
+        let resultadoConsulta = yield connection.execute("SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, valor FROM VOO");
         //await connection.close();APAGAR
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
@@ -834,10 +834,10 @@ app.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function*
         let connection;
         try {
             const cmdInsertVoo = `INSERT INTO VOO  
-      (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor)
+      (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, valor)
       VALUES
-      (SEQ_TRECHO.NEXTVAL, :1, :2, :3, :4, :5, :6)`;
-            const dados = [voo.hora_origem, voo.data_origem, voo.hora_chegada, voo.data_chegada, voo.id_techo, voo.valor];
+      (SEQ_TRECHO.NEXTVAL, :1, :2, :3, :4, :5, :6, :7, :8)`;
+            const dados = [voo.hora_origem, voo.data_origem, voo.hora_chegada, voo.data_chegada, voo.aeroporto_origem, voo.aeroporto_chegada, voo.id_techo, voo.valor];
             connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
             let resInsert = yield connection.execute(cmdInsertVoo, dados);
             // importante: efetuar o commit para gravar no Oracle.
@@ -891,10 +891,12 @@ app.put("/alterarVoo", (req, res) => __awaiter(void 0, void 0, void 0, function*
                           data_origem = :2,
                           hora_chegada = :3,
                           data_chegada = :4,
-                          trecho_id = :5,
-                          valor = :6
-                          WHERE id_voo = :7`;
-        const dadosUpdate = [voo.hora_origem, voo.data_origem, voo.hora_chegada, voo.data_chegada, voo.id_techo, voo.valor, voo.codigo];
+                          aeroporto_origem = :5,
+                          aeroporto_chegada = :6,
+                          trecho_id = :7,
+                          valor = :8
+                          WHERE id_voo = :9`;
+        const dadosUpdate = [voo.hora_origem, voo.data_origem, voo.hora_chegada, voo.data_chegada, voo.aeroporto_origem, voo.aeroporto_chegada, voo.id_techo, voo.valor, voo.codigo];
         console.log(voo);
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
         let resUpdateVoo = yield connection.execute(cmdUpdateVoo, dadosUpdate);
