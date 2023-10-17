@@ -18,28 +18,6 @@
           body: JSON.stringify(body),
         };
 
-<<<<<<< HEAD
-        return fetch(
-          "http://localhost:3000/inserirAeronave",
-          requestOptions
-        ).then((T) => T.json());
-      }
-
-      function inserirAeronave() {
-        const fabricante = document.getElementById("fabricante").value;
-        const modelo = document.getElementById("modelo").value;
-        const anoFab = document.getElementById("anoFabricacao").value;
-        const registro = "Registro padrao";
-        const totalAssentos = 555;
-
-        fetchInserir({
-          marca: fabricante,
-          modelo: modelo,
-          qtdeAssentos: totalAssentos,
-          registro: registro,
-        })
-          .then((resultado) => {
-=======
         return fetch(rota, requestOptions).then((T) => T.json());
       }
 
@@ -159,7 +137,6 @@
         })
           .then((resultado) => {
             // obteve resposta, vamos simplesmente exibir como mensagem:
->>>>>>> Desenvolvimento
             if (resultado.status === "SUCCESS") {
               showStatusMessage("Aeronave cadastrada... ", false);
             } else {
@@ -229,13 +206,8 @@
     </header>
 
     <main>
-<<<<<<< HEAD
-      <div class="columns is-desktop is-centered">
-        <div class="column is-4">
-=======
       <div id="main" class="columns is-desktop is-centered">
         <div class="column is-2">
->>>>>>> Desenvolvimento
           <h1 class="texth1">Cadastrar aeronaves</h1>
           <form>
             <div class="cadastroDiv">
@@ -270,11 +242,7 @@
                 name="anoFabricado"
                 required
               />
-<<<<<<< HEAD
-
-=======
               <p id="mensagemErro" class="erro"></p>
->>>>>>> Desenvolvimento
               <button
                 type="button"
                 class="button is-link is-medium"
@@ -287,22 +255,6 @@
             </div>
           </form>
         </div>
-<<<<<<< HEAD
-        <div class="column is-4">
-          <h1 class="texth1">Cadastrar cidades:</h1>
-          <form>
-            <div class="cadastroDiv">
-              <label for="cidade" class="textLabel">Nome: </label>
-              <input
-                type="text"
-                id="cidade"
-                class="box"
-                placeholder="Campinas"
-                name="cidade"
-                required
-              />
-              <button class="button is-link is-medium">Cadastrar</button>
-=======
 
         <div class="column is-2">
           <h1 class="texth1">Cadastrar aeroportos</h1>
@@ -411,7 +363,6 @@
               >
                 Cadastrar
               </button>
->>>>>>> Desenvolvimento
             </div>
           </form>
         </div>
@@ -456,45 +407,6 @@
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div class="columns is-desktop is-centered">
-        <div class="column is-4">
-          <h1 class="texth1">Cadastrar aeroportos</h1>
-          <form>
-            <div class="cadastroDiv">
-              <label for="nomeAeroporto" class="textLabel">Nome: </label>
-              <input
-                type="text"
-                id="nomeAeroporto"
-                class="box"
-                placeholder="Viracopos"
-                name="nomeAeroporto"
-                required
-              />
-              <label for="cidadeAeroporto" class="textLabel"
-                >Cidade em que o aeroporto se localiza:
-              </label>
-              <input
-                type="text"
-                id="cidadeAeroporto"
-                class="box"
-                placeholder="Sao Paulo"
-                name="cidadeAeroporto"
-                required
-              />
-              <button class="button is-link is-medium">Cadastrar</button>
-            </div>
-          </form>
-        </div>
-        <div class="column is-4">
-          <h1 class="texth1">Cadastrar voos</h1>
-          <form>
-            <div class="cadastroDiv">
-              <label for="data" class="textLabel">Data de origem:</label>
-              <input type="date" class="box" id="data" name="data" required />
-
-              <label for="horaPartida" class="textLabel"
-=======
         <div class="column is-2">
           <h1 class="texth1">Cadastrar voos</h1>
           <form>
@@ -538,7 +450,6 @@
               />
 
               <label for="horaPartida:" class="textLabel"
->>>>>>> Desenvolvimento
                 >Horário previsto de partida:</label
               >
               <input
@@ -571,18 +482,11 @@
                 required
               />
 
-<<<<<<< HEAD
-              <label for="idTrajeto" class="textLabel">ID do trajeto:</label>
-              <input
-                type="number"
-                name="idTrajeto"
-=======
               <label for="idTrecho" class="textLabel">ID do Trecho: </label>
               <input
                 type="number"
                 name="idTrecho"
                 id="idTrecho"
->>>>>>> Desenvolvimento
                 class="box"
                 placeholder="9510"
                 required
