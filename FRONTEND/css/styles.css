@@ -8,9 +8,7 @@ body {
 }
 
 .imagem {
-    margin-left: 18em;
-    padding-bottom: 3em;
-    height: 90vh;
+    margin-left: 37%;
 }
 
 .superior {
@@ -24,7 +22,6 @@ body {
 }
 
 .superior a {
-    font-size: 0.9em;
     transition: color 0.3s;
     text-decoration: none;
     color: inherit;

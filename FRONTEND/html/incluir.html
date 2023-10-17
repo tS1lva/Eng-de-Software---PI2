@@ -8,7 +8,7 @@
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
     <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
-    <title>Cadastro de Aeronaves e Voos</title>
+    <title>Cadastro de aeronaves e voos</title>
     <script>
       //FUNCAO PADRAO PARA ENVIO
       function fetchInserir(rota, body) {
@@ -195,8 +195,10 @@
   <body>
     <header>
       <div class="superior">
-        <a href="#"><strong>← Home</strong></a>
-        <a href="/FRONTEND/html/adm.html"><strong>Administrador</strong></a>
+        <a><strong>← Home</strong></a>
+        <a href="/FRONTEND/html/adm.html"
+          ><p><strong>Administrador</strong></p></a
+        >
         <div class="opcoes">
           <a href="/FRONTEND/html/incluir.html"><strong>Incluir</strong></a>
           <a href="/FRONTEND/html/alterar.html"><strong>Alterar</strong></a>
@@ -218,6 +220,18 @@
                 class="box"
                 placeholder="Airbus A380"
                 name="modelo"
+                required
+              />
+
+              <label for="idAeronave" class="textLabel"
+                >Número de identificação da aeronave:</label
+              >
+              <input
+                type="number"
+                id="idAeronave"
+                placeholder="09676"
+                class="box"
+                name="idAeronave"
                 required
               />
 
@@ -366,46 +380,6 @@
             </div>
           </form>
         </div>
-        <div class="column is-4">
-          <h1 class="texth1">Cadastrar trajetos</h1>
-          <form>
-            <div class="cadastroDiv">
-              <label for="trajeto" class="textLabel">Tipo: </label>
-              <br />
-              <div class="select">
-                <select id="trajeto" class="box">
-                  <option value="cmpsp">Ida</option>
-                  <option value="spcmp">Volta</option>
-                </select>
-              </div>
-              <br />
-              <label for="cidadeSaida" class="textLabel"
-                >Cidade de saída:
-              </label>
-              <input
-                type="text"
-                id="cidadeSaida"
-                class="box"
-                placeholder="Campinas"
-                name="cidadeSaida"
-                required
-              />
-              <label for="cidadeChegada" class="textLabel"
-                >Cidade de chegada:
-              </label>
-              <input
-                type="text"
-                id="cidadeChegada"
-                class="box"
-                placeholder="Sao Paulo"
-                name="cidadeChegada"
-                required
-              />
-              <button class="button is-link is-medium">Cadastrar</button>
-            </div>
-          </form>
-        </div>
-      </div>
 
         <div class="column is-2">
           <h1 class="texth1">Cadastrar voos</h1>
@@ -460,17 +434,6 @@
                 required
               />
 
-              <label for="dataChegada" class="textLabel"
-                >Data de chegada:</label
-              >
-              <input
-                type="date"
-                class="box"
-                id="dataChegada"
-                name="dataChegada"
-                required
-              />
-
               <label for="horaChegada" class="textLabel"
                 >Horário previsto para chegada:</label
               >
@@ -492,10 +455,20 @@
                 required
               />
 
-              <label for="valorAssento" class="textLabel"
-                >Valor por assento (R$):</label
+              <label for="valorAssento:" class="textLabel"
+                >Valor por assento:</label
               >
               <div class="field has-addons">
+                <p class="currencySelect">
+                  <span class="select">
+                    <select>
+                      <option>R$</option>
+                      <option>$</option>
+                      <option>£</option>
+                      <option>€</option>
+                    </select>
+                  </span>
+                </p>
                 <p class="control">
                   <input
                     class="input"
