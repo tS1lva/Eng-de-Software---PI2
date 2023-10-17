@@ -101,27 +101,6 @@
       function excluirVoo() {
         const codigo = document.getElementById("idVoo").value;
 
-<<<<<<< HEAD
-    <div>
-      <form>
-        <label for="idVoo" class="textLabel">Id do Voo:</label>
-        <input
-        type="number"
-        id="idVoo"
-        placeholder="09676"
-        class="box"
-        name="idVoo"
-        required/>
-        <button type="button" 
-        onclick="excluirVoo();"
-        id="btnExcluir"
-        name="btnExcluir">Excluir voo</button>
-      </form>
-    </div>
-  </main>
-</body>
-</html>
-=======
         fetch(`http://localhost:3000/excluirVoo`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -287,4 +266,3 @@
     </main>
   </body>
 </html>
->>>>>>> 38e55c7369bde69ea00bb1cf1dfe87736195f4ca
