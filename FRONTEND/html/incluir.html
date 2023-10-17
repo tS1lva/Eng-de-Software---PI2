@@ -10,136 +10,157 @@
     <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
     <title>Cadastro de aeronaves e voos</title>
     <script>
-
       //FUNCAO PADRAO PARA ENVIO
       function fetchInserir(rota, body) {
         const requestOptions = {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
         };
 
-        return fetch(rota, requestOptions)
-        .then(T => T.json())
+        return fetch(rota, requestOptions).then((T) => T.json());
       }
 
       //INSERIR AERONAVE
-      function inserirAeronave(){
-
+      function inserirAeronave() {
         const fabricante = document.getElementById("fabricanteInput").value;
         const modelo = document.getElementById("modelo").value;
         const anoFab = document.getElementById("anoFabricacao").value;
-        let rota = 'http://localhost:3000/inserirAeronave';
+        let rota = "http://localhost:3000/inserirAeronave";
 
         fetchInserir(rota, {
-            fabricante: fabricante, 
-            modelo: modelo, 
-            anoFabricacao: anoFab})
-            .then(resultado => {
-              // obteve resposta, vamos simplesmente exibir como mensagem: 
-              if(resultado.status === "SUCCESS"){
-                showStatusMessage("Aeronave cadastrada... ", false);
-              }else{
-                showStatusMessage("Erro ao cadastrar aeronave...: " + message, true);
-                console.log(resultado.message);
-              }
-            })
-            .catch(()=>{
-              showStatusMessage("Erro técnico ao cadastrar... Contate o suporte.", true);
-              console.log("Falha grave ao cadastrar.")
-            });
-      }      
+          fabricante: fabricante,
+          modelo: modelo,
+          anoFabricacao: anoFab,
+        })
+          .then((resultado) => {
+            // obteve resposta, vamos simplesmente exibir como mensagem:
+            if (resultado.status === "SUCCESS") {
+              showStatusMessage("Aeronave cadastrada... ", false);
+            } else {
+              showStatusMessage(
+                "Erro ao cadastrar aeronave...: " + message,
+                true
+              );
+              console.log(resultado.message);
+            }
+          })
+          .catch(() => {
+            showStatusMessage(
+              "Erro técnico ao cadastrar... Contate o suporte.",
+              true
+            );
+            console.log("Falha grave ao cadastrar.");
+          });
+      }
 
       //INSERIR CIDADE
-      function inserirCidade(){
-
+      function inserirCidade() {
         const nomeCidade = document.getElementById("nomeCidade").value;
-        let rota = 'http://localhost:3000/inserirCidade';
+        let rota = "http://localhost:3000/inserirCidade";
 
         fetchInserir(rota, {
-            nome: nomeCidade})
-            .then(resultado => {
-              // obteve resposta, vamos simplesmente exibir como mensagem: 
-              if(resultado.status === "SUCCESS"){
-                showStatusMessage("Cidade cadastrada... ", false);
-              }else{
-                showStatusMessage("Erro ao cadastrar cidade...: " + message, true);
-                console.log(resultado.message);
-              }
-            })
-            .catch(()=>{
-              showStatusMessage("Erro técnico ao cadastrar... Contate o suporte.", true);
-              console.log("Falha grave ao cadastrar.")
-            });
+          nome: nomeCidade,
+        })
+          .then((resultado) => {
+            // obteve resposta, vamos simplesmente exibir como mensagem:
+            if (resultado.status === "SUCCESS") {
+              showStatusMessage("Cidade cadastrada... ", false);
+            } else {
+              showStatusMessage(
+                "Erro ao cadastrar cidade...: " + message,
+                true
+              );
+              console.log(resultado.message);
+            }
+          })
+          .catch(() => {
+            showStatusMessage(
+              "Erro técnico ao cadastrar... Contate o suporte.",
+              true
+            );
+            console.log("Falha grave ao cadastrar.");
+          });
       }
 
       //INSERIR TRAJETO
-      function inserirTrajeto(){
-
+      function inserirTrajeto() {
         const tipo = document.getElementById("tipo").value;
         const cidade_origem = document.getElementById("cidade_origem").value;
         const cidade_destino = document.getElementById("cidade_destino").value;
 
-        let rota = 'http://localhost:3000/inserirTrecho';
+        let rota = "http://localhost:3000/inserirTrecho";
 
         fetchInserir(rota, {
-            tipo: tipo,
-            cidade_origem: cidade_origem,
-            cidade_destino: cidade_destino})
-            .then(resultado => {
-              // obteve resposta, vamos simplesmente exibir como mensagem: 
-              if(resultado.status === "SUCCESS"){
-                showStatusMessage("Trajeto cadastrado... ", false);
-              }else{
-                showStatusMessage("Erro ao cadastrar trajeto...: " + message, true);
-                console.log(resultado.message);
-              }
-            })
-            .catch(()=>{
-              showStatusMessage("Erro técnico ao cadastrar... Contate o suporte.", true);
-              console.log("Falha grave ao cadastrar.")
-            });
-      }  
-
+          tipo: tipo,
+          cidade_origem: cidade_origem,
+          cidade_destino: cidade_destino,
+        })
+          .then((resultado) => {
+            // obteve resposta, vamos simplesmente exibir como mensagem:
+            if (resultado.status === "SUCCESS") {
+              showStatusMessage("Trajeto cadastrado... ", false);
+            } else {
+              showStatusMessage(
+                "Erro ao cadastrar trajeto...: " + message,
+                true
+              );
+              console.log(resultado.message);
+            }
+          })
+          .catch(() => {
+            showStatusMessage(
+              "Erro técnico ao cadastrar... Contate o suporte.",
+              true
+            );
+            console.log("Falha grave ao cadastrar.");
+          });
+      }
 
       //INSERIR VOO
-      function inserirVoo(){
-
+      function inserirVoo() {
         const horaPartida = document.getElementById("horaPartida").value;
         const horaChegada = document.getElementById("horaChegada").value;
         const dataPartida = document.getElementById("dataPartida").value;
         const dataChegada = document.getElementById("dataChegada").value;
         const idTrecho = document.getElementById("idTrecho").value;
         const idValor = document.getElementById("idValor").value;
-        const aeroportoPartida = document.getElementById("aeroportoPartida").value;
-        const aeroportoChegada = document.getElementById("aeroportoChegada").value;
+        const aeroportoPartida =
+          document.getElementById("aeroportoPartida").value;
+        const aeroportoChegada =
+          document.getElementById("aeroportoChegada").value;
 
-        let rota = 'http://localhost:3000/inserirVoo';
+        let rota = "http://localhost:3000/inserirVoo";
 
         fetchInserir(rota, {
-          hora_origem: horaPartida , 
-          hora_chegada: horaChegada, 
+          hora_origem: horaPartida,
+          hora_chegada: horaChegada,
           data_origem: dataPartida,
-          data_chegada:dataChegada,
+          data_chegada: dataChegada,
           id_techo: idTrecho,
           valor: idValor,
           aeroporto_origem: aeroportoPartida,
-          aeroporto_chegada: aeroportoChegada
-
+          aeroporto_chegada: aeroportoChegada,
         })
-            .then(resultado => {
-              // obteve resposta, vamos simplesmente exibir como mensagem: 
-              if(resultado.status === "SUCCESS"){
-                showStatusMessage("Aeronave cadastrada... ", false);
-              }else{
-                showStatusMessage("Erro ao cadastrar aeronave...: " + message, true);
-                console.log(resultado.message);
-              }
-            })
-            .catch(()=>{
-              showStatusMessage("Erro técnico ao cadastrar... Contate o suporte.", true);
-              console.log("Falha grave ao cadastrar.")
-            });
+          .then((resultado) => {
+            // obteve resposta, vamos simplesmente exibir como mensagem:
+            if (resultado.status === "SUCCESS") {
+              showStatusMessage("Aeronave cadastrada... ", false);
+            } else {
+              showStatusMessage(
+                "Erro ao cadastrar aeronave...: " + message,
+                true
+              );
+              console.log(resultado.message);
+            }
+          })
+          .catch(() => {
+            showStatusMessage(
+              "Erro técnico ao cadastrar... Contate o suporte.",
+              true
+            );
+            console.log("Falha grave ao cadastrar.");
+          });
       }
     </script>
   </head>
@@ -208,13 +229,80 @@
                 required
               />
               <p id="mensagemErro" class="erro"></p>
-              <button type="button" 
-              onclick="inserirAeronave();"
-              id="btnCadastrar"
-              name="btnCadastrar">Cadastrar Tiago</button>
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="inserirAeronave();"
+                id="btnCadastrar"
+                name="btnCadastrar"
+              >
+                Cadastrar Tiago
+              </button>
             </div>
           </form>
         </div>
+
+        <div class="column is-2">
+          <h1 class="texth1">Cadastrar aeronaves</h1>
+          <form>
+            <div class="cadastroDiv">
+              <label for="modelo" class="textLabel">Modelo: </label>
+              <input
+                type="text"
+                id="modelo"
+                class="box"
+                placeholder="Airbus A380"
+                name="modelo"
+                required
+              />
+
+              <label for="idAeronave" class="textLabel"
+                >Número de identificação da aeronave:</label
+              >
+              <input
+                type="number"
+                id="idAeronave"
+                placeholder="09676"
+                class="box"
+                name="idAeronave"
+                required
+              />
+
+              <label for="fabricante" class="textLabel">Fabricante: </label>
+              <input
+                type="text"
+                id="fabricanteInput"
+                class="box"
+                placeholder="Airbus"
+                name="fabricante"
+                required
+              />
+
+              <label for="anoFabricacao" class="textLabel"
+                >Ano de fabricação:</label
+              >
+              <input
+                type="number"
+                id="anoFabricacao"
+                placeholder="2019"
+                class="box"
+                name="anoFabricado"
+                required
+              />
+              <p id="mensagemErro" class="erro"></p>
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="inserirAeronave();"
+                id="btnCadastrar"
+                name="btnCadastrar"
+              >
+                Cadastrar Tiago
+              </button>
+            </div>
+          </form>
+        </div>
+
         <div class="column is-2">
           <h1 class="texth1">Cadastrar cidades</h1>
           <form>
@@ -228,10 +316,15 @@
                 name="nomeCidade"
                 required
               />
-              <button type="button"
-              onclick="inserirCidade();"
-              id="btnCadastrar"
-              name="btnCadastrar">Cadastrar Cidade Tiago</button>
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="inserirCidade();"
+                id="btnCadastrar"
+                name="btnCadastrar"
+              >
+                Cadastrar Cidade Tiago
+              </button>
             </div>
           </form>
         </div>
@@ -268,11 +361,15 @@
                 name="trajetos"
                 required
               />
-              <button type="button"
-              onclick="inserirTrajeto();"
-              id="btnCadastrar"
-              name="btnCadastrar">Cadastrar Trajeto</button>
-              
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="inserirTrajeto();"
+                id="btnCadastrar"
+                name="btnCadastrar"
+              >
+                Cadastrar Trajeto
+              </button>
             </div>
           </form>
         </div>
@@ -282,41 +379,64 @@
           <form>
             <div class="cadastroDiv">
               <label for="dataPartida" class="textLabel">Data Partida:</label>
-              <input type="date" class="box" id="dataPartida" name="data" required />
+              <input
+                type="date"
+                class="box"
+                id="dataPartida"
+                name="data"
+                required
+              />
 
               <label for="dataChegada" class="textLabel">Data Chegada:</label>
-              <input type="date" class="box" id="dataChegada" name="data" required />
+              <input
+                type="date"
+                class="box"
+                id="dataChegada"
+                name="data"
+                required
+              />
 
               <label for="trajeto" class="textLabel">Aeroporto Partida</label>
 
               <input
-              type="number"
-              id="aeroportoPartida"
-              class="box"
-              placeholder=""
-              required
-            />
+                type="number"
+                id="aeroportoPartida"
+                class="box"
+                placeholder=""
+                required
+              />
 
               <label for="trajeto" class="textLabel">Aeroporto Chegada</label>
 
               <input
-              type="number"
-              id="aeroportoChegada"
-              class="box"
-              placeholder=""
-              required
-            />
+                type="number"
+                id="aeroportoChegada"
+                class="box"
+                placeholder=""
+                required
+              />
 
               <label for="horaPartida:" class="textLabel"
                 >Horário previsto de partida:</label
               >
-              <input type="time" class="box" id="horaPartida" name="horaPartida" required />
+              <input
+                type="time"
+                class="box"
+                id="horaPartida"
+                name="horaPartida"
+                required
+              />
 
               <label for="horaChegada" class="textLabel"
                 >Horário previsto para chegada:</label
               >
-              <input type="time" class="box" id="horaChegada" name="horaChegada" required />
-
+              <input
+                type="time"
+                class="box"
+                id="horaChegada"
+                name="horaChegada"
+                required
+              />
 
               <label for="idTrecho" class="textLabel">ID do Trecho: </label>
               <input
@@ -343,13 +463,23 @@
                   </span>
                 </p>
                 <p class="control">
-                  <input class="input" type="number" id="idValor" placeholder="700" />
+                  <input
+                    class="input"
+                    type="number"
+                    id="idValor"
+                    placeholder="700"
+                  />
                 </p>
               </div>
-              <button type="button"
-              onclick="inserirVoo();"
-              id="btnCadastrar"
-              name="btnCadastrar">Cadastrar Voo</button>
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="inserirVoo();"
+                id="btnCadastrar"
+                name="btnCadastrar"
+              >
+                Cadastrar Voo
+              </button>
             </div>
           </form>
         </div>

@@ -1,209 +1,268 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deletar</title>
-  <script>
-    //DELETAR AERONAVE
-    function excluirAeronave() {
-    const codigo = document.getElementById("idAeronave").value;
-    
-    fetch(`http://localhost:3000/excluirAeronave`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ codigo: codigo })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === "SUCCESS") {
-          alert("Aeronave excluída com sucesso: " + data.message);
-        } else {
-          alert("Erro ao excluir aeronave: " + data.message);
-        }
-      })
-      .catch(error => {
-        alert("Erro ao excluir aeronave: " + error.message);
-      });
-  }
-    //DELETAR CIDADE
-    function excluirCidade() {
-    const codigo = document.getElementById("idCidade").value;
-    
-    fetch(`http://localhost:3000/excluirCidade`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ codigo: codigo })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === "SUCCESS") {
-          alert("Cidade excluída com sucesso: " + data.message);
-        } else {
-          alert("Erro ao excluir cidade: " + data.message);
-        }
-      })
-      .catch(error => {
-        alert("Erro ao excluir cidade: " + error.message);
-      });
-  }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
+    <title>Deletar</title>
+    <script>
+      //DELETAR AERONAVE
+      function excluirAeronave() {
+        const codigo = document.getElementById("idAeronave").value;
 
-    //DELETAR AEROPORTO
-    function excluirAeroporto() {
-    const codigo = document.getElementById("idAeroporto").value;
-    
-    fetch(`http://localhost:3000/excluirAeroporto`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ codigo: codigo })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === "SUCCESS") {
-          alert("Aeroporto excluída com sucesso: " + data.message);
-        } else {
-          alert("Erro ao excluir Aeroporto: " + data.message);
-        }
-      })
-      .catch(error => {
-        alert("Erro ao excluir Aeroporto: " + error.message);
-      });
-  }
+        fetch(`http://localhost:3000/excluirAeronave`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ codigo: codigo }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "SUCCESS") {
+              alert("Aeronave excluída com sucesso: " + data.message);
+            } else {
+              alert("Erro ao excluir aeronave: " + data.message);
+            }
+          })
+          .catch((error) => {
+            alert("Erro ao excluir aeronave: " + error.message);
+          });
+      }
+      //DELETAR CIDADE
+      function excluirCidade() {
+        const codigo = document.getElementById("idCidade").value;
 
-    //DELETAR Trecho
-    function excluirTrecho() {
-    const codigo = document.getElementById("idTrecho").value;
-    
-    fetch(`http://localhost:3000/excluirTrecho`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ codigo: codigo })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === "SUCCESS") {
-          alert("Trecho excluída com sucesso: " + data.message);
-        } else {
-          alert("Erro ao excluir Trecho: " + data.message);
-        }
-      })
-      .catch(error => {
-        alert("Erro ao excluir Trecho: " + error.message);
-      });
-  }
+        fetch(`http://localhost:3000/excluirCidade`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ codigo: codigo }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "SUCCESS") {
+              alert("Cidade excluída com sucesso: " + data.message);
+            } else {
+              alert("Erro ao excluir cidade: " + data.message);
+            }
+          })
+          .catch((error) => {
+            alert("Erro ao excluir cidade: " + error.message);
+          });
+      }
 
-    //DELETAR Voo
-    function excluirVoo() {
-    const codigo = document.getElementById("idVoo").value;
-    
-    fetch(`http://localhost:3000/excluirVoo`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ codigo: codigo })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === "SUCCESS") {
-          alert("Voo excluída com sucesso: " + data.message);
-        } else {
-          alert("Erro ao excluir Voo: " + data.message);
-        }
-      })
-      .catch(error => {
-        alert("Erro ao excluir Voo: " + error.message);
-      });
-  }
+      //DELETAR AEROPORTO
+      function excluirAeroporto() {
+        const codigo = document.getElementById("idAeroporto").value;
 
-  </script>
-</head>
-<body>
-  <head></head>
-  <main>
-    <div>
-      <form>
-        <label for="idAeronave" class="textLabel">Número de identificação da aeronave:</label>
-        <input
-        type="number"
-        id="idAeronave"
-        placeholder="09676"
-        class="box"
-        name="idAeronave"
-        required/>
-        <button type="button" 
-        onclick="excluirAeronave();"
-        id="btnExcluir"
-        name="btnExcluir">Excluir Aeronave</button>
-      </form>
-    </div>
+        fetch(`http://localhost:3000/excluirAeroporto`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ codigo: codigo }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "SUCCESS") {
+              alert("Aeroporto excluída com sucesso: " + data.message);
+            } else {
+              alert("Erro ao excluir Aeroporto: " + data.message);
+            }
+          })
+          .catch((error) => {
+            alert("Erro ao excluir Aeroporto: " + error.message);
+          });
+      }
 
-    <div>
-      <form>
-        <label for="idCidade" class="textLabel">Id da cidade:</label>
-        <input
-        type="number"
-        id="idCidade"
-        placeholder="09676"
-        class="box"
-        name="idCidade"
-        required/>
-        <button type="button" 
-        onclick="excluirCidade();"
-        id="btnExcluir"
-        name="btnExcluir">Excluir Aeronave</button>
-      </form>
-    </div>
+      //DELETAR Trecho
+      function excluirTrecho() {
+        const codigo = document.getElementById("idTrecho").value;
 
-    <div>
-      <form>
-        <label for="idAeroporto" class="textLabel">Id da aeroporto:</label>
-        <input
-        type="number"
-        id="idAeroporto"
-        placeholder="09676"
-        class="box"
-        name="idAeroporto"
-        required/>
-        <button type="button" 
-        onclick="excluirAeroporto();"
-        id="btnExcluir"
-        name="btnExcluir">Excluir aeroporto</button>
-      </form>
-    </div>
+        fetch(`http://localhost:3000/excluirTrecho`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ codigo: codigo }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "SUCCESS") {
+              alert("Trecho excluída com sucesso: " + data.message);
+            } else {
+              alert("Erro ao excluir Trecho: " + data.message);
+            }
+          })
+          .catch((error) => {
+            alert("Erro ao excluir Trecho: " + error.message);
+          });
+      }
 
-    <div>
-      <form>
-        <label for="idTrecho" class="textLabel">Id da cidade:</label>
-        <input
-        type="number"
-        id="idTrecho"
-        placeholder="09676"
-        class="box"
-        name="idTrecho"
-        required/>
-        <button type="button" 
-        onclick="excluirTrecho();"
-        id="btnExcluir"
-        name="btnExcluir">Excluir Trecho</button>
-      </form>
-    </div>
+      //DELETAR Voo
+      function excluirVoo() {
+        const codigo = document.getElementById("idVoo").value;
 
-    <div>
-      <form>
-        <label for="idVoo" class="textLabel">Id do Voo:</label>
-        <input
-        type="number"
-        id="idVoo"
-        placeholder="09676"
-        class="box"
-        name="idVoo"
-        required/>
-        <button type="button" 
-        onclick="excluirVoo();"
-        id="btnExcluir"
-        name="btnExcluir">Excluir voo</button>
-      </form>
-    </div>
+        fetch(`http://localhost:3000/excluirVoo`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ codigo: codigo }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "SUCCESS") {
+              alert("Voo excluída com sucesso: " + data.message);
+            } else {
+              alert("Erro ao excluir Voo: " + data.message);
+            }
+          })
+          .catch((error) => {
+            alert("Erro ao excluir Voo: " + error.message);
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="superior">
+        <a><strong>← Home</strong></a>
+        <a href="/FRONTEND/html/adm.html"
+          ><p><strong>Administrador</strong></p></a
+        >
+        <div class="opcoes">
+          <a href="/FRONTEND/html/incluir.html"><strong>Incluir</strong></a>
+          <a href="/FRONTEND/html/alterar.html"><strong>Alterar</strong></a>
+          <a href="/FRONTEND/html/deletar.html"><strong>Excluir</strong></a>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div id="main" class="columns is-desktop is-centered">
+        <div class="column is-visible">
+          <form>
+            <div class="cadastroDiv">
+              <label for="idAeronave" class="texth1"
+                >Número de identificação da aeronave:</label
+              >
+              <input
+                type="number"
+                id="idAeronave"
+                placeholder="09676"
+                class="box"
+                name="idAeronave"
+                required
+              />
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="excluirAeronave();"
+                id="btnExcluir"
+                name="btnExcluir"
+              >
+                Excluir Aeronave
+              </button>
+            </div>
+          </form>
+        </div>
 
-  </main>
-</body>
+        <div class="column is-visible">
+          <form>
+            <div class="cadastroDiv">
+              <label for="idCidade" class="texth1">Id da cidade:</label>
+              <input
+                type="number"
+                id="idCidade"
+                placeholder="09676"
+                class="box"
+                name="idCidade"
+                required
+              />
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="excluirCidade();"
+                id="btnExcluir"
+                name="btnExcluir"
+              >
+                Excluir Aeronave
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="column is-visible">
+          <form>
+            <div class="cadastroDiv">
+              <label for="idAeroporto" class="texth1">Id da aeroporto:</label>
+              <input
+                type="number"
+                id="idAeroporto"
+                placeholder="09676"
+                class="box"
+                name="idAeroporto"
+                required
+              />
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="excluirAeroporto();"
+                id="btnExcluir"
+                name="btnExcluir"
+              >
+                Excluir aeroporto
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="column is-visible">
+          <form>
+            <div class="cadastroDiv">
+              <label for="idTrecho" class="texth1">Id da cidade:</label>
+              <input
+                type="number"
+                id="idTrecho"
+                placeholder="09676"
+                class="box"
+                name="idTrecho"
+                required
+              />
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="excluirTrecho();"
+                id="btnExcluir"
+                name="btnExcluir"
+              >
+                Excluir Trecho
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="column is-visible">
+          <form>
+            <div class="cadastroDiv">
+              <label for="idVoo" class="texth1">Id do Voo:</label>
+              <input
+                type="number"
+                id="idVoo"
+                placeholder="09676"
+                class="box"
+                name="idVoo"
+                required
+              />
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="excluirVoo();"
+                id="btnExcluir"
+                name="btnExcluir"
+              >
+                Excluir voo
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
