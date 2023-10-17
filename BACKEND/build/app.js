@@ -36,7 +36,7 @@ app.get("/obterAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, funct
     try {
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
         // Modifique a consulta SQL para incluir o campo "codigo"
-        let resultadoConsulta = yield connection.execute("SELECT id_aeronave, modelo, ano_fabri, fabricante FROM AERONAVE");
+        let resultadoConsulta = yield connection.execute("SELECT id_aeronave, modelo, ano_fabri, fabricante  FROM AERONAVE ORDER BY id_aeronave");
         //await connection.close();APAGAR
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
@@ -236,7 +236,7 @@ app.get("/obterCidades", (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
         // Modifique a consulta SQL para incluir o campo "codigo"
-        let resultadoConsulta = yield connection.execute("SELECT id_cidade, nome from CIDADE");
+        let resultadoConsulta = yield connection.execute("SELECT id_cidade, nome from CIDADE ORDER BY id_cidade");
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
         cr.payload = (0, Conversores_1.rowsToCidades)(resultadoConsulta.rows);
@@ -420,7 +420,7 @@ app.get("/obterAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, funct
     try {
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
         // Modifique a consulta SQL para incluir o campo "codigo"
-        let resultadoConsulta = yield connection.execute("SELECT id_aeroporto, nome, cidade_id FROM AEROPORTO");
+        let resultadoConsulta = yield connection.execute("SELECT id_aeroporto, nome, cidade_id FROM AEROPORTO ORDER BY id_aeroporto");
         //await connection.close();APAGAR
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
@@ -607,7 +607,7 @@ app.get("/obterTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function
     try {
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
         // Modifique a consulta SQL para incluir o campo "codigo"
-        let resultadoConsulta = yield connection.execute("SELECT id_trecho, tipo, cidade_origem, cidade_destino FROM TRECHO");
+        let resultadoConsulta = yield connection.execute("SELECT id_trecho, tipo, cidade_origem, cidade_destino FROM TRECHO ORDER BY id_trecho");
         //await connection.close();APAGAR
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
@@ -793,7 +793,7 @@ app.get("/obterVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
         // Modifique a consulta SQL para incluir o campo "codigo"
-        let resultadoConsulta = yield connection.execute("SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, valor FROM VOO");
+        let resultadoConsulta = yield connection.execute("SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, valor FROM VOO ORDER BY id_voo");
         //await connection.close();APAGAR
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";

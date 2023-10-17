@@ -34,7 +34,7 @@ app.get("/obterAeronaves", async (req, res) => {
   try {
     connection = await oracledb.getConnection(oraConnAttribs);
     // Modifique a consulta SQL para incluir o campo "codigo"
-    let resultadoConsulta = await connection.execute("SELECT id_aeronave, modelo, ano_fabri, fabricante FROM AERONAVE");
+    let resultadoConsulta = await connection.execute("SELECT id_aeronave, modelo, ano_fabri, fabricante  FROM AERONAVE ORDER BY id_aeronave");
 
     //await connection.close();APAGAR
     cr.status = "SUCCESS";
@@ -253,7 +253,7 @@ app.get("/obterCidades", async (req, res) => {
   try {
     connection = await oracledb.getConnection(oraConnAttribs);
     // Modifique a consulta SQL para incluir o campo "codigo"
-    let resultadoConsulta = await connection.execute("SELECT id_cidade, nome from CIDADE");
+    let resultadoConsulta = await connection.execute("SELECT id_cidade, nome from CIDADE ORDER BY id_cidade");
 
     cr.status = "SUCCESS";
     cr.message = "Dados obtidos";
@@ -452,7 +452,7 @@ app.get("/obterAeroporto", async (req, res) => {
   try {
     connection = await oracledb.getConnection(oraConnAttribs);
     // Modifique a consulta SQL para incluir o campo "codigo"
-    let resultadoConsulta = await connection.execute("SELECT id_aeroporto, nome, cidade_id FROM AEROPORTO");
+    let resultadoConsulta = await connection.execute("SELECT id_aeroporto, nome, cidade_id FROM AEROPORTO ORDER BY id_aeroporto");
 
     //await connection.close();APAGAR
     cr.status = "SUCCESS";
@@ -655,7 +655,7 @@ app.get("/obterTrecho", async (req, res) => {
   try {
     connection = await oracledb.getConnection(oraConnAttribs);
     // Modifique a consulta SQL para incluir o campo "codigo"
-    let resultadoConsulta = await connection.execute("SELECT id_trecho, tipo, cidade_origem, cidade_destino FROM TRECHO");
+    let resultadoConsulta = await connection.execute("SELECT id_trecho, tipo, cidade_origem, cidade_destino FROM TRECHO ORDER BY id_trecho");
 
     //await connection.close();APAGAR
     cr.status = "SUCCESS";
@@ -859,7 +859,7 @@ app.get("/obterVoo", async (req, res) => {
   try {
     connection = await oracledb.getConnection(oraConnAttribs);
     // Modifique a consulta SQL para incluir o campo "codigo"
-    let resultadoConsulta = await connection.execute("SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, valor FROM VOO");
+    let resultadoConsulta = await connection.execute("SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, valor FROM VOO ORDER BY id_voo");
 
     //await connection.close();APAGAR
     cr.status = "SUCCESS";
