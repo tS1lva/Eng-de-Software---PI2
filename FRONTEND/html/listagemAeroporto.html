@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aeroportos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    hr {
+      margin: 10px 0;
+      border: 1px solid #ccc;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 15px;
+    }
+
+    th {
+      background-color: #1e90ff;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+  <script>
+    function requestListaDeAeroportos() {
+      const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      };
+      return fetch('http://localhost:3000/obterAeroporto', requestOptions)
+        .then((response) => response.json());
+    }
+    
+    function preencherTabela(aeroportos) {
+      const tblBody = document.getElementById("TblAeroportosDados");
+  
+      aeroportos.forEach((aeroporto) => {
+        const row = document.createElement("tr");
+  
+        row.innerHTML = `
+          <td class="leftText">${aeroporto.codigo}</td>
+          <td class="leftText">${aeroporto.nome}</td>
+          <td class="leftText">${aeroporto.cidade_id}</td>`;
+  
+        tblBody.appendChild(row);
+      });
+    }
+  
+    function exibirAeroportos() {
+      requestListaDeAeroportos()
+        .then((customResponse) => {
+          if (customResponse.status === "SUCCESS") {
+            preencherTabela(customResponse.payload);
+          } else {
+            console.log(customResponse.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Erro ao exibir aeroportos:", error);
+        });
+    }
+  
+    document.addEventListener("DOMContentLoaded", exibirAeroportos);
+  </script>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Lista de Aeroportos</h1>
+      <hr>
+    </div>
+  </header>
+  <main>
+    <div>
+      <table id="TblAeroportos">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Cidade ID</th>
+          </tr>
+        </thead>
+        <tbody id="TblAeroportosDados">
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

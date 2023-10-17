@@ -2,13 +2,170 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
     <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
-    <title>Alterar dados</title>
+    <title>Alterar</title>
+    <script>
+      //FUNCAO PADRAO PARA ALTERAR
+      function fetchAlterar(rota, body) {
+        const requestOptions = {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        };
+
+        return fetch(rota, requestOptions).then((response) => response.json());
+      }
+
+      //ALTERAR AERONAVE
+      function alterarAeronave() {
+        const modelo = document.getElementById("novoModelo").value;
+        const anoFabricacao = document.getElementById("novoAnoFabricado").value;
+        const fabricante = document.getElementById("novoFabricante").value;
+        const codigo = document.getElementById("idAeronave").value;
+        let rota = "http://localhost:3000/alterarAeronave";
+
+        fetchAlterar(rota, {
+          modelo: modelo,
+          anoFabricacao: anoFabricacao,
+          fabricante: fabricante,
+          codigo: codigo,
+        })
+          .then((data) => {
+            // Lida com a resposta da operação de alteração, se necessário
+            console.log("Aeronave alterada com sucesso:", data);
+          })
+          .catch((error) => {
+            // Lida com erros, se houver algum
+            console.error("Erro ao alterar aeronave:", error);
+          });
+      }
+
+      //ALTERAR CIDADE
+      function alterarCidade() {
+        const novoNomeCidade = document.getElementById("novoNomeCidade").value;
+        const codigo_cidade_alterar = document.getElementById(
+          "codigo_cidade_alterar"
+        ).value;
+        let rota = "http://localhost:3000/alterarCidade";
+
+        fetchAlterar(rota, {
+          codigo: codigo_cidade_alterar,
+          nome: novoNomeCidade,
+        })
+          .then((data) => {
+            // Lida com a resposta da operação de alteração, se necessário
+            console.log("Cidade alterada com sucesso:", data);
+          })
+          .catch((error) => {
+            // Lida com erros, se houver algum
+            console.error("Erro ao alterar Cidade:", error);
+          });
+      }
+
+      //ALTERAR AEROPORTO
+      function alterarAeroporto() {
+        const codigo_aeroporto_alterar = document.getElementById(
+          "codigo_aeroporto_alterar"
+        ).value;
+        const novoNomeAeroporto =
+          document.getElementById("novoNomeAeroporto").value;
+        const novoCodigoCidade =
+          document.getElementById("novoCodigoCidade").value;
+        let rota = "http://localhost:3000/alterarAeroporto";
+
+        fetchAlterar(rota, {
+          codigo: codigo_aeroporto_alterar,
+          nome: novoNomeAeroporto,
+          cidade_id: novoCodigoCidade,
+        })
+          .then((data) => {
+            // Lida com a resposta da operação de alteração, se necessário
+            console.log("Aeroporto alterado com sucesso:", data);
+          })
+          .catch((error) => {
+            // Lida com erros, se houver algum
+            console.error("Erro ao alterar Aeroporto:", error);
+          });
+      }
+
+      //ALTERAR TRECHO
+      function alterarTrecho() {
+        const codigo_trecho_alterar = document.getElementById(
+          "codigo_trecho_alterar"
+        ).value;
+        const novoTipo = document.getElementById("novoTipo").value;
+        const novoCodigoCidadeOrigem = document.getElementById(
+          "novoCodigoCidadeOrigem"
+        ).value;
+        const novoCodigoCidadeDestino = document.getElementById(
+          "novoCodigoCidadeDestino"
+        ).value;
+        let rota = "http://localhost:3000/alterarTrecho";
+
+        fetchAlterar(rota, {
+          codigo: codigo_trecho_alterar,
+          tipo: novoTipo,
+          cidade_origem: novoCodigoCidadeOrigem,
+          cidade_destino: novoCodigoCidadeDestino,
+        })
+          .then((data) => {
+            // Lida com a resposta da operação de alteração, se necessário
+            console.log("Trecho alterado com sucesso:", data);
+          })
+          .catch((error) => {
+            // Lida com erros, se houver algum
+            console.error("Erro ao alterar Trecho:", error);
+          });
+      }
+
+      //ALTERAR VOO
+      function alterarVoo() {
+        const codigo_voo_alterar =
+          document.getElementById("codigo_voo_alterar").value;
+        const novaHora_origem =
+          document.getElementById("novaHora_origem").value;
+        const novaData_origem =
+          document.getElementById("novaData_origem").value;
+        const novaHora_chegada =
+          document.getElementById("novaHora_chegada").value;
+        const novaData_chegada =
+          document.getElementById("novaData_chegada").value;
+        const novoAeroporto_origem = document.getElementById(
+          "novoAeroporto_origem"
+        ).value;
+        const novoAeroporto_chegada = document.getElementById(
+          "novoAeroporto_chegada"
+        ).value;
+        const novoId_techo = document.getElementById("novoId_techo").value;
+        const novoValor = document.getElementById("novoValor").value;
+        let rota = "http://localhost:3000/alterarVoo";
+
+        fetchAlterar(rota, {
+          codigo: codigo_voo_alterar,
+          hora_origem: novaHora_origem,
+          data_origem: novaData_origem,
+          hora_chegada: novaHora_chegada,
+          data_chegada: novaData_chegada,
+          aeroporto_origem: novoAeroporto_origem,
+          aeroporto_chegada: novoAeroporto_chegada,
+          id_techo: novoId_techo,
+          valor: novoValor,
+        })
+          .then((data) => {
+            // Lida com a resposta da operação de alteração, se necessário
+            console.log("Voo alterado com sucesso:", data);
+          })
+          .catch((error) => {
+            // Lida com erros, se houver algum
+            console.error("Voo ao alterar Trecho:", error);
+          });
+      }
+    </script>
   </head>
   <body>
     <header>
@@ -24,10 +181,13 @@
         </div>
       </div>
     </header>
-
     <main>
       <div id="main" class="columns is-desktop is-centered">
+<<<<<<< HEAD
         <div class="column is-4">
+=======
+        <div class="colum is-visible">
+>>>>>>> Desenvolvimento
           <h1 class="texth1">Alterar Aeronaves:</h1>
           <form>
             <div class="cadastroDiv">
@@ -67,22 +227,53 @@
                 placeholder="Novo ano de fabricação"
               />
 
-              <button class="button is-link is-medium">Alterar</button>
+              <button
+                type="button"
+                a
+                class="button is-link is-medium"
+                onclick="alterarAeronave();"
+                id="btnAlterar"
+                name="btnAlterar"
+              >
+                Alterar
+              </button>
+
+              <br />
+              <br />
+
+              <div class="control">
+                <a href="/FRONTEND/html/listagemAeronave.html" target="_blank">
+                  <button type="button" class="button is-link is-medium">Listar</button>
+                </a>
+              </div>
             </div>
           </form>
         </div>
 
+<<<<<<< HEAD
         <div class="column is-4">
           <h1 class="texth1">Alterar Trajetos:</h1>
+=======
+        <div class="column is-2 is-visible">
+          <h1 class = "texth1">Alterar cidades:</h1 class = "texth1">
+>>>>>>> Desenvolvimento
           <form>
             <div class="cadastroDiv">
-              <label for="idTrajeto" class="textLabel"
-                >ID do trajeto a ser alterado:</label
-              >
+              <label for="novoNomeCidade" class="textLabel">Nome:</label>
+              <input
+                type="text"
+                id="novoNomeCidade"
+                class="box"
+                placeholder="Salto"
+                required
+              />
+
+              <label for="codigo_cidade_alterar" class="textLabel">Codigo:</label>
               <input
                 type="number"
-                id="idTrajeto"
+                id="codigo_cidade_alterar"
                 class="box"
+<<<<<<< HEAD
                 placeholder="ID do trajeto"
               />
 
@@ -105,23 +296,122 @@
                 class="box"
                 placeholder="Sao Paulo"
               />
+=======
+                placeholder="123"
+                required
+              />
 
-              <button class="button is-link is-medium">Alterar trajeto</button>
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="alterarCidade();"
+                id="btnAlterar"
+                name="btnAlterar"
+              >
+                Alterar Cidade
+              </button>
+>>>>>>> Desenvolvimento
+
+              <br />
+              <br />
+
+              <div class="control">
+                <a href="/FRONTEND/html/listagemCidade.html" target="_blank">
+                  <button type="button" class="button is-link is-medium">Listar Cidade</button>
+                </a>
+              </div>
             </div>
           </form>
         </div>
 
+<<<<<<< HEAD
         <div class="column is-4">
           <h1 class="texth1">Alterar Voos:</h1>
+=======
+        <div class="column is-visible">
+          <h1 class = "texth1">Alterar aeroportos:</h1 class = "texth1">
+>>>>>>> Desenvolvimento
           <form>
             <div class="cadastroDiv">
-              <label for="idVoo" class="textLabel"
-                >ID do voo a ser alterado:</label
+              <label for="novoNomeAeroporto" class="textLabel">Nome:</label>
+              <input
+                type="text"
+                id="novoNomeAeroporto"
+                class="box"
+                placeholder="Viracopos"
+                required
+              />
+
+              <label for="codigo_aeroporto_alterar" class="textLabel">Codigo:</label>
+              <input
+                type="number"
+                id="codigo_aeroporto_alterar"
+                class="box"
+                placeholder="123"
+                required
+              />
+
+              <label for="novoCodigoCidade" class="textLabel">Codigo da cidade:</label>
+              <input
+                type="number"
+                id="novoCodigoCidade"
+                class="box"
+                placeholder="321"
+                required
+              />
+
+              <br />
+              <br />
+
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="alterarAeroporto();"
+                id="btnAlterar"
+                name="btnAlterar"
+              >
+                Alterar aeroporto
+              </button>
+
+              <br />
+              <br />
+
+              <div class="control">
+                <a href="/FRONTEND/html/listagemAeroporto.html" target="_blank">
+                  <button type="button" class="button is-link is-medium">Listar Aeroportos</button>
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="column is-2 is-visible">
+          <h1 class = "texth1">Alterar Trechos:</h1 class = "texth1">
+          <form>
+            <div class="cadastroDiv">
+              <label for="codigo_trecho_alterar" class="textLabel">Codigo:</label>
+              <input
+                type="number"
+                id="codigo_trecho_alterar"
+                class="box"
+                placeholder="123"
+                required
+              />
+
+              <label for="novoTipo" class="textLabel">Tipo de Viagem:</label>
+              <select id="novoTipo" class="box" required>
+                <option value="Ida">Ida</option>
+                <option value="Ida e volta">Ida e Volta</option>
+              </select>
+
+              <label for="novoCodigoCidadeOrigem" class="textLabel"
+                >Codigo da cidade origem:</label
               >
               <input
                 type="number"
-                id="idVoo"
+                id="novoCodigoCidadeOrigem"
                 class="box"
+<<<<<<< HEAD
                 placeholder="ID do voo"
               />
 
@@ -167,19 +457,166 @@
 
               <label for="novoValorAssento" class="textLabel"
                 >Novo Valor por Assento:</label
+=======
+                placeholder="321"
+                required
+              />
+
+              <label for="novoCodigoCidadeDestino" class="textLabel"
+                >Codigo da cidade destino:</label
+>>>>>>> Desenvolvimento
               >
               <input
                 type="number"
-                id="novoValorAssento"
+                id="novoCodigoCidadeDestino"
                 class="box"
+<<<<<<< HEAD
                 placeholder="Novo valor por assento"
+=======
+                placeholder="321"
+                required
+>>>>>>> Desenvolvimento
               />
 
-              <button class="button is-link is-medium">Alterar voo</button>
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="alterarTrecho();"
+                id="btnAlterar"
+                name="btnAlterar"
+              >
+                Alterar Trechos
+              </button>
+
+              <br />
+              <br />
+
+              <div class="control">
+                <a href="/FRONTEND/html/listagemTrechos.html" target="_blank">
+                  <button type="button" class="button is-link is-medium">Listar Trechos</button>
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="column is-2 is-visible">
+          <h1 class = "texth1">Alterar voos:</h1>
+          <form>
+            <div class="cadastroDiv">
+              <label for="codigo_voo_alterar" class="textLabel">Codigo:</label>
+              <input
+                type="number"
+                id="codigo_voo_alterar"
+                class="box"
+                placeholder="123"
+                required
+              />
+
+              <label for="novaHora_origem" class="textLabel"
+                >Hora de partida:</label
+              >
+              <input
+                type="time"
+                id="novaHora_origem"
+                class="box"
+                name="novaHora_origem"
+                required
+              />
+
+              <label for="novaData_origem" class="textLabel"
+                >Dia do voo da ida:</label
+              >
+              <input
+                type="date"
+                class="box"
+                id="novaData_origem"
+                name="novaData_origem"
+                required
+              />
+
+              <label for="novaHora_chegada" class="textLabel"
+                >Hora de chegada:</label
+              >
+              <input
+                type="time"
+                id="novaHora_chegada"
+                class="box"
+                name="novaHora_chegada"
+                required
+              />
+
+              <label for="novaData_chegada" class="textLabel"
+                >Dia de chegada:</label
+              >
+              <input
+                type="date"
+                class="box"
+                id="novaData_chegada"
+                name="novaData_chegada"
+                required
+              />
+
+              <label for="novoAeroporto_origem" class="textLabel"
+                >Id do aeroporto origem:</label
+              >
+              <input
+                type="number"
+                id="novoAeroporto_origem"
+                class="box"
+                placeholder="123"
+                required
+              />
+
+              <label for="novoAeroporto_chegada" class="textLabel"
+                >Id do aeroporto destino:</label
+              >
+              <input
+                type="number"
+                id="novoAeroporto_chegada"
+                class="box"
+                placeholder="123"
+                required
+              />
+
+              <label for="novoId_techo" class="textLabel">Id do Trecho:</label>
+              <input
+                type="number"
+                id="novoId_techo"
+                class="box"
+                placeholder="123"
+                required
+              />
+
+              <label for="novoValor" class="textLabel">Novo valor:</label>
+              <input
+                type="number"
+                id="novoValor"
+                class="box"
+                placeholder="123"
+                required
+              />
+
+              <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="alterarVoo();"
+                id="btnAlterar"
+                name="btnAlterar"
+              >
+                Alterar Voos
+              </button>
+
+              <br />
+              <br />
+              <div class="control">
+                <a href="/FRONTEND/html/listagemVoo.html" target="_blank">
+                  <button type="button" class="button is-link is-medium">Listar</button>
+                </a>
+              </div>
             </div>
           </form>
         </div>
     </main>
-    <script src="script.js"></script>
   </body>
 </html>

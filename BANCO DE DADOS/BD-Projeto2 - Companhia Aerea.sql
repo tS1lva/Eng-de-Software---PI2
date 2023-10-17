@@ -29,7 +29,7 @@ START WITH 1 INCREMENT BY 1;
 --TRECHO
 create table trecho (
     id_trecho number primary key,
-    tipo integer,
+    tipo varchar2(20),
     cidade_origem number,
     cidade_destino number,
     CONSTRAINT fk_cidadeO_cidade FOREIGN KEY (cidade_origem) REFERENCES cidade(id_cidade),
@@ -42,12 +42,16 @@ START WITH 1 INCREMENT BY 1;
 CREATE TABLE VOO (
     id_voo NUMBER PRIMARY KEY,
     hora_origem varchar2(255),
-    data_origem DATE,
+    data_origem varchar2(20),
     hora_chegada varchar2(255),
-    data_chegada DATE,
-    id_techo NUMBER,
-    valor NUMBER,
-    FOREIGN KEY (id_techo) REFERENCES TRECHO (id_trecho)
+    data_chegada varchar2(20),
+    AEROPORTO_ORIGEM NUMBER,
+    AEROPORTO_CHEGADA NUMBER,
+    trecho_id NUMBER,
+    valor FLOAT,
+    CONSTRAINT fk_aeroportoO_aeroporto FOREIGN KEY (AEROPORTO_ORIGEM) REFERENCES AEROPORTO(id_aeroporto),
+    CONSTRAINT fk_aeroportoC_aeroporto FOREIGN KEY (AEROPORTO_CHEGADA) REFERENCES AEROPORTO(id_aeroporto),
+    CONSTRAINT fk_idTrecho_trecho FOREIGN KEY (trecho_id) REFERENCES TRECHO(id_trecho)
 );
 CREATE SEQUENCE SEQ_VOO
 START WITH 1 INCREMENT BY 1;

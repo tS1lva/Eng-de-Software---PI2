@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    hr {
+      margin: 10px 0;
+      border: 1px solid #ccc;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 15px;
+    }
+
+    th {
+      background-color: #1e90ff;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+  <script>
+    function requestListaDeVoos() {
+      const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      };
+      return fetch('http://localhost:3000/obterVoo', requestOptions)
+        .then((response) => response.json());
+    }
+    
+    function preencherTabela(voos) {
+      const tblBody = document.getElementById("TblVoosDados");
+  
+      voos.forEach((voo) => {
+        const row = document.createElement("tr");
+  
+        row.innerHTML = `
+          <td class="leftText">${voo.codigo}</td>
+          <td class="leftText">${voo.hora_origem}</td>
+          <td class="leftText">${voo.data_origem}</td>
+          <td class="leftText">${voo.hora_chegada}</td>
+          <td class="leftText">${voo.data_chegada}</td>
+          <td class="leftText">${voo.aeroporto_origem}</td>
+          <td class="leftText">${voo.aeroporto_chegada}</td>
+          <td class="leftText">${voo.id_techo}</td>
+          <td class="rightText">${voo.valor}</td>`;
+  
+        tblBody.appendChild(row);
+      });
+    }
+  
+    function exibirVoos() {
+      requestListaDeVoos()
+        .then((customResponse) => {
+          if (customResponse.status === "SUCCESS") {
+            preencherTabela(customResponse.payload);
+          } else {
+            console.log(customResponse.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Erro ao exibir voos:", error);
+        });
+    }
+  
+    document.addEventListener("DOMContentLoaded", exibirVoos);
+  </script>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Lista de Voos</h1>
+      <hr>
+    </div>
+  </header>
+  <main>
+    <div>
+      <table id="TblVoos">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Hora de Origem</th>
+            <th>Data de Origem</th>
+            <th>Hora de Chegada</th>
+            <th>Data de Chegada</th>
+            <th>Aeroporto de Origem</th>
+            <th>Aeroporto de Chegada</th>
+            <th>ID do Trecho</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody id="TblVoosDados">
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>
