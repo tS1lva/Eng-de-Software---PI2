@@ -13,3 +13,4 @@ Projeto Integrador 2 - Curso de Engenharia de Software PUCC.
 <h2>npm install cors</h2>
 
 <p>Atenção quando copiar o comando não copiar junto ao codigo "h2" e o "/h2"</p>
+<p>Executar esses comandos dentro da pasta backend</p>
