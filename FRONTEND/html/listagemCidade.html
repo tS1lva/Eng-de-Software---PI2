@@ -3,56 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/FRONTEND/css/stylesListagen.css">
   <title>CIDADE</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-    }
-
-    h1 {
-      margin: 0;
-    }
-
-    hr {
-      margin: 10px 0;
-      border: 1px solid #ccc;
-    }
-
-    main {
-      padding: 20px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: #fff;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    th, td {
-      text-align: left;
-      padding: 12px 15px;
-    }
-
-    th {
-      background-color: #1e90ff;
-      color: #fff;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-  </style>
   <script>
     function requestListaDeCidades() {
       const requestOptions = {
@@ -97,17 +49,17 @@
 <body>
   <header>
     <div>
-      <h1>Lista de Cidades</h1>
+      <h1 class="h1">Lista de Cidades</h1>
       <hr>
     </div>
   </header>
   <main>
     <div>
-      <table id="TblCidade">
+      <table id="TblCidade" class="table">
         <thead>
           <tr>
-            <th>ID da Cidade</th>
-            <th>Nome</th>
+            <th class="th">ID da Cidade</th>
+            <th class="th">Nome</th>
           </tr>
         </thead>
         <tbody id="TblCidadeDados">

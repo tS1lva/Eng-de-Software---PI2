@@ -3,56 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/FRONTEND/css/stylesListagen.css">
   <title>AERONAVE</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2; /* Cor de fundo suave */
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: #333; /* Cor de fundo escura para o cabeçalho */
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-    }
-
-    h1 {
-      margin: 0;
-    }
-
-    hr {
-      margin: 10px 0;
-      border: 1px solid #ccc;
-    }
-
-    main {
-      padding: 20px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: #fff; /* Cor de fundo branca para a tabela */
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    th, td {
-      text-align: left;
-      padding: 12px 15px;
-    }
-
-    th {
-      background-color: #1e90ff; /* Azul médio para o cabeçalho da tabela */
-      color: #fff;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f2f2f2; /* Cor de fundo suave para linhas pares da tabela */
-    }
-  </style>
   <script>
     function requestListaDeAeronaves() {
       const requestOptions = {
@@ -101,19 +53,19 @@
 <body>
   <header>
     <div>
-      <h1>Lista de Aeronaves</h1>
-      <hr>
+      <h1 class="h1">Lista de Aeronaves</h1>
+      <hr class="hr">
     </div>
   </header>
   <main>
     <div>
-      <table id="TblAviao">
+      <table id="TblAviao" class="table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Modelo</th>
-            <th>Fabricante</th>
-            <th>Ano de Fabricação</th>
+            <th class="th">ID</th>
+            <th class="th">Modelo</th>
+            <th class="th">Fabricante</th>
+            <th class="th">Ano de Fabricação</th>
           </tr>
         </thead>
         <tbody id="TblAviaoDados">
