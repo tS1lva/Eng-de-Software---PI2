@@ -7,8 +7,9 @@ import { Cidade } from "./Cidade";
 import { Aeroporto } from "./Aeroportos";
 import { Trecho } from "./trecho";
 import { Voo } from "./voo";
+import { Assento } from "./Assento"
 import { oraConnAttribs } from "./OracleConnAtribs";
-import { rowsToAeronaves, rowsToCidades, rowsToAeroportos, rowsToTrechos, rowsToVoos } from "./Conversores";
+import { rowsToAeronaves, rowsToCidades, rowsToAeroportos, rowsToTrechos, rowsToVoos, rowsToAssentos } from "./Conversores";
 import { aeronaveValida, cidadeValida, aeroportoValida, trechoValida, vooValida } from "./Validadores";
 
 const app = express();
@@ -1054,6 +1055,41 @@ app.delete("/excluirVoo", async(req,res)=>{
     res.send(cr);  
   }
 });
+
+//GET OBTER ASSENTO
+app.get("/obterAssento", async (req, res) => {
+  console.log("\nEntrou no GET! /obterAssento\n");
+
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
+  let connection;
+  try {
+    connection = await oracledb.getConnection(oraConnAttribs);
+    // Modifique a consulta SQL para incluir o campo "codigo"
+    let resultadoConsulta = await connection.execute("SELECT id_voo, id_aeronave, linha, coluna FROM ASSENTO ORDER BY id_voo");
+
+    //await connection.close();APAGAR
+    cr.status = "SUCCESS";
+    cr.message = "Dados obtidos";
+    cr.payload = rowsToAssentos(resultadoConsulta.rows);
+  } catch (e) {
+    if (e instanceof Error) {
+      cr.message = e.message;
+      console.error(e.message);
+    } else {
+      cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+    }
+  } finally {
+    if (connection !== undefined) {
+      await connection.close();
+    }
+    res.send(cr);
+  }
+});
+
 
 //LISTEN Servidor Rodando na porta configurada: 3000
 app.listen(port, ()=>{

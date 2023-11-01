@@ -9,6 +9,7 @@ import { Cidade } from "./Cidade";
 import { Aeroporto } from "./Aeroportos";
 import { Trecho } from "./trecho";
 import { Voo } from "./voo";
+import { Assento } from "./Assento";
 
 export function rowsToAeronaves(oracleRows: unknown[] | undefined) : Array<Aeronave> {
   // vamos converter um array any (resultados do oracle)
@@ -115,4 +116,25 @@ export function rowsToVoos(oracleRows: unknown[] | undefined) : Array<Voo> {
     })
   }
   return Voos;
+}
+
+
+export function rowsToAssentos(oracleRows: unknown[] | undefined) : Array<Assento> {
+  
+  let Assentos: Array<Assento> = [];
+  let Assento;
+  if (oracleRows !== undefined){
+    oracleRows.forEach((registro: any) => {
+      Assento = {
+        id_voo: registro.ID_VOO,
+        id_aeronave: registro.ID_AERONAVE,
+        linha: registro.LINHA,
+        coluna: registro.COLUNA,
+      } as Assento;
+
+      // inserindo o novo Array convertido.
+      Assentos.push(Assento);
+    })
+  }
+  return Assentos;
 }
