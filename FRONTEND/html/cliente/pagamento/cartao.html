@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="/FRONTEND/html/cliente/stylesMainPage.css" />
+
+    <title>Pagina principal</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="superior">
+        <div class="opcoes">
+          <a href=""><strong>Home</strong></a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div id="cartao" style="display: block">
+        <div class="form-group">
+          <label for="numeroCartao">Número do cartão:</label>
+          <input
+            type="number"
+            class="form-control"
+            id="numeroCartao"
+            name="numeroCartao"
+          />
+        </div>
+        <div class="form-group">
+          <label for="nomeCartao">Nome impresso no cartão:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nomeCartao"
+            name="nomeCartao"
+          />
+        </div>
+        <div class="form-group">
+          <label for="validadeCartao">Data de validade:</label>
+          <input
+            type="date"
+            class="form-control"
+            id="validadeCartao"
+            name="validadeCartao"
+          />
+        </div>
+        <div class="form-group">
+          <label for="cvvCartao">CVV:</label>
+          <input
+            type="number"
+            class="form-control"
+            id="cvvCartao"
+            name="cvvCartao"
+          />
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+body {
+  background-color: #252953;
+  background-size: cover;
+  height: 150vh;
+  color: #d0eaf7;
+  font-family: Arial, sans-serif;
+  font-size: 1.25em;
+}
+
+.superior {
+  background-color: #1d3952;
+  padding: 1% 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.15em solid black;
+  height: 3.4em;
+}
+
+.superior a {
+  transition: color 0.3s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.superior a:hover {
+  color: rgb(171, 205, 248);
+  text-decoration: underline;
+}
+
+.opcoes {
+  color: inherit;
+  display: flex;
+}
+
+.opcoes a {
+  margin-right: 55%;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s;
+}
+
+.opcoes a:hover {
+  color: hsl(220, 93%, 84%);
+  text-decoration: underline;
+}
+
+.mainSection {
+  display: flex;
+}
+
+.btn-group {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.input-group.mb-3 {
+  margin-left: 10px;
+  width: 8em;
+}
+
+.btn.btn-info {
+  margin-left: 10px;
+  width: 10em;
+  height: 40px;
+}
+
+i {
+  padding-right: 0.3em;
+}
+
+.bi.bi-tags-fill {
+  font-size: 2em;
+}
+
+.fi.fi-br-seat-airline {
+  font-size: 20px;
+}
+
+.assento {
+  background-color: #ccc;
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+}
+
+.assento.selecionado {
+  background-color: #007bff;
+  color: #fff;
+}

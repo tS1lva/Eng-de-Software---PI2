@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+15P16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="stylesMainPage.css" />
+
+    <title>Finalizar compra passagem</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="superior">
+        <div class="opcoes">
+          <a href=""><strong>Home</strong></a>
+        </div>
+      </div>
+    </header>
+
+      <div id="main">
+        <h1>Compra de Passagem Aérea</h1>
+
+        <form>
+          <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nome"
+              placeholder="Seu nome"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-mail:</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="Seu e-mail"
+            />
+          </div>
+
+          <br />
+
+          <div class="form-group">
+            <label for="enderecoCobranca"><h2>Endereco de cobranca</h2></label>
+            <h4>Logradouro:</h4>
+            <input
+              type="text"
+              class="form-control"
+              id="enderecoCobranca"
+              placeholder="Nome da sua rua"
+            />
+
+            <label for="enderecoCobranca">Numero</label>
+            <input
+              type="number"
+              class="form-control"
+              id="numeroEndereco"
+              placeholder="Numero da sua residencia"
+            />
+
+            <label for="enderecoCobranca">Bairro</label>
+            <input
+              type="text"
+              class="form-control"
+              id="bairro"
+              placeholder="Seu bairro"
+            />
+
+            <label for="enderecoCobranca">Complemento</label>
+            <input
+              type="text"
+              class="form-control"
+              id="complemento"
+              placeholder="Complemento se houver"
+            />
+          </div>
+
+          <br />
+
+          <div class="form-group">
+            <label for="formaPagamento">Forma de Pagamento:</label>
+            <select class="form-control" id="formaPagamento">
+              <option value="cartao">Cartão de Crédito</option>
+              <option value="pix">PIX</option>
+              <option value="boleto">Boleto</option>
+            </select>
+          </div>
+
+          <button type="button" class="btn btn-primary" id="btnCompra">
+            Confirmar Compra
+          </button>
+        </form>
+      </div>
+
+      <script>
+        document
+          .getElementById("btnCompra")
+          .addEventListener("click", function () {
+            var formaPagamento =
+              document.getElementById("formaPagamento").value;
+            var href = "";
+
+            if (formaPagamento === "cartao") {
+              href = "/FRONTEND/html/cliente/pagamento/cartao.html";
+            } else if (formaPagamento === "boleto") {
+              href = "/FRONTEND/html/cliente/pagamento/boleto.html";
+            } else {
+              href = "/FRONTEND/html/cliente/pagamento/pix.html";
+            }
+
+            window.location.href = href;
+          });
+      </script>
+  </body>
+</html>

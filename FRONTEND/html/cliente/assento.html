@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/FRONTEND/html/cliente/stylesMainPage.css" />
+
+    <title>Mapa de assentos</title>
+  </head>
+
+  <body>
+    <div id="main">
+      <h1>Mapa de Assentos de Avião</h1>
+      <div class="row">
+        <div class="col-12">
+          <table class="table">
+            <tbody>
+              <tr>
+                <td class="assento" title="Assento 1A">
+                  <i class="fi fi-br-seat-airline"></i> 1A
+                </td>
+                <td class="assento" title="Assento 2A">
+                  <i class="fi fi-br-seat-airline"></i> 2A
+                </td>
+                <td class="assento" title="Assento 3A">
+                  <i class="fi fi-br-seat-airline"></i> 3A
+                </td>
+              </tr>
+              <tr>
+                <td class="assento" title="Assento 1B">
+                  <i class="fi fi-br-seat-airline"></i> 1B
+                </td>
+                <td class="assento" title="Assento 2B">
+                  <i class="fi fi-br-seat-airline"></i> 2B
+                </td>
+                <td class="assento" title="Assento 3B">
+                  <i class="fi fi-br-seat-airline"></i> 3B
+                </td>
+              </tr>
+              <tr>
+                <td class="assento" title="Assento 1C">
+                  <i class="fi fi-br-seat-airline"></i> 1C
+                </td>
+                <td class="assento" title="Assento 2C">
+                  <i class="fi fi-br-seat-airline"></i> 2C
+                </td>
+                <td class="assento" title="Assento 3C">
+                  <i class="fi fi-br-seat-airline"></i> 3C
+                </td>
+              </tr>
+              <tr>
+                <td class="assento" title="Assento 1D">
+                  <i class="fi fi-br-seat-airline"></i> 1D
+                </td>
+                <td class="assento" title="Assento 2D">
+                  <i class="fi fi-br-seat-airline"></i> 2D
+                </td>
+                <td class="assento" title="Assento 3D">
+                  <i class="fi fi-br-seat-airline"></i> 3D
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const assentos = document.querySelectorAll(".assento");
+
+      assentos.forEach((assento) => {
+        assento.addEventListener("click", function () {
+          assento.classList.toggle("selecionado");
+          const status = assento.classList.contains("selecionado") ? 1 : 0;
+          const linhaColunaAssento = assento.getAttribute("title");
+          console.log(`Status do ${linhaColunaAssento}: ${status}`);
+        });
+      });
+    </script>
+  </body>
+</html>
