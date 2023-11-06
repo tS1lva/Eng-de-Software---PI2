@@ -1,3 +1,20 @@
+DROP TABLE PASSAGEM;
+DROP TABLE ASSENTO;
+DROP TABLE VOO;
+DROP TABLE TRECHO;
+DROP TABLE AEROPORTO;
+DROP TABLE CIDADE;
+DROP TABLE AERONAVE;
+
+DROP SEQUENCE SEQ_AERONAVE;
+DROP SEQUENCE SEQ_AEROPORTO;
+DROP SEQUENCE SEQ_ASSENTO;
+DROP SEQUENCE SEQ_CIDADE;
+DROP SEQUENCE SEQ_TRECHO;
+DROP SEQUENCE SEQ_VOO;
+DROP SEQUENCE SEQ_PASSAGEM;
+
+
 --AERONAVES
 CREATE TABLE AERONAVE (
     id_aeronave NUMBER PRIMARY KEY,
@@ -58,10 +75,25 @@ START WITH 1 INCREMENT BY 1;
 
 --ASSENTO
 CREATE TABLE ASSENTO (
-    id_voo NUMBER,
-    id_aeronave NUMBER,
+    id_assento number primary key,
+    voo_id NUMBER,
+    aeronave_id NUMBER,
     linha number,
     coluna number,
-    constraint fk_id_voo_voo FOREIGN KEY (id_voo) REFERENCES VOO (id_voo),
-    constraint fk_id_aeronave_aeronave FOREIGN KEY (id_aeronave) REFERENCES AERONAVE (id_aeronave)
+    constraint fk_id_voo_voo FOREIGN KEY (voo_id) REFERENCES VOO (id_voo),
+    constraint fk_id_aeronave_aeronave FOREIGN KEY (aeronave_id) REFERENCES AERONAVE (id_aeronave)
 );
+
+CREATE SEQUENCE SEQ_ASSENTO START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE PASSAGEM (
+    id_passagem number primary key,
+    nome varchar2(25),
+    cpf varchar2(25),
+    assento_id number,
+    voo_id number,
+    constraint fk_voo_id_voo FOREIGN key (voo_id) REFERENCES VOO (id_voo),
+    constraint fk_id_assento_assento FOREIGN key(assento_id) REFERENCES ASSENTO (id_assento)
+);
+
+create SEQUENCE SEQ_PASSAGEM start WITH 1 INCREMENT by 1;
