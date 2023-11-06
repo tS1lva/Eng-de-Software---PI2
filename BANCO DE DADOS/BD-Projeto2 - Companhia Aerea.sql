@@ -97,6 +97,36 @@ CREATE TABLE PASSAGEM (
 
 create SEQUENCE SEQ_PASSAGEM start WITH 1 INCREMENT by 1;
 
+CREATE OR REPLACE TRIGGER BEFORE_INSERT_AEROPORTOS_TRIGGER
+BEFORE INSERT ON VOO
+FOR EACH ROW
+DECLARE
+    cidade_origem_id NUMBER;
+    cidade_destino_id NUMBER;
+    aeroporto_origem_id NUMBER;
+    aeroporto_destino_id NUMBER;
+BEGIN
+    -- Obter as cidades de origem e destino do trecho do voo
+    SELECT cidade_origem, cidade_destino INTO cidade_origem_id, cidade_destino_id
+    FROM TRECHO
+    WHERE id_trecho = :new.trecho_id;
+    
+    -- Obter os IDs dos aeroportos com base nas cidades de origem e destino
+    SELECT id_aeroporto INTO aeroporto_origem_id
+    FROM AEROPORTO
+    WHERE cidade_id = cidade_origem_id;
+
+    SELECT id_aeroporto INTO aeroporto_destino_id
+    FROM AEROPORTO
+    WHERE cidade_id = cidade_destino_id;
+    
+    -- Definir os campos de aeroportos no voo antes da inserção
+    :new.AEROPORTO_ORIGEM := aeroporto_origem_id;
+    :new.AEROPORTO_CHEGADA := aeroporto_destino_id;
+END;
+/
+
+
 -- Inserts para aeronaves válidas
 INSERT INTO AERONAVE (id_aeronave, modelo, ano_fabri, fabricante) VALUES (SEQ_AERONAVE.NEXTVAL, 'Boeing 747', 1995, 'Boeing');
 INSERT INTO AERONAVE (id_aeronave, modelo, ano_fabri, fabricante) VALUES (SEQ_AERONAVE.NEXTVAL, 'Airbus A320', 2005, 'Airbus');
@@ -186,26 +216,21 @@ INSERT INTO TRECHO (id_trecho, cidade_origem, cidade_destino) VALUES (SEQ_TRECHO
 INSERT INTO TRECHO (id_trecho, cidade_origem, cidade_destino) VALUES (SEQ_TRECHO.NEXTVAL, 1, 10);
 
 -- Inserts para voos válidos
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '08:00', '2023-11-07', '10:00', '2023-11-07', 1, 2, 1, 250.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '09:30', '2023-11-07', '11:30', '2023-11-07', 2, 3, 2, 300.50);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '10:15', '2023-11-08', '12:15', '2023-11-08', 3, 4, 3, 280.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '14:20', '2023-11-08', '16:20', '2023-11-08', 4, 5, 4, 350.75);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '16:45', '2023-11-09', '18:45', '2023-11-09', 5, 6, 5, 400.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '12:30', '2023-11-10', '14:30', '2023-11-10', 6, 7, 6, 275.50);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '09:00', '2023-11-11', '11:00', '2023-11-11', 7, 8, 7, 310.25);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '17:15', '2023-11-11', '19:15', '2023-11-11', 8, 9, 8, 450.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '11:45', '2023-11-12', '13:45', '2023-11-12', 9, 10, 9, 295.75);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '07:30', '2023-11-13', '09:30', '2023-11-13', 10, 1, 10, 320.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '08:00', '2023-11-12', '10:00', '2023-11-12', 6, 7, 11, 300.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '10:30', '2023-11-12', '12:30', '2023-11-12', 7, 8, 12, 350.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '13:00', '2023-11-12', '15:00', '2023-11-12', 8, 9, 13, 400.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '15:30', '2023-11-12', '17:30', '2023-11-12', 9, 10, 14, 450.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '18:00', '2023-11-12', '20:00', '2023-11-12', 10, 1, 15, 500.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '08:00', '2023-11-13', '10:00', '2023-11-13', 1, 2, 16, 300.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '10:30', '2023-11-13', '12:30', '2023-11-13', 2, 3, 17, 350.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '13:00', '2023-11-13', '15:00', '2023-11-13', 3, 4, 18, 400.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '15:30', '2023-11-13', '17:30', '2023-11-13', 4, 5, 19, 450.00);
-INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, AEROPORTO_ORIGEM, AEROPORTO_CHEGADA, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '18:00', '2023-11-13', '20:00', '2023-11-13', 5, 6, 20, 500.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '08:00', '2023-11-14', '10:00', '2023-11-14', 1, 300.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '09:30', '2023-11-15', '11:30', '2023-11-15', 2, 350.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '11:00', '2023-11-16', '13:00', '2023-11-16', 3, 400.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '12:30', '2023-11-17', '14:30', '2023-11-17', 4, 450.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '14:00', '2023-11-18', '16:00', '2023-11-18', 5, 500.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '08:00', '2023-11-19', '10:00', '2023-11-19', 6, 300.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '09:30', '2023-11-20', '11:30', '2023-11-20', 7, 350.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '11:00', '2023-11-21', '13:00', '2023-11-21', 8, 400.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '12:30', '2023-11-22', '14:30', '2023-11-22', 9, 450.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '14:00', '2023-11-23', '16:00', '2023-11-23', 10, 500.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '08:00', '2023-11-24', '10:00', '2023-11-24', 11, 300.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '09:30', '2023-11-25', '11:30', '2023-11-25', 12, 350.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '11:00', '2023-11-26', '13:00', '2023-11-26', 13, 400.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '12:30', '2023-11-27', '14:30', '2023-11-27', 14, 450.00);
+INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, valor) VALUES (SEQ_VOO.NEXTVAL, '14:00', '2023-11-28', '16:00', '2023-11-28', 15, 500.00);
 
 -- Inserts para assentos válidos
 INSERT INTO ASSENTO (id_assento, voo_id, aeronave_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 1, 1, 1, 'A');
@@ -243,7 +268,24 @@ INSERT INTO PASSAGEM (id_passagem, nome, cpf, assento_id, voo_id) VALUES (SEQ_PA
 INSERT INTO PASSAGEM (id_passagem, nome, cpf, assento_id, voo_id) VALUES (SEQ_PASSAGEM.NEXTVAL, 'André Ferreira', '890.456.789-13', 13, 13);
 INSERT INTO PASSAGEM (id_passagem, nome, cpf, assento_id, voo_id) VALUES (SEQ_PASSAGEM.NEXTVAL, 'Isabela Souza', '901.567.890-14', 14, 14);
 INSERT INTO PASSAGEM (id_passagem, nome, cpf, assento_id, voo_id) VALUES (SEQ_PASSAGEM.NEXTVAL, 'Roberto Santos', '012.678.901-15', 15, 15);
-INSERT INTO PASSAGEM (id_passagem, nome, cpf, assento_id, voo_id) VALUES (SEQ_PASSAGEM.NEXTVAL, 'Camila Pereira', '123.789.012-16', 16, 16);
-INSERT INTO PASSAGEM (id_passagem, nome, cpf, assento_id, voo_id) VALUES (SEQ_PASSAGEM.NEXTVAL, 'Marcos Alves', '234.890.123-17', 17, 17);
-INSERT INTO PASSAGEM (id_passagem, nome, cpf, assento_id, voo_id) VALUES (SEQ_PASSAGEM.NEXTVAL, 'Larissa Lima', '345.901.234-18', 18, 18);
 
+SELECT 
+    P.nome AS "Nome",
+    P.cpf AS "CPF",
+    P.id_passagem AS "ID da Passagem",
+    CO.nome AS "Cidade de Origem",
+    CD.nome AS "Cidade de Destino",
+    ASSENTO.linha AS "Linha",
+    ASSENTO.coluna AS "Coluna",
+    AERONAVE.modelo AS "Aeronave",
+    VOO.data_origem || ' ' || VOO.hora_origem AS "Data e Hora de Ida",
+    VOO.data_chegada || ' ' || VOO.hora_chegada AS "Data e Hora de Volta"
+FROM PASSAGEM P
+JOIN ASSENTO ON P.assento_id = ASSENTO.id_assento
+JOIN VOO ON P.voo_id = VOO.id_voo
+JOIN AERONAVE ON ASSENTO.aeronave_id = AERONAVE.id_aeronave
+JOIN TRECHO T ON VOO.trecho_id = T.id_trecho
+JOIN AEROPORTO AO ON VOO.AEROPORTO_ORIGEM = AO.id_aeroporto
+JOIN AEROPORTO AD ON VOO.AEROPORTO_CHEGADA = AD.id_aeroporto
+JOIN CIDADE CO ON T.cidade_origem = CO.id_cidade
+JOIN CIDADE CD ON T.cidade_destino = CD.id_cidade;
