@@ -85,14 +85,12 @@
 
       //INSERIR TRAJETO
       function inserirTrajeto() {
-        const tipo = document.getElementById("tipo").value;
         const cidade_origem = document.getElementById("cidade_origem").value;
         const cidade_destino = document.getElementById("cidade_destino").value;
 
         let rota = "http://localhost:3000/inserirTrecho";
 
         fetchInserir(rota, {
-            tipo: tipo,
             cidade_origem: cidade_origem,
             cidade_destino: cidade_destino})
             .then(resultado => {
@@ -327,16 +325,6 @@
           <h1 class="texth1">Cadastrar trajetos</h1>
           <form>
             <div class="cadastroDiv">
-              <label for="fabricante" class="textLabel">Tipo: </label>
-              <input
-                type="text"
-                id="tipo"
-                class="box"
-                placeholder="Ida | Volta"
-                name="aeroportos"
-                required
-              />
-
               <label for="fabricante" class="textLabel">Cidade Origem: </label>
               <input
                 type="text"

@@ -89,12 +89,6 @@ export function trechoValida(trecho: Trecho) {
   let valida = false;
   let mensagem = "";
 
-  if(trecho.tipo === undefined){
-      mensagem = "Tipo não informado";
-  }
-  if(trecho.tipo !== 'Ida' && trecho.tipo !== 'Ida e volta') {
-    mensagem = "O tipo deve ser 'ida' ou 'ida ou volta'";
-  }
   if(trecho.cidade_origem === undefined){
     mensagem = "Cidade origem não informado";
   }

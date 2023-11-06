@@ -66,7 +66,6 @@ function rowsToTrechos(oracleRows) {
         oracleRows.forEach((registro) => {
             Trecho = {
                 codigo: registro.ID_TRECHO,
-                tipo: registro.TIPO,
                 cidade_origem: registro.CIDADE_ORIGEM,
                 cidade_destino: registro.CIDADE_DESTINO
             };

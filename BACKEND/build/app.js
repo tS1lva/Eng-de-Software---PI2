@@ -648,10 +648,10 @@ app.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, functi
         let connection;
         try {
             const cmdInsertTrecho = `INSERT INTO TRECHO  
-      (id_trecho, tipo, cidade_origem, cidade_destino)
+      (id_trecho, cidade_origem, cidade_destino)
       VALUES
-      (SEQ_TRECHO.NEXTVAL, :1, :2, :3)`;
-            const dados = [trecho.tipo, trecho.cidade_origem, trecho.cidade_destino];
+      (SEQ_TRECHO.NEXTVAL, :1, :2)`;
+            const dados = [trecho.cidade_origem, trecho.cidade_destino];
             connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
             let resInsert = yield connection.execute(cmdInsertTrecho, dados);
             // importante: efetuar o commit para gravar no Oracle.
@@ -701,11 +701,10 @@ app.put("/alterarTrecho", (req, res) => __awaiter(void 0, void 0, void 0, functi
     try {
         const cmdUpdateTrecho = `UPDATE TRECHO 
                           SET 
-                          tipo = :1,
-                          cidade_origem = :2,
-                          cidade_destino = :3
-                          WHERE id_trecho = :4`;
-        const dadosUpdate = [trecho.tipo, trecho.cidade_origem, trecho.cidade_destino, trecho.codigo];
+                          cidade_origem = :1,
+                          cidade_destino = :2
+                          WHERE id_trecho = :3`;
+        const dadosUpdate = [trecho.cidade_origem, trecho.cidade_destino, trecho.codigo];
         console.log(trecho);
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
         let resUpdateTrecho = yield connection.execute(cmdUpdateTrecho, dadosUpdate);
