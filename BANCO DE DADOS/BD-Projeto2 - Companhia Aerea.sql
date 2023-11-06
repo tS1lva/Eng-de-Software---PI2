@@ -78,7 +78,7 @@ CREATE TABLE ASSENTO (
     voo_id NUMBER,
     aeronave_id NUMBER,
     linha number,
-    coluna number,
+    coluna char,
     constraint fk_id_voo_voo FOREIGN KEY (voo_id) REFERENCES VOO (id_voo),
     constraint fk_id_aeronave_aeronave FOREIGN KEY (aeronave_id) REFERENCES AERONAVE (id_aeronave)
 );
