@@ -125,6 +125,7 @@ export function rowsToAssentos(oracleRows: unknown[] | undefined) : Array<Assent
   if (oracleRows !== undefined){
     oracleRows.forEach((registro: any) => {
       Assento = {
+        id_assento: registro.ID_ASSENTO,
         id_voo: registro.ID_VOO,
         id_aeronave: registro.ID_AERONAVE,
         linha: registro.LINHA,
