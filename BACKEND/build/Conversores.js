@@ -90,6 +90,7 @@ function rowsToVoos(oracleRows) {
                 aeroporto_origem: registro.AEROPORTO_ORIGEM,
                 aeroporto_chegada: registro.AEROPORTO_CHEGADA,
                 id_techo: registro.TRECHO_ID,
+                aeronave_id: registro.AERONAVE_ID,
                 valor: registro.VALOR
             };
             // inserindo o novo Array convertido.
@@ -105,8 +106,8 @@ function rowsToAssentos(oracleRows) {
     if (oracleRows !== undefined) {
         oracleRows.forEach((registro) => {
             Assento = {
-                id_voo: registro.ID_VOO,
-                id_aeronave: registro.ID_AERONAVE,
+                id_assento: registro.ID_ASSENTO,
+                voo_id: registro.VOO_ID,
                 linha: registro.LINHA,
                 coluna: registro.COLUNA,
             };

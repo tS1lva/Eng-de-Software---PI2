@@ -107,6 +107,7 @@ export function rowsToVoos(oracleRows: unknown[] | undefined) : Array<Voo> {
         aeroporto_origem: registro.AEROPORTO_ORIGEM,
         aeroporto_chegada: registro.AEROPORTO_CHEGADA,
         id_techo: registro.TRECHO_ID,
+        aeronave_id: registro.AERONAVE_ID,
         valor: registro.VALOR
       } as Voo;
 
@@ -126,8 +127,7 @@ export function rowsToAssentos(oracleRows: unknown[] | undefined) : Array<Assent
     oracleRows.forEach((registro: any) => {
       Assento = {
         id_assento: registro.ID_ASSENTO,
-        id_voo: registro.ID_VOO,
-        id_aeronave: registro.ID_AERONAVE,
+        voo_id: registro.VOO_ID,
         linha: registro.LINHA,
         coluna: registro.COLUNA,
       } as Assento;

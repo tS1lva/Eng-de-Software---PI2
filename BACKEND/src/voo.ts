@@ -7,5 +7,6 @@ export type Voo = {
     aeroporto_origem?: number,
     aeroporto_chegada?: number,
     id_techo?: number,
+    aeronave_id?: number,
     valor?: number,
   }

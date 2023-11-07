@@ -97,6 +97,9 @@ function vooValida(voo) {
     if (voo.aeroporto_chegada === undefined) {
         mensagem = "Aeroporto de chegada não informado";
     }
+    if (voo.aeronave_id === undefined) {
+        mensagem = "Aeronave não informada";
+    }
     if (mensagem === "") {
         valida = true;
     }
