@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <title>Lista de Voos</title>
+    <style>
+        .leftText {
+            text-align: left;
+        }
+        .rightText {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Voos</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th class="leftText">Código</th>
+                <th class="leftText">Hora de Origem</th>
+                <th class="leftText">Data de Origem</th>
+                <th class="leftText">Hora de Chegada</th>
+                <th class="leftText">Data de Chegada</th>
+                <th class="leftText">Aeroporto de Origem</th>
+                <th class="leftText">Aeroporto de Chegada</th>
+                <th class="leftText">ID Techo</th>
+                <th class="rightText">Valor</th>
+            </tr>
+        </thead>
+        <tbody id="TblVoosDados">
+            <!-- A tabela será preenchida aqui -->
+        </tbody>
+    </table>
+    <label for="idAeronave" class="textLabel"
+    >Número de identificação da cidade:</label
+  >
+  <input
+    type="number"
+    id="filtroVOO"
+    placeholder=""
+    class="box"
+    name="idCidade"
+    required
+    />
+    <button
+    type="button"
+    class="button is-link is-medium"
+    onclick="inserirFiltro();"
+    id="filtroVOO"
+    name="filtroVOO"
+    >
+    Cadastrar
+    </button>
+
+    <h1>Lista de assentos</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th class="leftText">Código</th>
+                <th class="leftText">Linha</th>
+                <th class="leftText">Coluna</th>
+            </tr>
+        </thead>
+        <tbody id="TblAssentosDados">
+            <!-- A tabela será preenchida aqui -->
+        </tbody>
+    </table>
+
+    <script>
+        function requestListaDeVoos() {
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            };
+            return fetch('http://localhost:3000/obterVoo', requestOptions)
+                .then((response) => response.json());
+        }
+
+        function requestListaDeAssentos() {
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            };
+            return fetch('http://localhost:3000/exibirAssento', requestOptions)
+                .then((response) => response.json());
+        }
+
+        function preencherTabelaAssento(assentos) {
+            const tblBody = document.getElementById("TblAssentosDados");
+
+            assentos.forEach((assento) => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td class="leftText">${assento.id_assento}</td>
+                    <td class="leftText">${assento.linha}</td>
+                    <td class="leftText">${assento.coluna}</td>`;
+
+                tblBody.appendChild(row);
+            });
+        }
+
+        function exibirAssento() {
+            requestListaDeAssentos()
+                .then((customResponse) => {
+                    if (customResponse.status === "SUCCESS") {
+                        preencherTabelaAssento(customResponse.payload);  // Corrigido aqui
+                    } else {
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Erro ao exibir assentos:", error);
+                });
+        }
+
+
+
+
+        function preencherTabela(voos) {
+            const tblBody = document.getElementById("TblVoosDados");
+
+            voos.forEach((voo) => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td class="leftText">${voo.codigo}</td>
+                    <td class="leftText">${voo.hora_origem}</td>
+                    <td class="leftText">${voo.data_origem}</td>
+                    <td class="leftText">${voo.hora_chegada}</td>
+                    <td class="leftText">${voo.data_chegada}</td>
+                    <td class="leftText">${voo.aeroporto_origem}</td>
+                    <td class="leftText">${voo.aeroporto_chegada}</td>
+                    <td class="leftText">${voo.id_techo}</td>
+                    <td class="rightText">${voo.valor}</td>`;
+                
+                tblBody.appendChild(row);
+            });
+        }
+
+        function exibirVoos() {
+            requestListaDeVoos()
+                .then((customResponse) => {
+                    if (customResponse.status === "SUCCESS") {
+                        preencherTabela(customResponse.payload);
+                    } else {
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Erro ao exibir voos:", error);
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            exibirVoos();
+            exibirAssento();  // Adicionado aqui
+        });
+
+        function showStatusMessage(message, isError) {
+            const statusDiv = document.createElement("div");
+            statusDiv.className = isError ? "errorMessage" : "successMessage";
+            statusDiv.textContent = message;
+
+            // Adicione a mensagem ao corpo do documento
+            document.body.appendChild(statusDiv);
+
+            // Remova a mensagem após alguns segundos (opcional)
+            setTimeout(() => {
+                document.body.removeChild(statusDiv);
+            }, 5000); // Remove após 5 segundos (ajuste conforme necessário)
+        }
+
+        function fetchInserir(rota, body) {
+            const requestOptions = {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+            };
+
+            return fetch(rota, requestOptions).then((T) => T.json());
+        }
+
+        function inserirFiltro() {
+            const filtro = document.getElementById("filtroVOO").value;
+
+            let rota = "http://localhost:3000/Filtro";
+
+            fetchInserir(rota, {
+                codigo: filtro,
+            })
+            .then((resultado) => {
+                // obteve resposta, vamos simplesmente exibir como mensagem:
+                if (resultado.status === "SUCCESS") {
+                    showStatusMessage("Aeronave cadastrada... ", false);
+                    // Reiniciar a página
+                    location.reload();
+                } else {
+                    showStatusMessage(
+                        "Erro ao cadastrar aeronave...: " + resultado.message,
+                        true
+                    );
+                    console.log(resultado.message);
+                }
+            })
+            .catch(() => {
+                showStatusMessage(
+                    "Erro técnico ao cadastrar... Contate o suporte.",
+                    true
+                );
+                console.log("Falha grave ao cadastrar.");
+            });
+        }
+
+
+    </script>
+</body>
+</html>

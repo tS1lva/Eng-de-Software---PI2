@@ -1006,6 +1006,49 @@ app.get("/obterAssento", (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.send(cr);
     }
 }));
+let filtro = undefined; // Inicializado como undefined
+app.put("/Filtro", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no PUT! /Filtro\n");
+    let ax = req.body;
+    console.log(ax);
+    filtro = ax.codigo;
+    console.log(filtro);
+    res.send({ status: "SUCCESS", message: "Filtro atualizado com sucesso" });
+}));
+app.get("/exibirAssento", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou do GET! /exibirAssento");
+    if (filtro === undefined) {
+    }
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    let connection;
+    try {
+        connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
+        // Utilizar a variável filtro diretamente na consulta SQL
+        let resultadoConsulta = yield connection.execute("SELECT id_assento, voo_id, linha, coluna FROM ASSENTO WHERE voo_id = :filtro ORDER BY id_assento", [filtro]);
+        cr.status = "SUCCESS";
+        cr.message = "Dados obtidos";
+        cr.payload = (0, Conversores_1.rowsToAssentos)(resultadoConsulta.rows);
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.error(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        if (connection !== undefined) {
+            yield connection.close();
+        }
+        res.send(cr);
+    }
+}));
 //LISTEN Servidor Rodando na porta configurada: 3000
 app.listen(port, () => {
     console.log("Servidor HTTP rodando...");

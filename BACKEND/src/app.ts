@@ -8,6 +8,7 @@ import { Aeroporto } from "./Aeroportos";
 import { Trecho } from "./trecho";
 import { Voo } from "./voo";
 import { Assento } from "./Assento"
+import { Filtro } from "./filtro";
 import { oraConnAttribs } from "./OracleConnAtribs";
 import { rowsToAeronaves, rowsToCidades, rowsToAeroportos, rowsToTrechos, rowsToVoos, rowsToAssentos } from "./Conversores";
 import { aeronaveValida, cidadeValida, aeroportoValida, trechoValida, vooValida } from "./Validadores";
@@ -1090,6 +1091,60 @@ app.get("/obterAssento", async (req, res) => {
   }
 });
 
+let filtro: number | undefined = undefined; // Inicializado como undefined
+
+app.put("/Filtro", async (req, res) => {
+  console.log("\nEntrou no PUT! /Filtro\n");
+
+  let ax = req.body as Filtro;
+  console.log(ax);
+
+  filtro = ax.codigo;
+
+  console.log(filtro);
+
+  res.send({ status: "SUCCESS", message: "Filtro atualizado com sucesso" });
+});
+
+app.get("/exibirAssento", async (req, res) => {
+  console.log("\nEntrou do GET! /exibirAssento");
+
+  if (filtro === undefined) {
+    
+  }
+
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
+  let connection;
+  try {
+    connection = await oracledb.getConnection(oraConnAttribs);
+
+    // Utilizar a variável filtro diretamente na consulta SQL
+    let resultadoConsulta = await connection.execute(
+      "SELECT id_assento, voo_id, linha, coluna FROM ASSENTO WHERE voo_id = :filtro ORDER BY id_assento",
+      [filtro]
+    );
+
+    cr.status = "SUCCESS";
+    cr.message = "Dados obtidos";
+    cr.payload = rowsToAssentos(resultadoConsulta.rows);
+  } catch (e) {
+    if (e instanceof Error) {
+      cr.message = e.message;
+      console.error(e.message);
+    } else {
+      cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+    }
+  } finally {
+    if (connection !== undefined) {
+      await connection.close();
+    }
+    res.send(cr);
+  }
+});
 
 //LISTEN Servidor Rodando na porta configurada: 3000
 app.listen(port, ()=>{
