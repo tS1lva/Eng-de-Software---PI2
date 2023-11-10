@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
+    <title>Gestão aeroportos</title>
+
+    <script src="/FRONTEND/script/gerenciamento.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="superior">
+        <a><strong>← Home</strong></a>
+        <a href="/FRONTEND/html/adm.html"
+          ><p><strong>Administrador</strong></p></a
+        >
+        <div class="opcoes">
+          <a href="/FRONTEND/html/aeronave.html"><strong>Aeronave</strong></a>
+          <a href="/FRONTEND/html/aeroporto.html"><strong>Aeroporto</strong></a>
+          <a href="/FRONTEND/html/cidade.html"><strong>Cidade</strong></a>
+          <a href="/FRONTEND/html/trecho.html"><strong>Trecho</strong></a>
+          <a href="/FRONTEND/html/voo.html"><strong>Voo</strong></a>
+        </div>
+      </div>
+    </header>
+    <div id="main">
+      <div class="funcao" id="incluir">
+        <h1 class="texth1">Incluir</h1>
+        <div class="mb-3">
+          <label for="nomeAeroporto" class="form-label"
+            >Nome do aeroporto:</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="nomeAeroporto"
+            placeholder="Viracopos (VCP)"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="idCidade" class="form-label">Id da cidade:</label>
+          <input
+            type="number"
+            class="form-control"
+            id="idCidade"
+            placeholder="1"
+          />
+        </div>
+        <button type="button" class="btn btn-info" onclick="inserirAeroporto()">
+          Incluir
+        </button>
+      </div>
+
+      <div class="funcao" id="alterar">
+        <h1 class="texth1">Alterar</h1>
+        <div class="mb-3">
+          <label for="codigo_aeroporto_alterar" class="form-label"
+            >Código do aeroporto:</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            id="codigo_aeroporto_alterar"
+            placeholder="1"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="novoNomeAeroporto" class="form-label"
+            >Novo nome do aeroporto:</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="novoNomeAeroporto"
+            placeholder="Novo nome do aeroporto"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="novoCodigoCidade" class="form-label"
+            >Novo código da cidade:</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            id="novoCodigoCidade"
+            placeholder="2331"
+          />
+        </div>
+        <button type="button" class="btn btn-info" onclick="alterarAeroporto()">
+          Alterar
+        </button>
+      </div>
+
+      <div class="funcao" id="excluir">
+        <h1 class="texth1">Excluir</h1>
+        <div class="mb-3">
+          <label for="idAeroportoExcluir" class="form-label"
+            >Id do aeroporto:</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            id="idAeroportoExcluir"
+            placeholder="1"
+          />
+        </div>
+        <button type="button" class="btn btn-info" onclick="excluirAeroporto()">
+          Excluir
+        </button>
+      </div>
+
+      <div class="funcao" id="listar">
+        <h1 class="texth1">Listar</h1>
+        <a href="/FRONTEND/html/listagemAeroporto.html"
+          ><button type="button" class="btn btn-info">Listar</button></a
+        >
+      </div>
+
+      <div id="statusMessage"></div>
+    </div>
+  </body>
+</html>

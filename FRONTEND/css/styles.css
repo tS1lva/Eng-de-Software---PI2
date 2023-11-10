@@ -13,7 +13,6 @@ body {
 
 .superior {
     background-color: #1D3952;
-    padding: 1% 2%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -35,7 +34,7 @@ body {
 .opcoes {
     color: inherit;
     display: flex;
-    margin-right: 14%;
+    margin-right: 45%;
 }
 
 .opcoes a {
@@ -52,54 +51,22 @@ body {
 
 #main {
     display: flex;
-    justify-content: center;
 }
 
-.cadastroDiv {
-    padding: 0.6em 1.25em;
-    margin-bottom: 2em;
-    margin-left: 10%;
-}
 .erro {
     color: red; /* Cor do texto da mensagem de erro */
     font-size: 1em; /* Tamanho da fonte da mensagem de erro */
     margin-top: 0.25em; /* Espaço acima da mensagem de erro */
     margin-bottom: 1em; /* Espaço abaixo da mensagem de erro */
   }
-.button {
-    background-color: #384488;
-    color: antiquewhite;
-    padding: 0.6em 1.25em;
-    font-size: 1em;
-    border: 0.5em solid #252953;
-}
-
-.textLabel {
-    font-weight: bold;
-    font-style: italic;
-    color: #3b57f7;
-}
 
 .texth1 {
-    font-style: italic;
-    font-size: 1.5em;
+    font-style:italic;
     font-weight: bold;
-    color: #0584ce;
-    margin-left: 8%;
+    color: #82cfff;
 }
 
-.box {
-    width: 200px;
-}
-
-.control {
-    width: 50%;
-}
-
-.currencySelect {
-    width: 4.4em;
-}
-
-.input {
-    height: 3.13em;
+.funcao{
+    margin: 3em;
+    width: 20em;
 }
