@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Busca de Voos</title>
+</head>
+<body>
+    <header>
+        <h1>Busca de Vôos</h1>
+        <h2>Tipo de passagem</h2>
+        <input type="radio" name="opcao" id="opcao1" value="1" checked onclick="mostrarDatas()"> Somente Ida
+        <input type="radio" name="opcao" id="opcao2" value="2" onclick="mostrarDatas()"> Ida e Volta
+
+        <h2>Data Ida</h2>
+        <input type="date" id="dataIda"> 
+
+        <h2 id="labelDataVolta">Data Volta</h2>
+        <input type="date" id="dataVolta"> 
+
+        <h2>Aeroporto ORIGEM</h2>
+        <select id="aeroportoOrigem" name="aeroportoOrigem"></select>
+        
+        <h2>Aeroporto DESTINO</h2>
+        <select id="aeroportoDestino" name="aeroportoDestino"></select>
+        
+        <div>
+            <a href="/FRONTEND/html/listagemVooCliente.html" target="_blank">
+                <button type="button" class="button is-link is-medium">Buscar</button>
+            </a>
+        </div>
+    </header>
+
+    <script>
+        // Adicione a chamada inicial para ajustar a visibilidade
+        mostrarDatas();
+
+        function mostrarDatas() {
+            var opcao1 = document.getElementById("opcao1");
+            var dataIda = document.getElementById("dataIda");
+            var dataVolta = document.getElementById("dataVolta");
+            var labelDataVolta = document.getElementById("labelDataVolta");
+
+            if (opcao1.checked) {
+                dataVolta.style.display = "none";
+                labelDataVolta.style.display = "none";
+                dataIda.style.display = "block";
+            } else {
+                dataVolta.style.display = "block";
+                labelDataVolta.style.display = "block";
+                dataIda.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

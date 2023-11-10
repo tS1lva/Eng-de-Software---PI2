@@ -781,7 +781,7 @@ app.delete("/excluirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.send(cr);
     }
 }));
-//GET Obter Voos no BD
+//GET Obter Voos no BD - ADMINISTRADOR
 app.get("/obterVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou no GET! /obterVoo\n");
     let cr = {
@@ -976,3 +976,38 @@ app.delete("/excluirVoo", (req, res) => __awaiter(void 0, void 0, void 0, functi
 app.listen(port, () => {
     console.log("Servidor HTTP rodando...");
 });
+//**************************************************************************************** */
+//GET Obter Voos no BD - CLIENTE
+app.get("/obterVooCliente", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no GET! /obterVooCliente\n");
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    let connection;
+    try {
+        connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
+        // Modifique a consulta SQL para incluir o campo "codigo"
+        let resultadoConsulta = yield connection.execute("SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, valor FROM VOO WHERE aeroporto_origem = 7");
+        //await connection.close();APAGAR
+        cr.status = "SUCCESS";
+        cr.message = "Dados obtidos";
+        cr.payload = (0, Conversores_1.rowsToVoos)(resultadoConsulta.rows);
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.error(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        if (connection !== undefined) {
+            yield connection.close();
+        }
+        res.send(cr);
+    }
+}));

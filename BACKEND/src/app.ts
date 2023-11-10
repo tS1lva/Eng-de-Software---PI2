@@ -846,7 +846,7 @@ app.delete("/excluirTrecho", async(req,res)=>{
   }
 });
 
-//GET Obter Voos no BD
+//GET Obter Voos no BD - ADMINISTRADOR
 app.get("/obterVoo", async (req, res) => {
   console.log("\nEntrou no GET! /obterVoo\n");
 
@@ -1058,4 +1058,39 @@ app.delete("/excluirVoo", async(req,res)=>{
 //LISTEN Servidor Rodando na porta configurada: 3000
 app.listen(port, ()=>{
   console.log("Servidor HTTP rodando...");
+});
+//**************************************************************************************** */
+
+//GET Obter Voos no BD - CLIENTE
+app.get("/obterVooCliente", async (req, res) => {
+  console.log("\nEntrou no GET! /obterVooCliente\n");
+
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
+  let connection;
+  try {
+    connection = await oracledb.getConnection(oraConnAttribs);
+    // Modifique a consulta SQL para incluir o campo "codigo"
+    let resultadoConsulta = await connection.execute("SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, valor FROM VOO WHERE aeroporto_origem = 7");
+
+    //await connection.close();APAGAR
+    cr.status = "SUCCESS";
+    cr.message = "Dados obtidos";
+    cr.payload = rowsToVoos(resultadoConsulta.rows);
+  } catch (e) {
+    if (e instanceof Error) {
+      cr.message = e.message;
+      console.error(e.message);
+    } else {
+      cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+    }
+  } finally {
+    if (connection !== undefined) {
+      await connection.close();
+    }
+    res.send(cr);
+  }
 });
