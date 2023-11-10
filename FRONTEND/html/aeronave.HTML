@@ -49,17 +49,6 @@
           />
         </div>
         <div class="mb-3">
-          <label for="idAeronave" class="form-label"
-            >Número de identificação</label
-          >
-          <input
-            type="number"
-            class="form-control"
-            id="idAeronave"
-            placeholder="9850"
-          />
-        </div>
-        <div class="mb-3">
           <label for="fabricante" class="form-label">Fabricante</label>
           <input
             type="text"
@@ -77,7 +66,7 @@
             placeholder="2015"
           />
         </div>
-        <button type="button" class="btn btn-info">Incluir</button>
+        <button type="button" class="btn btn-info" onclick="inserirAeronave();" id="btnIncluir">Incluir</button>
       </div>
 
       <div class="funcao" id="alterar">
@@ -122,7 +111,7 @@
             placeholder="2015"
           />
         </div>
-        <button type="button" class="btn btn-info">Alterar</button>
+        <button type="button" class="btn btn-info" onclick="alterarAeronave();" id="btnAlterar">Alterar</button>
       </div>
 
       <div class="funcao" id="excluir">
@@ -138,7 +127,7 @@
             placeholder="9850"
           />
         </div>
-        <button type="button" class="btn btn-info">Excluir</button>
+        <button type="button" class="btn btn-info" onclick="excluirAeronave();" id="btnExcluir">Excluir</button>
       </div>
 
       <div class="funcao" id="listar">

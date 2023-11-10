@@ -155,7 +155,10 @@ app.put("/alterarAeronave", (req, res) => __awaiter(void 0, void 0, void 0, func
         if (rowsUpdated !== undefined && rowsUpdated !== 0) {
             console.log(`Linhas afetadas: ${rowsUpdated}`);
             cr.status = "SUCCESS";
-            cr.message = `${rowsUpdated} linha(s) modificada(s).`;
+            cr.message = `${rowsUpdated} linha modificada.`;
+        }
+        else {
+            cr.message = "Não foi possivel encontrar o ID";
         }
     }
     catch (e) {
@@ -341,7 +344,10 @@ app.put("/alterarCidade", (req, res) => __awaiter(void 0, void 0, void 0, functi
         if (rowsUpdated !== undefined && rowsUpdated !== 0) {
             console.log(`Linhas afetadas: ${rowsUpdated}`);
             cr.status = "SUCCESS";
-            cr.message = `${rowsUpdated} linha(s) modificada(s).`;
+            cr.message = `${rowsUpdated} linha modificada.`;
+        }
+        else {
+            cr.message = "Não foi possivel encontrar o ID";
         }
     }
     catch (e) {
@@ -528,7 +534,10 @@ app.put("/alterarAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, fun
         if (rowsUpdated !== undefined && rowsUpdated !== 0) {
             console.log(`Linhas afetadas: ${rowsUpdated}`);
             cr.status = "SUCCESS";
-            cr.message = `${rowsUpdated} linha(s) modificada(s).`;
+            cr.message = `${rowsUpdated} linha modificada.`;
+        }
+        else {
+            cr.message = "Não foi possivel encontrar o ID";
         }
     }
     catch (e) {
@@ -607,7 +616,7 @@ app.get("/obterTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function
     try {
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
         // Modifique a consulta SQL para incluir o campo "codigo"
-        let resultadoConsulta = yield connection.execute("SELECT id_trecho, tipo, cidade_origem, cidade_destino FROM TRECHO ORDER BY id_trecho");
+        let resultadoConsulta = yield connection.execute("SELECT id_trecho, cidade_origem, cidade_destino FROM TRECHO ORDER BY id_trecho");
         //await connection.close();APAGAR
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
@@ -713,7 +722,10 @@ app.put("/alterarTrecho", (req, res) => __awaiter(void 0, void 0, void 0, functi
         if (rowsUpdated !== undefined && rowsUpdated !== 0) {
             console.log(`Linhas afetadas: ${rowsUpdated}`);
             cr.status = "SUCCESS";
-            cr.message = `${rowsUpdated} linha(s) modificada(s).`;
+            cr.message = `${rowsUpdated} linha modificada.`;
+        }
+        else {
+            cr.message = "Não foi possivel encontrar o ID";
         }
     }
     catch (e) {
@@ -833,10 +845,10 @@ app.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function*
         let connection;
         try {
             const cmdInsertVoo = `INSERT INTO VOO  
-      (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, aeronave_id, valor)
+      (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, aeronave_id, valor)
       VALUES
-      (SEQ_TRECHO.NEXTVAL, :1, :2, :3, :4, :5, :6, :7, :8, :9)`;
-            const dados = [voo.hora_origem, voo.data_origem, voo.hora_chegada, voo.data_chegada, voo.aeroporto_origem, voo.aeroporto_chegada, voo.id_techo, voo.aeronave_id, voo.valor];
+      (SEQ_TRECHO.NEXTVAL, :1, TO_DATE(:2, 'YYYY-MM-DD'), :3, TO_DATE(:4, 'YYYY-MM-DD'),:5, :6, :7)`;
+            const dados = [voo.hora_origem, voo.data_origem, voo.hora_chegada, voo.data_chegada, voo.trecho_id, voo.aeronave_id, voo.valor];
             connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
             let resInsert = yield connection.execute(cmdInsertVoo, dados);
             // importante: efetuar o commit para gravar no Oracle.
@@ -887,16 +899,16 @@ app.put("/alterarVoo", (req, res) => __awaiter(void 0, void 0, void 0, function*
         const cmdUpdateVoo = `UPDATE VOO 
                           SET 
                           hora_origem = :1,
-                          data_origem = :2,
+                          data_origem = TO_DATE(:2, 'YYYY-MM-DD'),
                           hora_chegada = :3,
-                          data_chegada = :4,
+                          data_chegada = TO_DATE(:4, 'YYYY-MM-DD'),
                           aeroporto_origem = :5,
                           aeroporto_chegada = :6,
                           trecho_id = :7,
                           aeronave_id = :8,
                           valor = :9
                           WHERE id_voo = :10`;
-        const dadosUpdate = [voo.hora_origem, voo.data_origem, voo.hora_chegada, voo.data_chegada, voo.aeroporto_origem, voo.aeroporto_chegada, voo.id_techo, voo.aeronave_id, voo.valor, voo.codigo];
+        const dadosUpdate = [voo.hora_origem, voo.data_origem, voo.hora_chegada, voo.data_chegada, voo.aeroporto_origem, voo.aeroporto_chegada, voo.trecho_id, voo.aeronave_id, voo.valor, voo.codigo];
         console.log(voo);
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
         let resUpdateVoo = yield connection.execute(cmdUpdateVoo, dadosUpdate);
@@ -905,7 +917,10 @@ app.put("/alterarVoo", (req, res) => __awaiter(void 0, void 0, void 0, function*
         if (rowsUpdated !== undefined && rowsUpdated !== 0) {
             console.log(`Linhas afetadas: ${rowsUpdated}`);
             cr.status = "SUCCESS";
-            cr.message = `${rowsUpdated} linha(s) modificada(s).`;
+            cr.message = `${rowsUpdated} linha modificada.`;
+        }
+        else {
+            cr.message = "Não foi possivel encontrar o ID";
         }
     }
     catch (e) {

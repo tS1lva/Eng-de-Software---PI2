@@ -89,7 +89,7 @@ function rowsToVoos(oracleRows) {
                 data_chegada: registro.DATA_CHEGADA,
                 aeroporto_origem: registro.AEROPORTO_ORIGEM,
                 aeroporto_chegada: registro.AEROPORTO_CHEGADA,
-                id_techo: registro.TRECHO_ID,
+                trecho_id: registro.TRECHO_ID,
                 aeronave_id: registro.AERONAVE_ID,
                 valor: registro.VALOR
             };

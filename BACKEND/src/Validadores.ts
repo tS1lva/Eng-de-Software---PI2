@@ -110,7 +110,7 @@ export function vooValida(voo: Voo) {
   let valida = false;
   let mensagem = "";
 
-  if(voo.id_techo === undefined){
+  if(voo.trecho_id === undefined){
       mensagem = "Trecho não informado";
   }
   if(voo.valor === undefined){
@@ -118,12 +118,6 @@ export function vooValida(voo: Voo) {
   }
   if((voo.valor !== undefined) && (voo.valor < 500)){
     mensagem = "Voo está muito barato";
-  }
-  if(voo.aeroporto_origem === undefined){
-    mensagem = "Aeroporto de origem não informado";
-  }
-  if(voo.aeroporto_chegada === undefined){
-    mensagem = "Aeroporto de chegada não informado";
   }
 
   if(voo.aeronave_id === undefined) {

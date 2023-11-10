@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,7 +15,7 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
-    <title>Gestão aeronaves</title>
+    <title>Gestão voos</title>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -52,32 +52,8 @@
         </div>
 
         <div class="mb-3">
-          <label for="dataChegada" class="form-label">Data de cheagda</label>
+          <label for="dataChegada" class="form-label">Data de chegada</label>
           <input type="date" class="form-control" id="dataChegada" />
-        </div>
-
-        <div class="mb-3">
-          <label for="idAeroporto" class="form-label"
-            >Aeroproto de saída:</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            id="idAeroporto"
-            placeholder="Aeroporto Internacional de Guarulhos (GRU)"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="idAeroporto" class="form-label"
-            >Aeroproto de chegada:</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            id="idAeroporto"
-            placeholder="Aeroporto de Curitiba (CWB)"
-          />
         </div>
 
         <div class="mb-3">
@@ -92,6 +68,18 @@
             >Horário previsto para chegada:</label
           >
           <input type="time" class="form-control" id="idHoraChegada" />
+        </div>
+
+        <div class="mb-3">
+          <label for="idAeronave" class="form-label"
+            >Número de identificação da aeronave</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            id="idAeronave"
+            placeholder="5870"
+          />
         </div>
 
         <div class="mb-3">
@@ -117,96 +105,108 @@
             placeholder="700"
           />
         </div>
-        <button type="button" class="btn btn-info">Incluir</button>
+        <button type="button" class="btn btn-info" onclick="inserirVoo();">Incluir</button>
       </div>
 
       <div class="funcao" id="alterar">
         <h1 class="texth1">Alterar</h1>
 
         <div class="mb-3">
-          <label for="idTrecho" class="form-label"
+          <label for="novoIdVoo" class="form-label"
             >Número de identificação do voo</label
           >
           <input
             type="number"
             class="form-control"
-            id="idTrecho"
+            id="novoIdVoo"
             placeholder="7765"
           />
         </div>
 
         <div class="mb-3">
-          <label for="dataPartida" class="form-label">Data de partida</label>
-          <input type="date" class="form-control" id="dataPartida" />
+          <label for="novaDataPartida" class="form-label">Data de partida</label>
+          <input type="date" class="form-control" id="novaDataPartida" />
         </div>
 
         <div class="mb-3">
-          <label for="dataChegada" class="form-label">Data de cheagda</label>
-          <input type="date" class="form-control" id="dataChegada" />
+          <label for="novaDataChegada" class="form-label">Data de cheagda</label>
+          <input type="date" class="form-control" id="novaDataChegada" />
         </div>
 
         <div class="mb-3">
-          <label for="idAeroporto" class="form-label"
+          <label for="novoAeroportoPartida" class="form-label"
             >Aeroproto de saída:</label
           >
           <input
             type="text"
             class="form-control"
-            id="idAeroporto"
+            id="novoAeroportoPartida"
             placeholder="Aeroporto Internacional de Guarulhos (GRU)"
           />
         </div>
 
         <div class="mb-3">
-          <label for="idAeroporto" class="form-label"
+          <label for="novoAeroportoChegada" class="form-label"
             >Aeroproto de chegada:</label
           >
           <input
             type="text"
             class="form-control"
-            id="idAeroporto"
+            id="novoAeroportoChegada"
             placeholder="Aeroporto de Curitiba (CWB)"
           />
         </div>
 
         <div class="mb-3">
-          <label for="idHoraSaida" class="form-label"
+          <label for="novaHoraPartida" class="form-label"
             >Horário previsto para saída:</label
           >
-          <input type="time" class="form-control" id="idHoraSaida" />
+          <input type="time" class="form-control" id="novaHoraPartida" />
         </div>
 
         <div class="mb-3">
-          <label for="idHoraChegada" class="form-label"
+          <label for="novaHoraChegada" class="form-label"
             >Horário previsto para chegada:</label
           >
-          <input type="time" class="form-control" id="idHoraChegada" />
+          <input type="time" class="form-control" id="novaHoraChegada" />
         </div>
 
         <div class="mb-3">
-          <label for="idTrecho" class="form-label"
+          <label for="novoTrechoId" class="form-label"
             >Número de identificação do trecho</label
           >
           <input
             type="number"
             class="form-control"
-            id="idTrecho"
+            id="novoTrechoId"
             placeholder="5870"
           />
         </div>
 
         <div class="mb-3">
-          <label for="valor" class="form-label"
+          <label for="novoAeronaveId" class="form-label"
+            >Número de identificação da aeronave</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            id="novoAeronaveId"
+            placeholder="5"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="novoValor" class="form-label"
             >Valor por assento em reais (R$):</label
           >
           <input
             type="number"
             class="form-control"
-            id="valor"
+            id="novoValor"
             placeholder="700"
           />
         </div>
-        <button type="button" class="btn btn-info">Alterar</button>
+        <button type="button" class="btn btn-info" onclick="alterarVoo();">Alterar</button>
       </div>
 
       <div class="funcao" id="exluir">
@@ -222,7 +222,7 @@
             placeholder="9850"
           />
         </div>
-        <button type="button" class="btn btn-info">Excluir</button>
+        <button type="button" class="btn btn-info" onclick="excluirVoo();">Excluir</button>
       </div>
 
       <div class="funcao" id="listar">

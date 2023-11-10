@@ -18,12 +18,6 @@ function fetchAlterar(rota, body) {
   return fetch(rota, requestOptions).then((response) => response.json());
 }
 
-function showStatusMessage(message, isError) {
-  const statusDiv = document.getElementById("statusMessage");
-  statusDiv.innerText = message;
-  statusDiv.style.color = isError ? "red" : "green";
-}
-
 //GERENCIAMENTO AERONVAE
 function inserirAeronave() {
   const fabricante = document.getElementById("fabricante").value;
@@ -36,31 +30,23 @@ function inserirAeronave() {
     modelo: modelo,
     anoFabricacao: anoFab,
   })
-    .then((resultado) => {
-      if (resultado.status === "SUCCESS") {
-        showStatusMessage("Aeronave cadastrada com sucesso.", false);
-      } else {
-        showStatusMessage(
-          "Erro ao cadastrar aeronave: " + resultado.message,
-          true
-        );
-        console.log(resultado.message);
-      }
-    })
-    .catch(() => {
-      showStatusMessage(
-        "Erro técnico ao cadastrar. Entre em contato com o suporte.",
-        true
-      );
-      console.log("Falha ao cadastrar.");
-    });
+  .then((data) => {
+    if (data.status === "SUCCESS") {
+      alert("Aeronave incluida com sucesso: " + data.message);
+    } else {
+      alert("Erro para incluir aeronave: " + data.message);
+    }
+  })
+  .catch((error) => {
+    alert("Erro para incluir aeronave: " + error.message);
+  });
 }
 
 function alterarAeronave() {
   const modelo = document.getElementById("novoModelo").value;
   const anoFabricacao = document.getElementById("novoAnoFabricacao").value;
   const fabricante = document.getElementById("novoFabricante").value;
-  const codigo = document.getElementById("idAeronave").value;
+  const codigo = document.getElementById("idAeronaveAlterar").value;
   let rota = "http://localhost:3000/alterarAeronave";
 
   fetchAlterar(rota, {
@@ -69,16 +55,20 @@ function alterarAeronave() {
     fabricante: fabricante,
     codigo: codigo,
   })
-    .then((data) => {
-      console.log("Aeronave alterada com sucesso:", data);
+  .then((data) => {
+      if (data.status === "SUCCESS") {
+        alert("Aeronave alterada com sucesso: " + data.message);
+      } else {
+        alert("Erro ao alterar aeronave: " + data.message);
+      }
     })
     .catch((error) => {
-      console.error("Erro ao alterar aeronave:", error);
+      alert("Erro ao alterar aeronave: " + error.message);
     });
 }
 
 function excluirAeronave() {
-  const codigo = document.getElementById("idAeronave").value;
+  const codigo = document.getElementById("idAeronaveExcluir").value;
 
   fetch(`http://localhost:3000/excluirAeronave`, {
     method: "DELETE",
@@ -98,50 +88,30 @@ function excluirAeronave() {
     });
 }
 
-document
-  .querySelector("#incluir button")
-  .addEventListener("click", inserirAeronave);
-document
-  .querySelector("#alterar button")
-  .addEventListener("click", alterarAeronave);
-document
-  .querySelector("#excluir button")
-  .addEventListener("click", excluirAeronave);
-
 //GERENCIAMENTO AEROPORTO
 function inserirAeroporto() {
   const nomeAeroporto = document.getElementById("nomeAeroporto").value;
-  const idAeroporto = document.getElementById("idAeroporto").value;
+  const idCidade = document.getElementById("idCidade").value;
   let rota = "http://localhost:3000/inserirAeroporto";
 
   fetchInserir(rota, {
     nome: nomeAeroporto,
-    idAeroporto: idAeroporto,
+    cidade_id: idCidade,
   })
-    .then((resultado) => {
-      if (resultado.status === "SUCCESS") {
-        showStatusMessage("Aeroporto cadastrado com sucesso.", false);
-      } else {
-        showStatusMessage(
-          "Erro ao cadastrar aeroporto: " + resultado.message,
-          true
-        );
-        console.log(resultado.message);
-      }
-    })
-    .catch(() => {
-      showStatusMessage(
-        "Erro técnico ao cadastrar. Entre em contato com o suporte.",
-        true
-      );
-      console.log("Falha ao cadastrar.");
-    });
+  .then((data) => {
+    if (data.status === "SUCCESS") {
+      alert("Aeroporto inserido com sucesso: " + data.message);
+    } else {
+      alert("Erro ao inserir aeroporto: " + data.message);
+    }
+  })
+  .catch((error) => {
+    alert("Erro ao inserir aeroporto: " + error.message);
+  });
 }
 
 function alterarAeroporto() {
-  const codigo_aeroporto_alterar = document.getElementById(
-    "codigo_aeroporto_alterar"
-  ).value;
+  const codigo_aeroporto_alterar = document.getElementById("codigo_aeroporto_alterar").value;
   const novoNomeAeroporto = document.getElementById("novoNomeAeroporto").value;
   const novoCodigoCidade = document.getElementById("novoCodigoCidade").value;
   let rota = "http://localhost:3000/alterarAeroporto";
@@ -151,12 +121,16 @@ function alterarAeroporto() {
     nome: novoNomeAeroporto,
     cidade_id: novoCodigoCidade,
   })
-    .then((data) => {
-      console.log("Aeroporto alterado com sucesso:", data);
-    })
-    .catch((error) => {
-      console.error("Erro ao alterar aeroporto:", error);
-    });
+  .then((data) => {
+    if (data.status === "SUCCESS") {
+      alert("Aeroporto alterado com sucesso: " + data.message);
+    } else {
+      alert("Erro ao alterar aeroporto: " + data.message);
+    }
+  })
+  .catch((error) => {
+    alert("Erro ao alterar aeroporto: " + error.message);
+  });
 }
 
 function excluirAeroporto() {
@@ -188,41 +162,37 @@ function inserirCidade() {
   fetchInserir(rota, {
     nome: nomeCidade,
   })
-    .then((resultado) => {
-      if (resultado.status === "SUCCESS") {
-        showStatusMessage("Cidade cadastrada com sucesso.", false);
-      } else {
-        showStatusMessage(
-          "Erro ao cadastrar cidade: " + resultado.message,
-          true
-        );
-        console.log(resultado.message);
-      }
-    })
-    .catch(() => {
-      showStatusMessage(
-        "Erro técnico ao cadastrar. Entre em contato com o suporte.",
-        true
-      );
-      console.log("Falha ao cadastrar.");
-    });
+  .then((data) => {
+    if (data.status === "SUCCESS") {
+      alert("cidade inserida com sucesso: " + data.message);
+    } else {
+      alert("Erro ao inserir cidade: " + data.message);
+    }
+  })
+  .catch((error) => {
+    alert("Erro ao inserir cidade: " + error.message);
+  });
 }
 
 function alterarCidade() {
-  const novoNomeCidade = document.getElementById("nomeCidade").value;
-  const codigo_cidade_alterar = document.getElementById("idCidade").value;
+  const novoNomeCidade = document.getElementById("novoNomeCidade").value;
+  const codigo_cidade_alterar = document.getElementById("novoIdCidade").value;
   let rota = "http://localhost:3000/alterarCidade";
 
   fetchAlterar(rota, {
     codigo: codigo_cidade_alterar,
     nome: novoNomeCidade,
   })
-    .then((data) => {
-      console.log("Cidade alterada com sucesso:", data);
-    })
-    .catch((error) => {
-      console.error("Erro ao alterar cidade:", error);
-    });
+  .then((data) => {
+    if (data.status === "SUCCESS") {
+      alert("cidade alterada com sucesso: " + data.message);
+    } else {
+      alert("Erro ao alterar cidade: " + data.message);
+    }
+  })
+  .catch((error) => {
+    alert("Erro ao alterar cidade: " + error.message);
+  });
 }
 
 function excluirCidade() {
@@ -248,63 +218,52 @@ function excluirCidade() {
 
 //GERENCIAMENTO TRECHO
 function inserirTrecho() {
-  const tipo = document.getElementById("tipo").value;
   const cidade_origem = document.getElementById("cidade_origem").value;
   const cidade_destino = document.getElementById("cidade_destino").value;
 
   let rota = "http://localhost:3000/inserirTrecho";
 
   fetchInserir(rota, {
-    tipo: tipo,
     cidade_origem: cidade_origem,
     cidade_destino: cidade_destino,
   })
-    .then((resultado) => {
-      if (resultado.status === "SUCCESS") {
-        showStatusMessage("Trajeto cadastrado com sucesso.", false);
-      } else {
-        showStatusMessage(
-          "Erro ao cadastrar trajeto: " + resultado.message,
-          true
-        );
-        console.log(resultado.message);
-      }
-    })
-    .catch(() => {
-      showStatusMessage("Erro técnico ao cadastrar. Contate o suporte.", true);
-      console.log("Falha ao cadastrar.");
-    });
+  .then((data) => {
+    if (data.status === "SUCCESS") {
+      alert("Trecho incluido com sucesso: " + data.message);
+    } else {
+      alert("Erro para incluir Trecho: " + data.message);
+    }
+  })
+  .catch((error) => {
+    alert("Erro para incluir Trecho: " + error.message);
+  });
 }
 
 function alterarTrecho() {
-  const codigo_trecho_alterar = document.getElementById(
-    "codigo_trecho_alterar"
-  ).value;
-  const novoTipo = document.getElementById("novoTipo").value;
-  const novoCodigoCidadeOrigem = document.getElementById(
-    "novoCodigoCidadeOrigem"
-  ).value;
-  const novoCodigoCidadeDestino = document.getElementById(
-    "novoCodigoCidadeDestino"
-  ).value;
+  const codigo_trecho_alterar = document.getElementById("codigo_trecho_alterar").value;
+  const novoCodigoCidadeOrigem = document.getElementById("novoCodigoCidadeOrigem").value;
+  const novoCodigoCidadeDestino = document.getElementById("novoCodigoCidadeDestino").value;
   let rota = "http://localhost:3000/alterarTrecho";
 
   fetchAlterar(rota, {
     codigo: codigo_trecho_alterar,
-    tipo: novoTipo,
     cidade_origem: novoCodigoCidadeOrigem,
     cidade_destino: novoCodigoCidadeDestino,
   })
-    .then((data) => {
-      console.log("Trecho alterado com sucesso:", data);
-    })
-    .catch((error) => {
-      console.error("Erro ao alterar Trecho:", error);
-    });
+  .then((data) => {
+    if (data.status === "SUCCESS") {
+      alert("Trecho alterado com sucesso: " + data.message);
+    } else {
+      alert("Erro para alterar Trecho: " + data.message);
+    }
+  })
+  .catch((error) => {
+    alert("Erro para alterar Trecho: " + error.message);
+  });
 }
 
 function excluirTrecho() {
-  const codigo = document.getElementById("idTrecho").value;
+  const codigo = document.getElementById("idTrechoExcluir").value;
 
   fetch(`http://localhost:3000/excluirTrecho`, {
     method: "DELETE",
@@ -330,10 +289,9 @@ function inserirVoo() {
   const horaChegada = document.getElementById("idHoraChegada").value;
   const dataPartida = document.getElementById("dataPartida").value;
   const dataChegada = document.getElementById("dataChegada").value;
+  const aeronave_id = document.getElementById("idAeronave").value;
   const idTrecho = document.getElementById("idTrecho").value;
   const idValor = document.getElementById("valor").value;
-  const aeroportoPartida = document.getElementById("idAeroporto").value;
-  const aeroportoChegada = document.getElementById("idAeroporto").value;
 
   let rota = "http://localhost:3000/inserirVoo";
 
@@ -342,61 +300,58 @@ function inserirVoo() {
     hora_chegada: horaChegada,
     data_origem: dataPartida,
     data_chegada: dataChegada,
-    id_trecho: idTrecho,
+    trecho_id: idTrecho,
+    aeronave_id: aeronave_id,
     valor: idValor,
-    aeroporto_origem: aeroportoPartida,
-    aeroporto_chegada: aeroportoChegada,
   })
-    .then((resultado) => {
-      if (resultado.status === "SUCCESS") {
-        mostrarMensagemStatus("Voo cadastrado com sucesso.", false);
-      } else {
-        mostrarMensagemStatus(
-          "Erro ao cadastrar voo: " + resultado.message,
-          true
-        );
-        console.log(resultado.message);
-      }
-    })
-    .catch(() => {
-      mostrarMensagemStatus(
-        "Erro técnico ao cadastrar. Contate o suporte.",
-        true
-      );
-      console.log("Falha ao cadastrar.");
-    });
+  .then((data) => {
+    if (data.status === "SUCCESS") {
+      alert("Voo incluido com sucesso: " + data.message);
+    } else {
+      alert("Erro para incluir voo: " + data.message);
+    }
+  })
+  .catch((error) => {
+    alert("Erro para incluir voo: " + error.message);
+  });
 }
 
 function alterarVoo() {
-  const codigo_voo_alterar = document.getElementById("idVoo").value;
-  const novaHora_origem = document.getElementById("idHoraSaida").value;
-  const novaData_origem = document.getElementById("dataPartida").value;
-  const novaHora_chegada = document.getElementById("idHoraChegada").value;
-  const novaData_chegada = document.getElementById("dataChegada").value;
-  const novoAeroporto_origem = document.getElementById("idAeroporto").value;
-  const novoAeroporto_chegada = document.getElementById("idAeroporto").value;
-  const novoId_trecho = document.getElementById("idTrecho").value;
-  const novoValor = document.getElementById("valor").value;
+  const codigo = document.getElementById("novoIdVoo").value;
+  const hora_origem = document.getElementById("novaHoraPartida").value;
+  const data_origem = document.getElementById("novaDataPartida").value;
+  const hora_chegada = document.getElementById("novaHoraChegada").value;
+  const data_chegada = document.getElementById("novaDataChegada").value;
+  const aeroporto_origem = document.getElementById("novoAeroportoPartida").value;
+  const aeroporto_chegada = document.getElementById("novoAeroportoChegada").value;
+  const trecho_id = document.getElementById("novoTrechoId").value;
+  const aeronave_id = document.getElementById("novoAeronaveId").value;
+  const valor = document.getElementById("novoValor").value;
 
   let rota = "http://localhost:3000/alterarVoo";
 
   fetchAlterar(rota, {
-    codigo: codigo_voo_alterar,
-    hora_origem: novaHora_origem,
-    data_origem: novaData_origem,
-    hora_chegada: novaHora_chegada,
-    data_chegada: novaData_chegada,
-    aeroporto_origem: novoAeroporto_origem,
-    aeroporto_chegada: novoAeroporto_chegada,
-    id_trecho: novoId_trecho,
-    valor: novoValor,
+    codigo: codigo,
+    hora_origem: hora_origem,
+    data_origem: data_origem,
+    hora_chegada: hora_chegada,
+    data_chegada: data_chegada,
+    aeroporto_origem: aeroporto_origem,
+    aeroporto_chegada: aeroporto_chegada,
+    trecho_id: trecho_id,
+    aeronave_id: aeronave_id,
+    valor: valor,
   })
-    .then((data) => {
-      console.log("Voo alterado com sucesso:", data);
-    })
-    .catch((error) => {
-      console.error("Erro ao alterar Voo:", error);
-    });
+  .then((data) => {
+    if (data.status === "SUCCESS") {
+      alert("Voo alterado com sucesso: " + data.message);
+    } else {
+      alert("Erro para alterar voo: " + data.message);
+    }
+  })
+  .catch((error) => {
+    alert("Erro para alterar voo: " + error.message);
+  });
 }
 
 function excluirVoo() {
@@ -418,10 +373,4 @@ function excluirVoo() {
     .catch((error) => {
       alert("Erro ao excluir Voo: " + error.message);
     });
-}
-
-function mostrarMensagemStatus(mensagem, isError) {
-  const statusDiv = document.getElementById("statusMessage");
-  statusDiv.innerText = mensagem;
-  statusDiv.style.color = isError ? "red" : "green";
 }
