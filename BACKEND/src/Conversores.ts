@@ -101,9 +101,9 @@ export function rowsToVoos(oracleRows: unknown[] | undefined) : Array<Voo> {
       Voo = {
         codigo: registro.ID_VOO,
         hora_origem: registro.HORA_ORIGEM,
-        data_origem: registro.DATA_ORIGEM,
+        data_origem: (registro.DATA_ORIGEM).toLocaleDateString(),
         hora_chegada: registro.HORA_CHEGADA,
-        data_chegada: registro.DATA_CHEGADA,
+        data_chegada: (registro.DATA_CHEGADA).toLocaleDateString(),
         aeroporto_origem: registro.AEROPORTO_ORIGEM,
         aeroporto_chegada: registro.AEROPORTO_CHEGADA,
         trecho_id: registro.TRECHO_ID,
