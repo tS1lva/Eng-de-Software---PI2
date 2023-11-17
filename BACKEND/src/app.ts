@@ -1106,12 +1106,13 @@ app.get("/obterAssento", async (req, res) => {
   }
 });
 
+/* METODOS DA AREA DO CLIENTE ********************************************************* */ 
 let filtro: number | undefined = undefined; // Inicializado como undefined
 
 app.put("/Filtro", async (req, res) => {
   console.log("\nEntrou no PUT! /Filtro\n");
 
-  let ax = req.body as Filtro;
+  let ax = req.body as Voo;
   console.log(ax);
 
   filtro = ax.codigo;
@@ -1160,6 +1161,44 @@ app.get("/exibirAssento", async (req, res) => {
     res.send(cr);
   }
 });
+
+app.get("/obterVooCliente", async (req, res) => {
+  console.log("\nEntrou no GET! /obterVooCliente\n");
+
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
+  let connection;
+  try {
+    connection = await oracledb.getConnection(oraConnAttribs);
+
+    // Utilize TO_DATE e um parâmetro vinculado para a data com o formato brasileiro
+    let resultadoConsulta = await connection.execute(
+      "SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, aeronave_id, valor FROM VOO WHERE data_origem > TO_DATE(:dataLimite, 'DD/MM/YY') ORDER BY data_origem",
+      { dataLimite: '20/11/23' } // Adapte o formato conforme necessário
+    );
+
+    cr.status = "SUCCESS";
+    cr.message = "Dados obtidos";
+    cr.payload = rowsToVoos(resultadoConsulta.rows);
+  } catch (e) {
+    if (e instanceof Error) {
+      cr.message = e.message;
+      console.error(e.message);
+    } else {
+      cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+    }
+  } finally {
+    if (connection !== undefined) {
+      await connection.close();
+    }
+    res.send(cr);
+  }
+});
+
+
 
 //LISTEN Servidor Rodando na porta configurada: 3000
 app.listen(port, ()=>{

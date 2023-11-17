@@ -1021,6 +1021,7 @@ app.get("/obterAssento", (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.send(cr);
     }
 }));
+/* METODOS DA AREA DO CLIENTE ********************************************************* */
 let filtro = undefined; // Inicializado como undefined
 app.put("/Filtro", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou no PUT! /Filtro\n");
@@ -1047,6 +1048,39 @@ app.get("/exibirAssento", (req, res) => __awaiter(void 0, void 0, void 0, functi
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
         cr.payload = (0, Conversores_1.rowsToAssentos)(resultadoConsulta.rows);
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.error(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        if (connection !== undefined) {
+            yield connection.close();
+        }
+        res.send(cr);
+    }
+}));
+app.get("/obterVooCliente", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no GET! /obterVooCliente\n");
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    let connection;
+    try {
+        connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
+        // Utilize TO_DATE e um parâmetro vinculado para a data com o formato brasileiro
+        let resultadoConsulta = yield connection.execute("SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, aeronave_id, valor FROM VOO WHERE data_origem > TO_DATE(:dataLimite, 'DD/MM/YY') ORDER BY data_origem", { dataLimite: '20/11/23' } // Adapte o formato conforme necessário
+        );
+        cr.status = "SUCCESS";
+        cr.message = "Dados obtidos";
+        cr.payload = (0, Conversores_1.rowsToVoos)(resultadoConsulta.rows);
     }
     catch (e) {
         if (e instanceof Error) {
