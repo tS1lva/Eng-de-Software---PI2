@@ -52,6 +52,8 @@ body {
 .btn-group {
   margin-left: 10px;
   margin-right: 10px;
+  width: 10em;
+  height: 2em;
 }
 
 .input-group.mb-3 {
@@ -87,4 +89,8 @@ i {
 .assento.selecionado {
   background-color: #007bff;
   color: #fff;
+}
+
+#radios{
+  display: flex;
 }
