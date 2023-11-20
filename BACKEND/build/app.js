@@ -1022,19 +1022,25 @@ app.get("/obterAssento", (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 }));
 /* METODOS DA AREA DO CLIENTE ********************************************************* */
-let filtro = undefined; // Inicializado como undefined
-app.put("/Filtro", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("\nEntrou no PUT! /Filtro\n");
-    let ax = req.body;
-    console.log(ax);
-    filtro = ax.codigo;
-    console.log(filtro);
-    res.send({ status: "SUCCESS", message: "Filtro atualizado com sucesso" });
-}));
+/*
+let filtro: 1;
+
+app.put("/Filtro", async (req, res) => {
+  console.log("\nEntrou no PUT! /Filtro\n");
+
+  let ax = req.body as Voo;
+  console.log(ax);
+
+  filtro = ax.codigo;
+
+  console.log(filtro);
+
+  res.send({ status: "SUCCESS", message: "Filtro atualizado com sucesso" });
+});
+*/
 app.get("/exibirAssento", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou do GET! /exibirAssento");
-    if (filtro === undefined) {
-    }
+    let filtro = req.query.filtro; // Supondo que o filtro será passado como um parâmetro de consulta na URL
     let cr = {
         status: "ERROR",
         message: "",

@@ -1107,7 +1107,8 @@ app.get("/obterAssento", async (req, res) => {
 });
 
 /* METODOS DA AREA DO CLIENTE ********************************************************* */ 
-let filtro: number | undefined = undefined; // Inicializado como undefined
+/*
+let filtro: 1;
 
 app.put("/Filtro", async (req, res) => {
   console.log("\nEntrou no PUT! /Filtro\n");
@@ -1121,13 +1122,11 @@ app.put("/Filtro", async (req, res) => {
 
   res.send({ status: "SUCCESS", message: "Filtro atualizado com sucesso" });
 });
-
+*/
 app.get("/exibirAssento", async (req, res) => {
   console.log("\nEntrou do GET! /exibirAssento");
 
-  if (filtro === undefined) {
-    
-  }
+  let filtro = req.query.filtro; // Supondo que o filtro será passado como um parâmetro de consulta na URL
 
   let cr: CustomResponse = {
     status: "ERROR",
@@ -1135,6 +1134,7 @@ app.get("/exibirAssento", async (req, res) => {
     payload: undefined,
   };
   let connection;
+
   try {
     connection = await oracledb.getConnection(oraConnAttribs);
 
@@ -1161,6 +1161,7 @@ app.get("/exibirAssento", async (req, res) => {
     res.send(cr);
   }
 });
+
 
 app.get("/obterVooCliente", async (req, res) => {
   console.log("\nEntrou no GET! /obterVooCliente\n");

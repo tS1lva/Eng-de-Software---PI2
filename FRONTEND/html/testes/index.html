@@ -62,17 +62,6 @@
                 .then((response) => response.json());
         }
 
-        // Função para fazer a solicitação ao backend
-        function fetchListaDeAssentos() {
-            const requestOptions = {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            };
-
-            return fetch('http://localhost:3000/exibirAssento', requestOptions)
-                .then((response) => response.json());
-        }
-
         // Chama a função requestListaDeVoos e trata os dados recebidos
         requestListaDeVoos()
             .then((data) => {
@@ -169,6 +158,25 @@
                     alert(error.message);
                 });
         }
+
+        // Função para fazer a solicitação ao backend
+        function fetchListaDeAssentos() {
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            };
+
+            return fetch('http://localhost:3000/exibirAssento', requestOptions)
+                .then((response) => response.json());
+        }
+
+        fetchListaDeAssentos()
+        .then((data) => {
+            if(data.status === 'SUCESS') {
+                const assentos = data.payload
+            }
+        }
+        );
     </script>
 </body>
 </html>

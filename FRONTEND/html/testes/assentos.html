@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,80 +25,104 @@
 <body>
 
 <script>
-  // Vetor de objetos representando os assentos
-  const assentos = [
-    { coluna: 2, linha: 3 },
-    { coluna: 1, linha: 4 },
-    { coluna: 4, linha: 2 }
-  ];
+  // Função para converter letras de coluna em números
+  function converterLetraParaNumero(letra) {
+    const mapeamento = {
+      'A': 1,
+      'B': 2,
+      'C': 3,
+      'D': 4,
+      // Adicione mais mapeamentos conforme necessário
+    };
+
+    const letraMaiuscula = letra.toUpperCase();
+    return mapeamento[letraMaiuscula] || null;
+  }
+
+  // Função para obter a lista de assentos do servidor
+  function fetchListaDeAssentos(filtro) {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    const url = `http://localhost:3000/exibirAssento?filtro=${filtro}`;
+
+    return fetch(url, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 'SUCCESS') {
+          console.log('Dados de assentos:', data.payload);
+          return data.payload.map((assentoData) => {
+            return {
+              coluna: converterLetraParaNumero(assentoData.coluna),
+              linha: assentoData.linha,
+            };
+          });
+        } else {
+          throw new Error('Erro ao obter dados de assentos');
+        }
+      });
+  }
 
   // Função para criar botões em uma grade
   function criarBotoes() {
-    // Número de colunas e linhas desejadas
     const colunas = 4;
     const linhas = 5;
+    const filtro = 4;
 
-    for (let i = 0; i < linhas; i++) {
-      // Criar uma div para representar uma linha
-      const linhaDiv = document.createElement('div');
-      linhaDiv.classList.add('linha');
+    fetchListaDeAssentos(filtro)
+      .then((assentos) => {
+        for (let i = 0; i < linhas; i++) {
+          const linhaDiv = document.createElement('div');
+          linhaDiv.classList.add('linha');
 
-      for (let j = 0; j < colunas; j++) {
-        // Calcular o número do botão com base na linha e coluna
-        const numeroBotao = i * colunas + j + 1;
+          for (let j = 0; j < colunas; j++) {
+            const numeroBotao = i * colunas + j + 1;
+            const botao = document.createElement('button');
+            botao.innerText = numeroBotao;
+            botao.setAttribute('data-coluna', j + 1);
+            botao.setAttribute('data-linha', i + 1);
 
-        // Criar um novo botão
-        const botao = document.createElement('button');
+            const assentoReservado = assentos.find(assento => assento.coluna === j + 1 && assento.linha === i + 1);
 
-        // Atribuir um valor ao botão
-        botao.innerText = numeroBotao;
-
-        // Atribuir informações sobre a coluna e a linha ao botão
-        botao.setAttribute('data-coluna', j + 1);
-        botao.setAttribute('data-linha', i + 1);
-
-        // Adicionar a classe apropriada com base na disponibilidade do assento
-        const assentoReservado = assentos.find(assento => assento.coluna === j + 1 && assento.linha === i + 1);
-
-        if (assentoReservado) {
-          botao.classList.add('assento-reservado');
-        } else {
-          botao.classList.add('assento-disponivel');
-        }
-
-        // Adicionar um ouvinte de evento de clique ao botão
-        botao.addEventListener('click', function() {
-          const coluna = botao.getAttribute('data-coluna');
-          const linha = botao.getAttribute('data-linha');
-          const assentoClicado = assentos.find(assento => assento.coluna == coluna && assento.linha == linha);
-
-          if (assentoClicado) {
-            alert('Assento Reservado!');
-            console.log(`Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`);
-          } else {
-            console.log(`Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`);
-            // Adicionar lógica para lidar com um assento não reservado
-            // Neste exemplo, apenas mudamos a cor do botão para verde
-            if (botao.classList.contains('assento-selecionado')) {
-              botao.classList.remove('assento-selecionado');
-              botao.classList.add('assento-disponivel');
+            if (assentoReservado) {
+              botao.classList.add('assento-reservado');
             } else {
-              botao.classList.remove('assento-disponivel');
-              botao.classList.add('assento-selecionado');
+              botao.classList.add('assento-disponivel');
             }
+
+            botao.addEventListener('click', function() {
+              const coluna = botao.getAttribute('data-coluna');
+              const linha = botao.getAttribute('data-linha');
+              const assentoClicado = assentos.find(assento => assento.coluna == coluna && assento.linha == linha);
+
+              if (assentoClicado) {
+                alert('Assento Reservado!');
+                console.log(`Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`);
+              } else {
+                console.log(`Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`);
+                if (botao.classList.contains('assento-selecionado')) {
+                  botao.classList.remove('assento-selecionado');
+                  botao.classList.add('assento-disponivel');
+                } else {
+                  botao.classList.remove('assento-disponivel');
+                  botao.classList.add('assento-selecionado');
+                }
+              }
+            });
+
+            linhaDiv.appendChild(botao);
           }
-        });
 
-        // Adicionar o botão à linha
-        linhaDiv.appendChild(botao);
-      }
-
-      // Adicionar a linha ao corpo do documento (ou a outro elemento desejado)
-      document.body.appendChild(linhaDiv);
-    }
+          document.body.appendChild(linhaDiv);
+        }
+      })
+      .catch((error) => {
+        console.error('Erro ao obter lista de assentos:', error.message);
+      });
   }
 
-  // Chamar a função para criar os botões
   criarBotoes();
 </script>
 
