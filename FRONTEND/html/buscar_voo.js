@@ -77,34 +77,74 @@ function exibirAeroportos() {
 
 document.addEventListener("DOMContentLoaded", exibirAeroportos);
 
-
-
-function consultarVooCliente() {
-    const dataPartida = document.getElementById("dataIda").value;
-    const dataChegada = document.getElementById("dataChegada").value;
-    const aeronave_id = document.getElementById("idAeronave").value;
-    const idTrecho = document.getElementById("idTrecho").value;
-    const idValor = document.getElementById("valor").value;
+function fetchObter(rota) {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      // body removido, pois GET não deve ter corpo
+    };
   
-    let rota = "http://localhost:3000/inserirVoo";
+    return fetch(rota, requestOptions).then((response) => response.json());
+  }
+
+  function consultarVooCliente() {
+    const dataPartida = new Date(document.getElementById("dataIda").value);
   
-    fetchInserir(rota, {
-      hora_origem: horaPartida,
-      hora_chegada: horaChegada,
-      data_origem: dataPartida,
-      data_chegada: dataChegada,
-      trecho_id: idTrecho,
-      aeronave_id: aeronave_id,
-      valor: idValor,
-    })
-    .then((data) => {
-      if (data.status === "SUCCESS") {
-        alert("Voo incluido com sucesso: " + data.message);
-      } else {
-        alert("Erro para incluir voo: " + data.message);
-      }
-    })
-    .catch((error) => {
-      alert("Erro para incluir voo: " + error.message);
+    // Ajuste para o fuso horário local
+    const dataLocal = new Date(dataPartida.getTime() - (dataPartida.getTimezoneOffset() * 60000));
+  
+    const dataFormatada = dataLocal.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  
+    let rota = `http://localhost:3000/consultarVooCliente?data_origem=${dataFormatada}`;
+  
+    fetchObter(rota)
+      .then((data) => {
+        if (data.status === "SUCCESS") {
+          alert("Voos obtidos com sucesso: " + data.message);
+        } else {
+          alert("Erro ao obter voo: " + data.message);
+        }
+      })
+      .catch((error) => {
+        alert("Erro ao obter voo: " + error.message);
+      });
+  }
+
+  function preencherTabela(vooss) {
+    const tblBody = document.getElementById("TblVoosDados");
+
+    voos.forEach((voo) => {
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td class="leftText">${voo.codigo}</td>
+        <td class="leftText">${voo.hora_origem}</td>
+        <td class="leftText">${voo.data_origem}</td>
+        <td class="leftText">${voo.hora_chegada}</td>
+        <td class="leftText">${voo.data_chegada}</td>
+        <td class="leftText">${voo.aeroporto_origem}</td>
+        <td class="leftText">${voo.aeroporto_chegada}</td>
+        <td class="leftText">${voo.trecho_id}</td>
+        <td class="leftText">${voo.aeronave_id}</td>
+        <td class="rightText">${voo.valor}</td>`;
+
+      tblBody.appendChild(row);
     });
   }
+
+  function exibirVoos() {
+    requestListaDeVoos()
+      .then((customResponse) => {
+        if (customResponse.status === "SUCCESS") {
+          preencherTabela(customResponse.payload);
+        } else {
+          console.log(customResponse.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Erro ao exibir voos:", error);
+      });
+  }
+
+  document.addEventListener("DOMContentLoaded", exibirVoos);
+  

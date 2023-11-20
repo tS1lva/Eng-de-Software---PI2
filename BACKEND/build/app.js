@@ -1065,8 +1065,35 @@ app.get("/exibirAssento", (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.send(cr);
     }
 }));
-app.get("/obterVooCliente", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("\nEntrou no GET! /obterVooCliente\n");
+/*
+let dataPartida: string | undefined = undefined; // Inicializado como undefined
+
+app.put("/consultarVooClienteReq", async (req, res) => {
+  console.log("\nEntrou no PUT! /consultarVooClienteReq\n");
+
+  let ax = req.body as Voo;
+  console.log(ax);
+
+  dataPartida = ax.data_origem;
+
+  console.log(dataPartida);
+
+  res.send({ status: "SUCCESS", message: "Filtro atualizado com sucesso" });
+});
+
+
+*/
+app.get("/consultarVooCliente", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no GET! /consultarVooCliente\n");
+    let dataPartida = req.query.data_origem;
+    if (!dataPartida) {
+        return res.status(400).json({
+            status: "ERROR",
+            message: "O parâmetro 'data_origem' é obrigatório.",
+            payload: undefined,
+        });
+    }
+    console.log(dataPartida);
     let cr = {
         status: "ERROR",
         message: "",
@@ -1075,9 +1102,7 @@ app.get("/obterVooCliente", (req, res) => __awaiter(void 0, void 0, void 0, func
     let connection;
     try {
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
-        // Utilize TO_DATE e um parâmetro vinculado para a data com o formato brasileiro
-        let resultadoConsulta = yield connection.execute("SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, aeronave_id, valor FROM VOO WHERE data_origem > TO_DATE(:dataLimite, 'DD/MM/YY') ORDER BY data_origem", { dataLimite: '20/11/23' } // Adapte o formato conforme necessário
-        );
+        let resultadoConsulta = yield connection.execute("SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, aeronave_id, valor FROM VOO WHERE data_origem > TO_DATE(:dataLimite, 'DD/MM/YY') ORDER BY data_origem", [dataPartida]);
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
         cr.payload = (0, Conversores_1.rowsToVoos)(resultadoConsulta.rows);

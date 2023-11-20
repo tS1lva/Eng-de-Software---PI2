@@ -25,10 +25,40 @@
         <select id="aeroportoDestino" name="aeroportoDestino"></select>
         
         <div>
-            <a href="/FRONTEND/html/listagemVooCliente.html" target="_blank">
-                <button type="button" class="button is-link is-medium" onclick="consultarVooCliente()">Buscar</button>
-            </a>
+            
+                <button type="button" class="button is-link is-medium" onclick="consultarVooCliente();">Buscar</button>
+
+                <button
+                type="button"
+                class="button is-link is-medium"
+                onclick="consultarVooCliente();"
+                id="filtroVOO"
+                name="filtroVOO"
+                >
+                Cadastrar
+                </button>
+            
         </div>
+        <div>
+            <table id="TblVoos" class="table">
+              <thead>
+                <tr>
+                  <th class="th">Código</th>
+                  <th class="th">Hora de Origem</th>
+                  <th class="th">Data de Origem</th>
+                  <th class="th">Hora de Chegada</th>
+                  <th class="th">Data de Chegada</th>
+                  <th class="th">Aeroporto de Origem</th>
+                  <th class="th">Aeroporto de Chegada</th>
+                  <th class="th">ID do Trecho</th>
+                  <th class="th">ID da aeronave</th>
+                  <th class="th">Valor</th>
+                </tr>
+              </thead>
+              <tbody id="TblVoosDados">
+              </tbody>
+            </table>
+          </div>
     </header>
 
     <script src="buscar_voo.js">
