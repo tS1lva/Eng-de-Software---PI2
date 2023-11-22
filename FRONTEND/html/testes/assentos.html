@@ -14,7 +14,7 @@
     }
 
     .assento-disponivel {
-      background-color: white;
+      background-color: rgba(31, 25, 99, 0.493);
     }
 
     .assento-selecionado {
@@ -24,106 +24,7 @@
 </head>
 <body>
 
-<script>
-  // Função para converter letras de coluna em números
-  function converterLetraParaNumero(letra) {
-    const mapeamento = {
-      'A': 1,
-      'B': 2,
-      'C': 3,
-      'D': 4,
-      // Adicione mais mapeamentos conforme necessário
-    };
-
-    const letraMaiuscula = letra.toUpperCase();
-    return mapeamento[letraMaiuscula] || null;
-  }
-
-  // Função para obter a lista de assentos do servidor
-  function fetchListaDeAssentos(filtro) {
-    const requestOptions = {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    };
-
-    const url = `http://localhost:3000/exibirAssento?filtro=${filtro}`;
-
-    return fetch(url, requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === 'SUCCESS') {
-          console.log('Dados de assentos:', data.payload);
-          return data.payload.map((assentoData) => {
-            return {
-              coluna: converterLetraParaNumero(assentoData.coluna),
-              linha: assentoData.linha,
-            };
-          });
-        } else {
-          throw new Error('Erro ao obter dados de assentos');
-        }
-      });
-  }
-
-  // Função para criar botões em uma grade
-  function criarBotoes() {
-    const colunas = 4;
-    const linhas = 5;
-    const filtro = 1;
-
-    fetchListaDeAssentos(filtro)
-      .then((assentos) => {
-        for (let i = 0; i < linhas; i++) {
-          const linhaDiv = document.createElement('div');
-          linhaDiv.classList.add('linha');
-
-          for (let j = 0; j < colunas; j++) {
-            const numeroBotao = i * colunas + j + 1;
-            const botao = document.createElement('button');
-            botao.innerText = numeroBotao;
-            botao.setAttribute('data-coluna', j + 1);
-            botao.setAttribute('data-linha', i + 1);
-
-            const assentoReservado = assentos.find(assento => assento.coluna === j + 1 && assento.linha === i + 1);
-
-            if (assentoReservado) {
-              botao.classList.add('assento-reservado');
-            } else {
-              botao.classList.add('assento-disponivel');
-            }
-
-            botao.addEventListener('click', function() {
-              const coluna = botao.getAttribute('data-coluna');
-              const linha = botao.getAttribute('data-linha');
-              const assentoClicado = assentos.find(assento => assento.coluna == coluna && assento.linha == linha);
-
-              if (assentoClicado) {
-                alert('Assento Reservado!');
-                console.log(`Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`);
-              } else {
-                console.log(`Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`);
-                if (botao.classList.contains('assento-selecionado')) {
-                  botao.classList.remove('assento-selecionado');
-                  botao.classList.add('assento-disponivel');
-                } else {
-                  botao.classList.remove('assento-disponivel');
-                  botao.classList.add('assento-selecionado');
-                }
-              }
-            });
-
-            linhaDiv.appendChild(botao);
-          }
-
-          document.body.appendChild(linhaDiv);
-        }
-      })
-      .catch((error) => {
-        console.error('Erro ao obter lista de assentos:', error.message);
-      });
-  }
-
-  criarBotoes();
+<script src="assentos.js">
 </script>
 
 </body>
