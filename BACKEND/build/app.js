@@ -1065,27 +1065,11 @@ app.get("/exibirAssento", (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.send(cr);
     }
 }));
-/*
-let dataPartida: string | undefined = undefined; // Inicializado como undefined
-
-app.put("/consultarVooClienteReq", async (req, res) => {
-  console.log("\nEntrou no PUT! /consultarVooClienteReq\n");
-
-  let ax = req.body as Voo;
-  console.log(ax);
-
-  dataPartida = ax.data_origem;
-
-  console.log(dataPartida);
-
-  res.send({ status: "SUCCESS", message: "Filtro atualizado com sucesso" });
-});
-
-
-*/
 app.get("/consultarVooCliente", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou no GET! /consultarVooCliente\n");
     let dataPartida = req.query.data_origem;
+    let aeroportoOrigem = req.query.aeroporto_origem;
+    let aeroportoDestino = req.query.aeroporto_destino;
     if (!dataPartida) {
         return res.status(400).json({
             status: "ERROR",
@@ -1094,6 +1078,8 @@ app.get("/consultarVooCliente", (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
     console.log(dataPartida);
+    console.log(aeroportoOrigem);
+    console.log(aeroportoDestino);
     let cr = {
         status: "ERROR",
         message: "",
@@ -1102,7 +1088,7 @@ app.get("/consultarVooCliente", (req, res) => __awaiter(void 0, void 0, void 0, 
     let connection;
     try {
         connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
-        let resultadoConsulta = yield connection.execute("SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, aeronave_id, valor FROM VOO WHERE data_origem > TO_DATE(:dataLimite, 'DD/MM/YY') ORDER BY data_origem", [dataPartida]);
+        let resultadoConsulta = yield connection.execute("SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, aeronave_id, valor FROM VOO WHERE data_origem >= TO_DATE(:dataLimite, 'DD/MM/YY') AND aeroporto_origem = :1 AND aeroporto_chegada = :2 ORDER BY data_origem", [dataPartida, aeroportoOrigem, aeroportoDestino]);
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
         cr.payload = (0, Conversores_1.rowsToVoos)(resultadoConsulta.rows);

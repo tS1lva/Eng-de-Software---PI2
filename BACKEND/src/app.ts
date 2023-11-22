@@ -1162,28 +1162,13 @@ app.get("/exibirAssento", async (req, res) => {
   }
 });
 
-/*
-let dataPartida: string | undefined = undefined; // Inicializado como undefined
 
-app.put("/consultarVooClienteReq", async (req, res) => {
-  console.log("\nEntrou no PUT! /consultarVooClienteReq\n");
-
-  let ax = req.body as Voo;
-  console.log(ax);
-
-  dataPartida = ax.data_origem;
-
-  console.log(dataPartida);
-
-  res.send({ status: "SUCCESS", message: "Filtro atualizado com sucesso" });
-});
-
-
-*/
 app.get("/consultarVooCliente", async (req, res) => {
   console.log("\nEntrou no GET! /consultarVooCliente\n");
 
   let dataPartida = req.query.data_origem;
+  let aeroportoOrigem = req.query.aeroporto_origem;
+  let aeroportoDestino = req.query.aeroporto_destino;
 
   if (!dataPartida) {
     return res.status(400).json({
@@ -1194,6 +1179,8 @@ app.get("/consultarVooCliente", async (req, res) => {
   }
 
   console.log(dataPartida);
+  console.log(aeroportoOrigem);
+  console.log(aeroportoDestino);
 
   let cr: CustomResponse = {
     status: "ERROR",
@@ -1207,8 +1194,8 @@ app.get("/consultarVooCliente", async (req, res) => {
     connection = await oracledb.getConnection(oraConnAttribs);
 
     let resultadoConsulta = await connection.execute(
-      "SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, aeronave_id, valor FROM VOO WHERE data_origem > TO_DATE(:dataLimite, 'DD/MM/YY') ORDER BY data_origem",
-      [dataPartida] 
+      "SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, aeronave_id, valor FROM VOO WHERE data_origem >= TO_DATE(:dataLimite, 'DD/MM/YY') AND aeroporto_origem = :1 AND aeroporto_chegada = :2 ORDER BY data_origem",
+      [dataPartida, aeroportoOrigem, aeroportoDestino] 
     );
 
     cr.status = "SUCCESS";

@@ -26,9 +26,6 @@ function requestListaDeAeroportos() {
         .then((response) => response.json());
 }
 
-var aeroportoOrigem = 1;
-var aeroportoDestino = 1;
-
 function preencherSelectAeroportos(aeroportos) {
     const selectAeroportoOrigem = document.getElementById("aeroportoOrigem");
     const selectAeroportoDestino = document.getElementById("aeroportoDestino");
@@ -55,14 +52,12 @@ function preencherSelectAeroportos(aeroportos) {
     selectAeroportoOrigem.addEventListener("change", function () {
         const opcaoOrigem = selectAeroportoOrigem.value;
         console.log("Origem:", opcaoOrigem);
-        aeroportoOrigem = Number(opcaoOrigem);
     });
 
     // Adicionando ouvinte de evento para o elemento aeroportoDestino
     selectAeroportoDestino.addEventListener("change", function () {
         const opcaoDestino = selectAeroportoDestino.value;
         console.log("Destino:", opcaoDestino);
-        aeroportoDestino = Number(opcaoDestino);
     });
 }
 
@@ -83,79 +78,33 @@ function exibirAeroportos() {
 document.addEventListener("DOMContentLoaded", exibirAeroportos);
 
 
-function fetchObter(rota) {
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
+
+function consultarVooCliente() {
+    const dataPartida = document.getElementById("dataIda").value;
+    const dataChegada = document.getElementById("dataChegada").value;
+    const aeronave_id = document.getElementById("idAeronave").value;
+    const idTrecho = document.getElementById("idTrecho").value;
+    const idValor = document.getElementById("valor").value;
   
-    return fetch(rota, requestOptions).then((response) => response.json());
-  }
-
-  function consultarVooCliente() {
-    return new Promise((resolve, reject) => {
-      const dataPartida = new Date(document.getElementById("dataIda").value);
-      const dataLocal = new Date(dataPartida.getTime() - (dataPartida.getTimezoneOffset() * 60000));
-      const dataFormatada = dataLocal.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-
-      
-      let rota = `http://localhost:3000/consultarVooCliente?data_origem=${dataFormatada}&aeroporto_origem=${aeroportoOrigem}&aeroporto_destino=${aeroportoDestino}`;
-
+    let rota = "http://localhost:3000/inserirVoo";
   
-      fetchObter(rota)
-        .then((data) => {
-          resolve(data);
-        })
-        .catch((error) => {
-          reject(error);
-        });
+    fetchInserir(rota, {
+      hora_origem: horaPartida,
+      hora_chegada: horaChegada,
+      data_origem: dataPartida,
+      data_chegada: dataChegada,
+      trecho_id: idTrecho,
+      aeronave_id: aeronave_id,
+      valor: idValor,
+    })
+    .then((data) => {
+      if (data.status === "SUCCESS") {
+        alert("Voo incluido com sucesso: " + data.message);
+      } else {
+        alert("Erro para incluir voo: " + data.message);
+      }
+    })
+    .catch((error) => {
+      alert("Erro para incluir voo: " + error.message);
     });
   }
-  
-
-  function preencherTabela(voos) {
-    const tblBody = document.getElementById("TblVoosDados");
-
-    voos.forEach((voo) => {
-      const row = document.createElement("tr");
-
-      row.innerHTML = `
-        <td class="leftText">${voo.codigo}</td>
-        <td class="leftText">${voo.hora_origem}</td>
-        <td class="leftText">${voo.data_origem}</td>
-        <td class="leftText">${voo.hora_chegada}</td>
-        <td class="leftText">${voo.data_chegada}</td>
-        <td class="leftText">${voo.aeroporto_origem}</td>
-        <td class="leftText">${voo.aeroporto_chegada}</td>
-        <td class="leftText">${voo.trecho_id}</td>
-        <td class="leftText">${voo.aeronave_id}</td>
-        <td class="rightText">${voo.valor}</td>`;
-
-      tblBody.appendChild(row);
-    });
-  }
-
-  
-  function exibirVoos() {
-    // Limpar a tabela removendo todas as linhas
-    const tblBody = document.getElementById("TblVoosDados");
-    tblBody.innerHTML = ""; // Isso remove todos os elementos filhos de tblBody
-  
-    // Chamar a função para obter e preencher os voos
-    consultarVooCliente()
-      .then((customResponse) => {
-        if (customResponse.status === "SUCCESS") {
-          preencherTabela(customResponse.payload);
-        } else {
-          console.log(customResponse.message);
-        }
-      })
-      .catch((error) => {
-        console.error("Erro ao exibir voos:", error);
-      });
-  }
-  
-  
-
-  
-  
