@@ -70,3 +70,8 @@ body {
     margin: 3em;
     width: 20em;
 }
+
+/* Adiciona o estilo de cursor pointer às linhas clicáveis */
+.table-clickable tbody tr.table-row-clickable {
+    cursor: pointer;
+}

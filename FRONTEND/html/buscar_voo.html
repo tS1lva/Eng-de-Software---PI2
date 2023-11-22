@@ -4,63 +4,78 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Busca de Voos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
 </head>
 <body>
-    <header>
-        <h1>Busca de Vôos</h1>
-        <h2>Tipo de passagem</h2>
-        <input type="radio" name="opcao" id="opcao1" value="1" checked onclick="mostrarDatas()"> Somente Ida
-        <input type="radio" name="opcao" id="opcao2" value="2" onclick="mostrarDatas()"> Ida e Volta
-
-        <h2>Data Ida</h2>
-        <input type="date" id="dataIda"> 
-
-        <h2 id="labelDataVolta">Data Volta</h2>
-        <input type="date" id="dataVolta"> 
-
-        <h2>Aeroporto ORIGEM</h2>
-        <select id="aeroportoOrigem" name="aeroportoOrigem"></select>
+    <header class="container mt-4">
+        <h1 class="mb-3">Busca de Voos</h1>
         
-        <h2>Aeroporto DESTINO</h2>
-        <select id="aeroportoDestino" name="aeroportoDestino"></select>
-        
-        <div>
-            
-                <button
-                type="button"
-                class="button is-link is-medium"
-                onclick="exibirVoos();"
-                id="filtroVOO"
-                name="filtroVOO"
-                >
-                Buscar
-                </button>
-            
-        </div>
-        <div>
-            <table id="TblVoos" class="table">
-              <thead>
-                <tr>
-                  <th class="th">Código</th>
-                  <th class="th">Hora de Origem</th>
-                  <th class="th">Data de Origem</th>
-                  <th class="th">Hora de Chegada</th>
-                  <th class="th">Data de Chegada</th>
-                  <th class="th">Aeroporto de Origem</th>
-                  <th class="th">Aeroporto de Chegada</th>
-                  <th class="th">ID do Trecho</th>
-                  <th class="th">ID da aeronave</th>
-                  <th class="th">Valor</th>
-                </tr>
-              </thead>
-              <tbody id="TblVoosDados">
-              </tbody>
-            </table>
+
+        <div class="row">
+          <div class="col-md-4 mb-3">
+              <label class="form-label" for="aeroportoOrigem">Origem</label>
+              <select class="form-select" id="aeroportoOrigem" name="aeroportoOrigem"></select>
           </div>
+      
+          <div class="col-md-4 mb-3">
+              <label class="form-label" for="aeroportoDestino">Destino</label>
+              <select class="form-select" id="aeroportoDestino" name="aeroportoDestino"></select>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label class="form-label" for="dataIda">Data</label>
+            <input type="date" class="form-control" id="dataIda"> 
+        </div>
+      </div>
+
+
+
+
+
+      
+      <div class="row">
+        <div class="col-md-4 mb-3">
+            <label class="form-label" for="aeroportoOrigemVolta">Origem</label>
+            <select class="form-select" id="aeroportoOrigemVolta" name="aeroportoOrigemVolta"></select>
+        </div>
+    
+        <div class="col-md-4 mb-3">
+            <label class="form-label" for="aeroportoDestinoVolta">Destino</label>
+            <select class="form-select" id="aeroportoDestinoVolta" name="aeroportoDestinoVolta"></select>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label class="form-label" id="labelDataVolta" for="dataVolta">Data Volta</label>
+          <input type="date" class="form-control" id="dataVolta"> 
+      </div>
+    </div>
+      
+
+        <button type="button" class="btn btn-primary" onclick="exibirVoos()" id="filtroVOO" name="filtroVOO">Buscar</button>
+
+        <div class="mt-4">
+              <table class="table table-clickable">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Hora de Origem</th>
+                        <th>Data de Origem</th>
+                        <th>Hora de Chegada</th>
+                        <th>Data de Chegada</th>
+                        <th>Aeroporto de Origem</th>
+                        <th>Aeroporto de Chegada</th>
+                        <th>ID do Trecho</th>
+                        <th>ID da Aeronave</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody id="TblVoosDados"></tbody>
+            </table>
+        </div>
     </header>
 
-    <script src="buscar_voo.js">
-
-    </script>
+    <script src="buscar_voo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
