@@ -1125,9 +1125,7 @@ app.put("/Filtro", async (req, res) => {
 app.get("/exibirAssento", async (req, res) => {
   console.log("\nEntrou do GET! /exibirAssento");
 
-  if (filtro === undefined) {
-    
-  }
+  let filtro = req.query.filtro; // Supondo que o filtro será passado como um parâmetro de consulta na URL
 
   let cr: CustomResponse = {
     status: "ERROR",
@@ -1135,6 +1133,7 @@ app.get("/exibirAssento", async (req, res) => {
     payload: undefined,
   };
   let connection;
+
   try {
     connection = await oracledb.getConnection(oraConnAttribs);
 

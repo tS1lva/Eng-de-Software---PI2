@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,7 +15,7 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
-    <title>Gestão aeronaves</title>
+    <title>Gestão de Aeronaves</title>
 
     <script src="/FRONTEND/script/gerenciamento.js"></script>
   </head>
@@ -27,109 +27,116 @@
           ><p><strong>Administrador</strong></p></a
         >
         <div class="opcoes">
-          <a href="/FRONTEND/html/aeronave.html"><strong>Aeronave</strong></a>
-          <a href="/FRONTEND/html/aeroporto.html"><strong>Aeroporto</strong></a>
-          <a href="/FRONTEND/html/cidade.html"><strong>Cidade</strong></a>
-          <a href="/FRONTEND/html/trecho.html"><strong>Trecho</strong></a>
-          <a href="/FRONTEND/html/voo.html"><strong>Voo</strong></a>
+          <a href="/FRONTEND/html/gerenciamento/aeronave.HTML"><strong>Aeronave</strong></a>
+          <a href="/FRONTEND/html/gerenciamento/aeroporto.HTML"><strong>Aeroporto</strong></a>
+          <a href="/FRONTEND/html/gerenciamento/cidade.HTML"><strong>Cidade</strong></a>
+          <a href="/FRONTEND/html/gerenciamento/trecho.HTML"><strong>Trecho</strong></a>
+          <a href="/FRONTEND/html/gerenciamento/voo.html"><strong>Voo</strong></a>
         </div>
       </div>
     </header>
+
     <div id="main">
       <div class="funcao" id="incluir">
         <h1 class="texth1">Incluir</h1>
         <div class="mb-3">
-          <label for="cidade_origem" class="form-label">Cidade de origem</label>
+          <label for="modelo" class="form-label">Modelo</label>
           <input
             type="text"
             class="form-control"
-            id="cidade_origem"
-            placeholder="São Paulo"
+            id="modelo"
+            placeholder="AIRBUS A380"
           />
         </div>
-
         <div class="mb-3">
-          <label for="cidade_destino" class="form-label"
-            >Cidade de destino</label
-          >
+          <label for="fabricante" class="form-label">Fabricante</label>
           <input
             type="text"
             class="form-control"
-            id="cidade_destino"
-            placeholder="Fortaleza"
+            id="fabricante"
+            placeholder="BOEING"
           />
         </div>
-        <button type="button" class="btn btn-info" onclick="inserirTrecho()">
-          Incluir
-        </button>
+        <div class="mb-3">
+          <label for="ano" class="form-label">Ano de fabricação</label>
+          <input
+            type="number"
+            class="form-control"
+            id="ano"
+            placeholder="2015"
+          />
+        </div>
+        <button type="button" class="btn btn-info" onclick="inserirAeronave();" id="btnIncluir">Incluir</button>
       </div>
 
       <div class="funcao" id="alterar">
         <h1 class="texth1">Alterar</h1>
         <div class="mb-3">
-          <label for="codigo_trecho_alterar" class="form-label"
-            >Número de identificação do trecho:</label
+          <label for="idAeronaveAlterar" class="form-label"
+            >Número de identificação</label
           >
           <input
             type="number"
             class="form-control"
-            id="codigo_trecho_alterar"
+            id="idAeronaveAlterar"
             placeholder="9850"
           />
         </div>
-
         <div class="mb-3">
-          <label for="novoCodigoCidadeOrigem" class="form-label"
-            >Número de identificação da cidade de origem:</label
-          >
+          <label for="novoModelo" class="form-label">Novo modelo:</label>
           <input
-            type="number"
+            type="text"
             class="form-control"
-            id="novoCodigoCidadeOrigem"
-            placeholder="9850"
+            id="novoModelo"
+            placeholder="BOEING 777"
           />
         </div>
-
         <div class="mb-3">
-          <label for="novoCodigoCidadeDestino" class="form-label"
-            >Número de identificação da cidade de destino:</label
+          <label for="novoFabricante" class="form-label">Novo fabricante</label>
+          <input
+            type="text"
+            class="form-control"
+            id="novoFabricante"
+            placeholder="BOEING"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="novoAnoFabricacao" class="form-label"
+            >Novo ano de fabricação</label
           >
           <input
             type="number"
             class="form-control"
-            id="novoCodigoCidadeDestino"
-            placeholder="9850"
+            id="novoAnoFabricacao"
+            placeholder="2015"
           />
         </div>
-        <button type="button" class="btn btn-info" onclick="alterarTrecho()">
-          Alterar
-        </button>
+        <button type="button" class="btn btn-info" onclick="alterarAeronave();" id="btnAlterar">Alterar</button>
       </div>
 
       <div class="funcao" id="excluir">
         <h1 class="texth1">Excluir</h1>
         <div class="mb-3">
-          <label for="idTrechoExcluir" class="form-label"
-            >Número de identificação do trecho</label
+          <label for="idAeronaveExcluir" class="form-label"
+            >Número de identificação da aeronave</label
           >
           <input
             type="number"
             class="form-control"
-            id="idTrechoExcluir"
+            id="idAeronaveExcluir"
             placeholder="9850"
           />
         </div>
-        <button type="button" class="btn btn-info" onclick="excluirTrecho()">
-          Excluir
-        </button>
+        <button type="button" class="btn btn-info" onclick="excluirAeronave();" id="btnExcluir">Excluir</button>
       </div>
 
       <div class="funcao" id="listar">
         <h1 class="texth1">Listar</h1>
-        <a href="/FRONTEND/html/listagemTrechos.html"
+        <a href="/FRONTEND/html/gerenciamento/listagemAeronave.html"
           ><button type="button" class="btn btn-info">Listar</button></a
         >
       </div>
+
       <div id="statusMessage"></div>
     </div>
   </body>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,7 +15,7 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="/FRONTEND/css/styles.css" />
-    <title>Gestão aeroportos</title>
+    <title>Gestão aeronaves</title>
 
     <script src="/FRONTEND/script/gerenciamento.js"></script>
   </head>
@@ -27,11 +27,11 @@
           ><p><strong>Administrador</strong></p></a
         >
         <div class="opcoes">
-          <a href="/FRONTEND/html/aeronave.html"><strong>Aeronave</strong></a>
-          <a href="/FRONTEND/html/aeroporto.html"><strong>Aeroporto</strong></a>
-          <a href="/FRONTEND/html/cidade.html"><strong>Cidade</strong></a>
-          <a href="/FRONTEND/html/trecho.html"><strong>Trecho</strong></a>
-          <a href="/FRONTEND/html/voo.html"><strong>Voo</strong></a>
+          <a href="/FRONTEND/html/gerenciamento/aeronave.HTML"><strong>Aeronave</strong></a>
+          <a href="/FRONTEND/html/gerenciamento/aeroporto.HTML"><strong>Aeroporto</strong></a>
+          <a href="/FRONTEND/html/gerenciamento/cidade.HTML"><strong>Cidade</strong></a>
+          <a href="/FRONTEND/html/gerenciamento/trecho.HTML"><strong>Trecho</strong></a>
+          <a href="/FRONTEND/html/gerenciamento/voo.html"><strong>Voo</strong></a>
         </div>
       </div>
     </header>
@@ -39,64 +39,69 @@
       <div class="funcao" id="incluir">
         <h1 class="texth1">Incluir</h1>
         <div class="mb-3">
-          <label for="nomeAeroporto" class="form-label"
-            >Nome do aeroporto:</label
+          <label for="cidade_origem" class="form-label">Cidade de origem</label>
+          <input
+            type="text"
+            class="form-control"
+            id="cidade_origem"
+            placeholder="São Paulo"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="cidade_destino" class="form-label"
+            >Cidade de destino</label
           >
           <input
             type="text"
             class="form-control"
-            id="nomeAeroporto"
-            placeholder="Viracopos (VCP)"
+            id="cidade_destino"
+            placeholder="Fortaleza"
           />
         </div>
-        <div class="mb-3">
-          <label for="idCidade" class="form-label">Id da cidade:</label>
-          <input
-            type="number"
-            class="form-control"
-            id="idCidade"
-            placeholder="1"
-          />
-        </div>
-        <button type="button" class="btn btn-info" onclick="inserirAeroporto();" id="btnInserir">Inserir</button>
+        <button type="button" class="btn btn-info" onclick="inserirTrecho()">
+          Incluir
+        </button>
       </div>
 
       <div class="funcao" id="alterar">
         <h1 class="texth1">Alterar</h1>
         <div class="mb-3">
-          <label for="codigo_aeroporto_alterar" class="form-label"
-            >Código do aeroporto:</label
+          <label for="codigo_trecho_alterar" class="form-label"
+            >Número de identificação do trecho:</label
           >
           <input
             type="number"
             class="form-control"
-            id="codigo_aeroporto_alterar"
-            placeholder="1"
+            id="codigo_trecho_alterar"
+            placeholder="9850"
           />
         </div>
+
         <div class="mb-3">
-          <label for="novoNomeAeroporto" class="form-label"
-            >Novo nome do aeroporto:</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            id="novoNomeAeroporto"
-            placeholder="Novo nome do aeroporto"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="novoCodigoCidade" class="form-label"
-            >Novo código da cidade:</label
+          <label for="novoCodigoCidadeOrigem" class="form-label"
+            >Número de identificação da cidade de origem:</label
           >
           <input
             type="number"
             class="form-control"
-            id="novoCodigoCidade"
-            placeholder="2331"
+            id="novoCodigoCidadeOrigem"
+            placeholder="9850"
           />
         </div>
-        <button type="button" class="btn btn-info" onclick="alterarAeroporto()">
+
+        <div class="mb-3">
+          <label for="novoCodigoCidadeDestino" class="form-label"
+            >Número de identificação da cidade de destino:</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            id="novoCodigoCidadeDestino"
+            placeholder="9850"
+          />
+        </div>
+        <button type="button" class="btn btn-info" onclick="alterarTrecho()">
           Alterar
         </button>
       </div>
@@ -104,28 +109,27 @@
       <div class="funcao" id="excluir">
         <h1 class="texth1">Excluir</h1>
         <div class="mb-3">
-          <label for="idAeroportoExcluir" class="form-label"
-            >Id do aeroporto:</label
+          <label for="idTrechoExcluir" class="form-label"
+            >Número de identificação do trecho</label
           >
           <input
             type="number"
             class="form-control"
-            id="idAeroportoExcluir"
-            placeholder="1"
+            id="idTrechoExcluir"
+            placeholder="9850"
           />
         </div>
-        <button type="button" class="btn btn-info" onclick="excluirAeroporto()">
+        <button type="button" class="btn btn-info" onclick="excluirTrecho()">
           Excluir
         </button>
       </div>
 
       <div class="funcao" id="listar">
         <h1 class="texth1">Listar</h1>
-        <a href="/FRONTEND/html/listagemAeroporto.html"
+        <a href="/FRONTEND/html/gerenciamento/listagemTrechos.html"
           ><button type="button" class="btn btn-info">Listar</button></a
         >
       </div>
-
       <div id="statusMessage"></div>
     </div>
   </body>

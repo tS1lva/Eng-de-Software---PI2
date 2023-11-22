@@ -1033,8 +1033,7 @@ app.put("/Filtro", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 }));
 app.get("/exibirAssento", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou do GET! /exibirAssento");
-    if (filtro === undefined) {
-    }
+    let filtro = req.query.filtro; // Supondo que o filtro será passado como um parâmetro de consulta na URL
     let cr = {
         status: "ERROR",
         message: "",
