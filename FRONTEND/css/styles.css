@@ -75,3 +75,7 @@ body {
 .table-clickable tbody tr.table-row-clickable {
     cursor: pointer;
 }
+
+.thead-hidden {
+    display: none;
+}

@@ -112,26 +112,35 @@ function fetchObter(rota) {
         });
     });
   }
+
+function selecaoVooVolta(){
+  const opcaoVoltaSelecionado = 1;
+
+  return opcaoVoltaSelecionado;
+}  
+function exibirVoos() {
+  const tblBody = document.getElementById("TblVoosDados");
+  tblBody.innerHTML = ""; 
+
+  consultarVooCliente()
+    .then((customResponse) => {
+      if (customResponse.status === "SUCCESS") {
+        preencherTabela(customResponse.payload);
+
+        const tabelaDivIda = document.getElementById("DivTabelaIda");
+        tabelaDivIda.style.display = "block";
+      } else {
+        console.log(customResponse.message);
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao exibir voos:", error);
+    });
+}
+
+
   
-  function exibirVoos() {
-    // Limpar a tabela removendo todas as linhas
-    const tblBody = document.getElementById("TblVoosDados");
-    tblBody.innerHTML = ""; // Isso remove todos os elementos filhos de tblBody
-  
-    // Chamar a função para obter e preencher os voos
-    consultarVooCliente()
-      .then((customResponse) => {
-        if (customResponse.status === "SUCCESS") {
-          preencherTabela(customResponse.payload);
-        } else {
-          console.log(customResponse.message);
-        }
-      })
-      .catch((error) => {
-        console.error("Erro ao exibir voos:", error);
-      });
-  }
-  
+
 function preencherTabela(voos) {
   const tblBody = document.getElementById("TblVoosDados");
 
@@ -150,7 +159,7 @@ function preencherTabela(voos) {
           <td class="leftText">${voo.aeronave_id}</td>
           <td class="rightText">${voo.valor}</td> 
           <td>
-            <button class="btn btn-primary" onclick="aoClicarBotao(${voo.codigo})">Detalhes</button>
+            <button class="btn btn-primary" onclick="aoClicarBotao(${voo.codigo})">Escolher Assento</button>
           </td>`;
 
       tblBody.appendChild(row);
