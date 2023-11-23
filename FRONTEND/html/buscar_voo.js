@@ -218,8 +218,8 @@ function criarBotoes(Filtro) {
   const elementosAntigos = document.querySelectorAll('.linha');
   elementosAntigos.forEach(elemento => elemento.remove());
 
-  const colunas = 4;
-  const linhas = 5;
+  const colunas = 5;
+  const linhas = 4;
   const filtro = Filtro;
 
   fetchListaDeAssentos(filtro)
