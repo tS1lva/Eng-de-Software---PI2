@@ -195,7 +195,7 @@ return fetch(url, requestOptions)
       console.log('Dados de assentos:', data.payload);
       return data.payload.map((assentoData) => {
         return {
-          coluna: converterLetraParaNumero(assentoData.coluna),
+          coluna: assentoData.coluna,
           linha: assentoData.linha,
         };
       });

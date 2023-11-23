@@ -1234,7 +1234,7 @@ app.put("/InserirAssento", async(req,res)=>{
     (id_assento, voo_id, linha, coluna)
     VALUES
     (SEQ_ASSENTO.NEXTVAL, :1, :2, :3)`
-    const dados = [assento.voo_id, assento.linha, parseInt(assento.coluna)];
+    const dados = [assento.voo_id, assento.linha, assento.coluna];
 
     connection = await oracledb.getConnection(oraConnAttribs);
     let resInsert = await connection.execute(cmdInsertVoo, dados);
