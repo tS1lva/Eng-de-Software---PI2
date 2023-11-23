@@ -206,11 +206,58 @@ return fetch(url, requestOptions)
 }
 
 var assento_clicado = {
+  voo_id: Number,
   linha: Number,
   coluna: Number
 };
 
+function fetchInserir(rota, body) {
+  const requestOptions = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  };
+
+  return fetch(rota, requestOptions).then((response) => response.json());
+}
+
+function criarBotaoSalvarAssento(Filtro) {
+  // Criar botão "Salvar Assento"
+  var botaoSalvarAssento = document.createElement("button");
+  botaoSalvarAssento.innerHTML = "Salvar Assento";
+  botaoSalvarAssento.addEventListener("click", function() {
+    inserirAssento(Filtro);
+  });
+
+  return botaoSalvarAssento;
+}
+
+function criarDivComBotaoSalvar(Filtro) {
+  // Criar div dinamicamente
+  var minhaDiv = document.createElement("div");
+  minhaDiv.id = "minhaDiv"; // Definir o ID da div
+
+  // Criar botão "Salvar Assento"
+  var botaoSalvarAssento = criarBotaoSalvarAssento(Filtro);
+
+  // Adicionar botão ao conteúdo da div
+  minhaDiv.appendChild(botaoSalvarAssento);
+
+  // Adicionar a div ao corpo do documento
+  document.body.appendChild(minhaDiv);
+}
+
+function limparDiv() {
+  var minhaDiv = document.getElementById("minhaDiv");
+  if (minhaDiv) {
+    minhaDiv.innerHTML = ""; // Limpa o conteúdo da div
+    minhaDiv.remove(); // Remove a div do DOM
+  }
+}
+
+
 function criarBotoes(Filtro) {
+  limparDiv();
   // Cria um novo elemento div para conter os botões de assento
   const assentosDiv = document.createElement('div');
 
@@ -246,6 +293,9 @@ function criarBotoes(Filtro) {
           botao.addEventListener('click', function(event) {
             const coluna = event.target.getAttribute('data-coluna');
             const linha = event.target.getAttribute('data-linha');
+            assento_clicado.linha = linha;
+            assento_clicado.coluna = coluna;
+            assento_clicado.voo_id = Filtro;
             const assentoClicado = assentos.find(assento => assento.coluna == coluna && assento.linha == linha);
             const numeroBotao = event.target.innerText;
 
@@ -259,6 +309,7 @@ function criarBotoes(Filtro) {
                 if (event.target.classList.contains('assento-selecionado')) {
                     event.target.classList.remove('assento-selecionado');
                     event.target.classList.add('assento-disponivel');
+                    limparDiv();
                 } else if (event.target.classList.contains('assento-disponivel')) {
                     const assentosSelecionados = document.querySelectorAll('.assento-selecionado');
                     
@@ -268,6 +319,7 @@ function criarBotoes(Filtro) {
                     }
                     event.target.classList.remove('assento-disponivel');
                     event.target.classList.add('assento-selecionado');
+                    criarDivComBotaoSalvar(Filtro);
                 }
             }
         });
@@ -288,27 +340,14 @@ function criarBotoes(Filtro) {
 }
 
 function inserirAssento(Filtro) {
-  const id_voo = Filtro;
+  const Voo_id = assento_clicado.voo_id;
   const Linha = assento_clicado.linha
   const Coluna = assento_clicado.coluna
   let rota = "http://localhost:3000/InserirAssento";
 
 
-  if (Linha === 1) {
-    Linha = 'A';
-  }
-  else if (Linha === 2) {
-    Linha = 'B';
-  }
-  else if (Linha === 3){
-    Linha = 'C';
-  }
-  else if (Linha === 4) {
-    Linha = 'D';
-  }
-
   fetchInserir(rota, {
-    voo_id: Filtro,
+    voo_id: Voo_id,
     linha: Linha,
     coluna: Coluna,
   })
