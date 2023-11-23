@@ -1161,7 +1161,6 @@ app.get("/exibirAssento", async (req, res) => {
   }
 });
 
-
 app.get("/consultarVooCliente", async (req, res) => {
   console.log("\nEntrou no GET! /consultarVooCliente\n");
 
@@ -1215,8 +1214,57 @@ app.get("/consultarVooCliente", async (req, res) => {
   }
 });
 
+//PUT Inserindo Assentos no BD
+app.put("/InserirAssento", async(req,res)=>{
+  console.log("\nEntrou no PUT! /InserirAssento\n");
 
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
 
+  console.log("Corpo da requisição:", req.body);
+
+  const assento: Assento = req.body as Assento;
+
+  let connection;
+  try{
+    const cmdInsertVoo = `INSERT INTO ASSENTO  
+    (id_assento, voo_id, linha, coluna)
+    VALUES
+    (SEQ_ASSENTO.NEXTVAL, :1, :2, :3)`
+    const dados = [assento.voo_id, assento.linha, parseInt(assento.coluna)];
+
+    connection = await oracledb.getConnection(oraConnAttribs);
+    let resInsert = await connection.execute(cmdInsertVoo, dados);
+    
+    // importante: efetuar o commit para gravar no Oracle.
+    await connection.commit();
+    console.log(assento);
+    // obter a informação de quantas linhas foram inseridas. 
+    // neste caso precisa ser exatamente 1
+    const rowsInserted = resInsert.rowsAffected
+    if(rowsInserted !== undefined &&  rowsInserted === 1) {
+      cr.status = "SUCCESS"; 
+      cr.message = "Assento inserido.";
+    }
+
+  }catch(e){
+    if(e instanceof Error){
+      cr.message = e.message;
+      console.log(e.message);
+    }else{
+      cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+    }
+  } finally {
+    //fechar a conexao.
+    if(connection!== undefined){
+      await connection.close();
+    }
+    res.send(cr);  
+  }  
+});
 
 //LISTEN Servidor Rodando na porta configurada: 3000
 app.listen(port, ()=>{

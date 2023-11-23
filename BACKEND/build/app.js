@@ -1108,6 +1108,53 @@ app.get("/consultarVooCliente", (req, res) => __awaiter(void 0, void 0, void 0, 
         res.send(cr);
     }
 }));
+//PUT Inserindo Assentos no BD
+app.put("/InserirAssento", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no PUT! /InserirAssento\n");
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    console.log("Corpo da requisição:", req.body);
+    const assento = req.body;
+    let connection;
+    try {
+        const cmdInsertVoo = `INSERT INTO ASSENTO  
+    (id_assento, voo_id, linha, coluna)
+    VALUES
+    (SEQ_ASSENTO.NEXTVAL, :1, :2, :3)`;
+        const dados = [assento.voo_id, assento.linha, assento.coluna];
+        connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
+        let resInsert = yield connection.execute(cmdInsertVoo, dados);
+        // importante: efetuar o commit para gravar no Oracle.
+        yield connection.commit();
+        console.log(assento);
+        // obter a informação de quantas linhas foram inseridas. 
+        // neste caso precisa ser exatamente 1
+        const rowsInserted = resInsert.rowsAffected;
+        if (rowsInserted !== undefined && rowsInserted === 1) {
+            cr.status = "SUCCESS";
+            cr.message = "Assento inserido.";
+        }
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
+    }
+    finally {
+        //fechar a conexao.
+        if (connection !== undefined) {
+            yield connection.close();
+        }
+        res.send(cr);
+    }
+}));
 //LISTEN Servidor Rodando na porta configurada: 3000
 app.listen(port, () => {
     console.log("Servidor HTTP rodando...");

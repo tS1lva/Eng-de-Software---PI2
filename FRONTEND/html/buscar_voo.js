@@ -204,6 +204,12 @@ return fetch(url, requestOptions)
     }
   });
 }
+
+var assento_clicado = {
+  linha: Number,
+  coluna: Number
+};
+
 function criarBotoes(Filtro) {
   // Cria um novo elemento div para conter os botões de assento
   const assentosDiv = document.createElement('div');
@@ -248,7 +254,8 @@ function criarBotoes(Filtro) {
                 console.log(`Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`);
             } else {
                 console.log(`Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`);
-
+                assento_clicado.coluna = coluna;
+                assento_clicado.linha = linha;
                 if (event.target.classList.contains('assento-selecionado')) {
                     event.target.classList.remove('assento-selecionado');
                     event.target.classList.add('assento-disponivel');
@@ -278,4 +285,41 @@ function criarBotoes(Filtro) {
     .catch((error) => {
       console.error('Erro ao obter lista de assentos:', error.message);
     });
+}
+
+function inserirAssento(Filtro) {
+  const id_voo = Filtro;
+  const Linha = assento_clicado.linha
+  const Coluna = assento_clicado.coluna
+  let rota = "http://localhost:3000/InserirAssento";
+
+
+  if (Linha === 1) {
+    Linha = 'A';
+  }
+  else if (Linha === 2) {
+    Linha = 'B';
+  }
+  else if (Linha === 3){
+    Linha = 'C';
+  }
+  else if (Linha === 4) {
+    Linha = 'D';
+  }
+
+  fetchInserir(rota, {
+    voo_id: Filtro,
+    linha: Linha,
+    coluna: Coluna,
+  })
+  .then((data) => {
+    if (data.status === "SUCCESS") {
+      alert("Assento incluida com sucesso: " + data.message);
+    } else {
+      alert("Erro para incluir Assento: " + data.message);
+    }
+  })
+  .catch((error) => {
+    alert("Erro para incluir Assento: " + error.message);
+  });
 }
