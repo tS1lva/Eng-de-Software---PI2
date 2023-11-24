@@ -221,15 +221,26 @@ function fetchInserir(rota, body) {
   return fetch(rota, requestOptions).then((response) => response.json());
 }
 
-function criarBotaoSalvarAssento(Filtro) {
+function criarBotaoSalvarAssentoIda(Filtro) {
   // Criar botão "Salvar Assento"
-  var botaoSalvarAssento = document.createElement("button");
-  botaoSalvarAssento.innerHTML = "Salvar Assento";
-  botaoSalvarAssento.addEventListener("click", function() {
-    inserirAssento(Filtro);
+  var botaoSalvarAssentoIDA = document.createElement("button");
+  botaoSalvarAssentoIDA.innerHTML = "Salvar AssentoIDA";
+  botaoSalvarAssentoIDA.addEventListener("click", function() {
+    inserirAssentoIda(Filtro);
   });
 
-  return botaoSalvarAssento;
+  return botaoSalvarAssentoIDA;
+}
+
+function criarBotaoSalvarAssentoVolta(Filtro) {
+  // Criar botão "Salvar Assento"
+  var botaoSalvarAssentoVOLTA = document.createElement("button");
+  botaoSalvarAssentoVOLTA.innerHTML = "Salvar Assento";
+  botaoSalvarAssentoVOLTA.addEventListener("click", function() {
+    inserirAssentoVolta(Filtro);
+  });
+
+  return botaoSalvarAssentoVOLTA;
 }
 
 function criarDivComBotaoSalvar(Filtro) {
@@ -238,10 +249,11 @@ function criarDivComBotaoSalvar(Filtro) {
   minhaDiv.id = "minhaDiv"; // Definir o ID da div
 
   // Criar botão "Salvar Assento"
-  var botaoSalvarAssento = criarBotaoSalvarAssento(Filtro);
-
+  var botaoSalvarAssentoIDA = criarBotaoSalvarAssentoIda(Filtro);
+  var botaoSalvarAssentoVOLTA = criarBotaoSalvarAssentoVolta(Filtro);
   // Adicionar botão ao conteúdo da div
-  minhaDiv.appendChild(botaoSalvarAssento);
+  minhaDiv.appendChild(botaoSalvarAssentoIDA);
+  minhaDiv.appendChild(botaoSalvarAssentoVOLTA);
 
   // Adicionar a div ao corpo do documento
   document.body.appendChild(minhaDiv);
@@ -339,11 +351,35 @@ function criarBotoes(Filtro) {
     });
 }
 
-function inserirAssento(Filtro) {
+function inserirAssentoIda(Filtro) {
   const Voo_id = assento_clicado.voo_id;
   const Linha = assento_clicado.linha
   const Coluna = assento_clicado.coluna
-  let rota = "http://localhost:3000/InserirAssento";
+  let rota = "http://localhost:3000/gravandoAssentoIda";
+
+
+  fetchInserir(rota, {
+    voo_id: Voo_id,
+    linha: Linha,
+    coluna: Coluna,
+  })
+  .then((data) => {
+    if (data.status === "SUCCESS") {
+      alert("Assento incluida com sucesso: " + data.message);
+    } else {
+      alert("Erro para incluir Assento: " + data.message);
+    }
+  })
+  .catch((error) => {
+    alert("Erro para incluir Assento: " + error.message);
+  });
+}
+
+function inserirAssentoVolta(Filtro) {
+  const Voo_id = assento_clicado.voo_id;
+  const Linha = assento_clicado.linha
+  const Coluna = assento_clicado.coluna
+  let rota = "http://localhost:3000/gravandoAssentoVolta";
 
 
   fetchInserir(rota, {

@@ -1108,6 +1108,31 @@ app.get("/consultarVooCliente", (req, res) => __awaiter(void 0, void 0, void 0, 
         res.send(cr);
     }
 }));
+const assentosA = Array(1);
+app.put("/gravandoAssentoIda", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no PUT /gravandoAssentoIda");
+    let assentoIDA = req.body;
+    if (assentosA.length == 0) {
+        assentosA.push(assentoIDA);
+    }
+    else {
+        assentosA.pop();
+        assentosA.push(assentoIDA);
+    }
+    console.log(assentosA[0]);
+}));
+app.put("/gravandoAssentoVolta", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no PUT /gravandoAssentoVolta");
+    let assentoVolta = req.body;
+    if (assentosA.length == 1) {
+        assentosA.push(assentoVolta);
+    }
+    else {
+        assentosA.pop();
+        assentosA.push(assentoVolta);
+    }
+    console.log(assentosA[1]);
+}));
 //PUT Inserindo Assentos no BD
 app.put("/InserirAssento", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou no PUT! /InserirAssento\n");
