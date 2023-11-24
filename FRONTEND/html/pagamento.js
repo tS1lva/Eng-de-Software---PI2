@@ -8,26 +8,25 @@ function fetchInserir(rota, body) {
     return fetch(rota, requestOptions).then((response) => response.json());
 }
 
-function inserirAssentoIda(Filtro) {
-    const nome = document.getElementById("nome").value;
-    const cpf = document.getElementById("cpf").value;
-    let rota = "http://localhost:3000/gravandoAssentoIda";
+function inserirPassagem() {
+    const Nome = document.getElementById("Nome").value;
+    const Cpf = document.getElementById("Cpf").value;
+    let rota = "http://localhost:3000/gravandoDadosClientes";
   
   
     fetchInserir(rota, {
-      voo_id: Voo_id,
-      linha: Linha,
-      coluna: Coluna,
+      nome: Nome,
+      cpf: Cpf,
     })
     .then((data) => {
       if (data.status === "SUCCESS") {
-        alert("Assento incluida com sucesso: " + data.message);
+        alert("cliente incluida com sucesso: " + data.message);
       } else {
-        alert("Erro para incluir Assento: " + data.message);
+        alert("Erro para incluir cliente: " + data.message);
       }
     })
     .catch((error) => {
-      alert("Erro para incluir Assento: " + error.message);
+      alert("Erro para incluir cliente: " + error.message);
     });
   }
 

@@ -1122,7 +1122,7 @@ app.put("/gravandoAssentoIda", (req, res) => __awaiter(void 0, void 0, void 0, f
         assentosA.pop();
         assentosA.pop();
         assentosA.push(assentoIDA);
-        resposta = "Gravado com sucesso retirei o assento da ida";
+        resposta = "Gravado com sucesso retirei o assento da volta";
     }
     else {
         assentosA.push(assentoIDA);
