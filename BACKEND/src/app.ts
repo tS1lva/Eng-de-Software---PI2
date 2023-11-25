@@ -1282,10 +1282,68 @@ app.put("/gravandoAssentoVolta", async(req,res)=> {
   
 })
 
+ /*
+app.get("/DadosCompra", async (req, res) => {
+  console.log("\nEntrou no GET /DadosCompra");
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
 
-//PUT Inserindo Assentos no BD
+  let dados = Array();
+
+  for(let ax = 0; ax < assentosA.length; ax++) {
+    let connection;
+    try {
+      connection = await oracledb.getConnection(oraConnAttribs);
+      let resultadoConsulta = await connection.execute(
+        "SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, aeronave_id, valor FROM VOO where id_voo = :1 ",
+        [assentosA[ax].voo_id]);
+
+      dados.push(rowsToVoos(resultadoConsulta.rows));
+    }catch(e) {
+      cr.message = "Não foi possivel encontrar o voo";
+    }finally {
+      if (connection !== undefined) {
+        await connection.close();
+      }
+    }
+  }
+
+  for (let ax = 0; ax < assentosA.length; ax++) {
+    
+    if (assentosA[ax].linha === '1') {
+      dados[ax].linha = 'A';
+    }
+    else if (dados[ax].linha === '2') {
+      dados[ax].linha = 'B';
+    }
+
+    else if (dados[ax].linha === '3') {
+      dados[ax].linha = 'C';
+    }
+
+    else {
+      dados[ax].linha = 'D';
+    }
+  }
+
+  let dadosEnviados = Array();
+
+  for (let ax = 0; ax < assentosA.length; ax++) {
+    let objeto = {
+      idVOO: assentosA[ax].voo_id,
+      linha: dados.
+    }
+  }
+
+})
+*/
+
+//GET Inserindo Assentos no BD
 app.get("/InserirAssento", async(req,res)=>{
-  console.log("\nEntrou no PUT! /InserirAssento\n");
+  console.log("\nEntrou no GET! /InserirAssento\n");
 
   let cr: CustomResponse = {
     status: "ERROR",

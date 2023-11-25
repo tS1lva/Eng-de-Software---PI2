@@ -8,6 +8,35 @@ function fetchInserir(rota, body) {
     return fetch(rota, requestOptions).then((response) => response.json());
 }
 
+async function gravarAssentos() {
+  try {
+    const resposta = await requestInserindoAssento();
+    if (resposta.status === "SUCCESS") {
+      alert(resposta.message);
+    } else {
+      alert("Erro ao inserir assento: " + resposta.message);
+    }
+  } catch (erro) {
+    alert("Erro na requisição: " + erro.message);
+  }
+}
+
+async function requestInserindoAssento() {
+  try {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    const response = await fetch('http://localhost:3000/InserirAssento', requestOptions);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error("Erro na requisição: " + error.message);
+  }
+}
+
+
 function inserirPassagem() {
     const Nome = document.getElementById("Nome").value;
     const Cpf = document.getElementById("Cpf").value;
