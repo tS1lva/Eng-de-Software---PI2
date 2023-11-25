@@ -113,11 +113,18 @@ function fetchObter(rota) {
     });
   }
 
-function selecaoVooVolta(){
-  const opcaoVoltaSelecionado = 1;
+  var opcaoVoltaSelecionado = 0;
+  function selecaoVooVolta() {
+    opcaoVoltaSelecionado = 1 - opcaoVoltaSelecionado;
+  
+    console.log("Opcao de Volta Selecionada: " + opcaoVoltaSelecionado);
 
-  return opcaoVoltaSelecionado;
-}  
+    if (opcaoVoltaSelecionado == 0){
+      tabelaDivVolta = document.getElementById("DivTabelaVolta");
+      tabelaDivVolta.style.display = "none";
+    }
+    return opcaoVoltaSelecionado;
+  }
 function exibirVoos() {
   const elementosAntigos = document.querySelectorAll('.linha');
   elementosAntigos.forEach(elemento => elemento.remove());
@@ -131,6 +138,15 @@ function exibirVoos() {
 
         const tabelaDivIda = document.getElementById("DivTabelaIda");
         tabelaDivIda.style.display = "block";
+
+        if (opcaoVoltaSelecionado == 1){
+          tabelaDivVolta = document.getElementById("DivTabelaVolta");
+          tabelaDivVolta.style.display = "block";
+        }else{
+          tabelaDivVolta.style.display = "none";
+        }
+
+
       } else {
         console.log(customResponse.message);
       }
