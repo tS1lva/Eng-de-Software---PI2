@@ -1112,40 +1112,53 @@ const assentosA = Array(1);
 app.put("/gravandoAssentoIda", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou no PUT /gravandoAssentoIda");
     let assentoIDA = req.body;
-    let resposta;
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
     if (assentosA.length == 1) {
         assentosA.pop();
         assentosA.push(assentoIDA);
-        resposta = "Gravado com sucesso";
+        cr.status = "SUCCESS";
+        cr.message = "CADASTRADO COM SUCESSO";
     }
     else if (assentosA.length == 2) {
         assentosA.pop();
         assentosA.pop();
         assentosA.push(assentoIDA);
-        resposta = "Gravado com sucesso retirei o assento da volta";
+        cr.status = "SUCCESS";
+        cr.message = "CADASTRADO COM SUCESSO";
     }
     else {
         assentosA.push(assentoIDA);
-        resposta = "Gravado com sucesso";
+        cr.status = "SUCCESS";
+        cr.message = "CADASTRADO COM SUCESSO";
     }
     console.log(assentosA[0]);
-    res.send(resposta);
+    res.send(cr);
 }));
 app.put("/gravandoAssentoVolta", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou no PUT /gravandoAssentoVolta");
     let assentoVolta = req.body;
-    let resposta;
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
     if (assentosA.length == 1) {
         assentosA.push(assentoVolta);
-        resposta = "Gravado com sucesso";
+        cr.status = "SUCCESS";
+        cr.message = "CADASTRADO COM SUCESSO";
     }
     else if (assentosA.length == 2) {
         assentosA.pop();
         assentosA.push(assentoVolta);
-        resposta = "Gravado com sucesso";
+        cr.status = "SUCCESS";
+        cr.message = "CADASTRADO COM SUCESSO";
     }
+    res.send(cr);
     console.log(assentosA[1]);
-    res.send(resposta);
 }));
 //PUT Inserindo Assentos no BD
 app.get("/InserirAssento", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

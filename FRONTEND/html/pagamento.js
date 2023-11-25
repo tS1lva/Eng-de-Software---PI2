@@ -30,3 +30,11 @@ function inserirPassagem() {
     });
   }
 
+
+function criarDIVCARTÂO() {
+  
+}
+function confirmarDados() {
+  
+}
+
