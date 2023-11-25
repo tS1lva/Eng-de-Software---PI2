@@ -211,7 +211,7 @@ return fetch(url, requestOptions)
       console.log('Dados de assentos:', data.payload);
       return data.payload.map((assentoData) => {
         return {
-          coluna: converterLetraParaNumero(assentoData.coluna),
+          coluna: assentoData.coluna,
           linha: assentoData.linha,
         };
       });
@@ -220,7 +220,72 @@ return fetch(url, requestOptions)
     }
   });
 }
+
+var assento_clicado = {
+  voo_id: Number,
+  linha: Number,
+  coluna: Number
+};
+
+function fetchInserir(rota, body) {
+  const requestOptions = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  };
+
+  return fetch(rota, requestOptions).then((response) => response.json());
+}
+
+function criarBotaoSalvarAssentoIda(Filtro) {
+  // Criar botão "Salvar Assento"
+  var botaoSalvarAssentoIDA = document.createElement("button");
+  botaoSalvarAssentoIDA.innerHTML = "Salvar AssentoIDA";
+  botaoSalvarAssentoIDA.addEventListener("click", function() {
+    inserirAssentoIda(Filtro);
+  });
+
+  return botaoSalvarAssentoIDA;
+}
+
+function criarBotaoSalvarAssentoVolta(Filtro) {
+  // Criar botão "Salvar Assento"
+  var botaoSalvarAssentoVOLTA = document.createElement("button");
+  botaoSalvarAssentoVOLTA.innerHTML = "Salvar Assento";
+  botaoSalvarAssentoVOLTA.addEventListener("click", function() {
+    inserirAssentoVolta(Filtro);
+  });
+
+  return botaoSalvarAssentoVOLTA;
+}
+
+function criarDivComBotaoSalvar(Filtro) {
+  // Criar div dinamicamente
+  var minhaDiv = document.createElement("div");
+  minhaDiv.id = "minhaDiv"; // Definir o ID da div
+
+  // Criar botão "Salvar Assento"
+  var botaoSalvarAssentoIDA = criarBotaoSalvarAssentoIda(Filtro);
+  var botaoSalvarAssentoVOLTA = criarBotaoSalvarAssentoVolta(Filtro);
+  // Adicionar botão ao conteúdo da div
+  minhaDiv.appendChild(botaoSalvarAssentoIDA);
+  minhaDiv.appendChild(botaoSalvarAssentoVOLTA);
+
+  // Adicionar a div ao corpo do documento
+  document.body.appendChild(minhaDiv);
+}
+
+function limparDiv() {
+  var minhaDiv = document.getElementById("minhaDiv");
+  if (minhaDiv) {
+    minhaDiv.innerHTML = ""; // Limpa o conteúdo da div
+    minhaDiv.remove(); // Remove a div do DOM
+  }
+}
+
+
 function criarBotoes(Filtro) {
+  limparDiv();
   // Cria um novo elemento div para conter os botões de assento
   const assentosDiv = document.createElement('div');
 
@@ -228,8 +293,8 @@ function criarBotoes(Filtro) {
   const elementosAntigos = document.querySelectorAll('.linha');
   elementosAntigos.forEach(elemento => elemento.remove());
 
-  const colunas = 4;
-  const linhas = 5;
+  const colunas = 5;
+  const linhas = 4;
   const filtro = Filtro;
 
   fetchListaDeAssentos(filtro)
@@ -256,6 +321,9 @@ function criarBotoes(Filtro) {
           botao.addEventListener('click', function(event) {
             const coluna = event.target.getAttribute('data-coluna');
             const linha = event.target.getAttribute('data-linha');
+            assento_clicado.linha = linha;
+            assento_clicado.coluna = coluna;
+            assento_clicado.voo_id = Filtro;
             const assentoClicado = assentos.find(assento => assento.coluna == coluna && assento.linha == linha);
             const numeroBotao = event.target.innerText;
 
@@ -264,10 +332,12 @@ function criarBotoes(Filtro) {
                 console.log(`Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`);
             } else {
                 console.log(`Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`);
-
+                assento_clicado.coluna = coluna;
+                assento_clicado.linha = linha;
                 if (event.target.classList.contains('assento-selecionado')) {
                     event.target.classList.remove('assento-selecionado');
                     event.target.classList.add('assento-disponivel');
+                    limparDiv();
                 } else if (event.target.classList.contains('assento-disponivel')) {
                     const assentosSelecionados = document.querySelectorAll('.assento-selecionado');
                     
@@ -277,6 +347,7 @@ function criarBotoes(Filtro) {
                     }
                     event.target.classList.remove('assento-disponivel');
                     event.target.classList.add('assento-selecionado');
+                    criarDivComBotaoSalvar(Filtro);
                 }
             }
         });
@@ -294,4 +365,52 @@ function criarBotoes(Filtro) {
     .catch((error) => {
       console.error('Erro ao obter lista de assentos:', error.message);
     });
+}
+
+function inserirAssentoIda(Filtro) {
+  const Voo_id = assento_clicado.voo_id;
+  const Linha = assento_clicado.linha
+  const Coluna = assento_clicado.coluna
+  let rota = "http://localhost:3000/gravandoAssentoIda";
+
+
+  fetchInserir(rota, {
+    voo_id: Voo_id,
+    linha: Linha,
+    coluna: Coluna,
+  })
+  .then((data) => {
+    if (data.status === "SUCCESS") {
+      alert("Assento incluida com sucesso: " + data.message);
+    } else {
+      alert("Erro para incluir Assento: " + data.message);
+    }
+  })
+  .catch((error) => {
+    alert("Erro para incluir Assento: " + error.message);
+  });
+}
+
+function inserirAssentoVolta(Filtro) {
+  const Voo_id = assento_clicado.voo_id;
+  const Linha = assento_clicado.linha
+  const Coluna = assento_clicado.coluna
+  let rota = "http://localhost:3000/gravandoAssentoVolta";
+
+
+  fetchInserir(rota, {
+    voo_id: Voo_id,
+    linha: Linha,
+    coluna: Coluna,
+  })
+  .then((data) => {
+    if (data.status === "SUCCESS") {
+      alert("Assento incluida com sucesso: " + data.message);
+    } else {
+      alert("Erro para incluir Assento: " + data.message);
+    }
+  })
+  .catch((error) => {
+    alert("Erro para incluir Assento: " + error.message);
+  });
 }

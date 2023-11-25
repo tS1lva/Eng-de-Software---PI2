@@ -79,7 +79,7 @@ CREATE TABLE ASSENTO (
     id_assento number primary key,
     voo_id NUMBER,
     linha number,
-    coluna char,
+    coluna number,
     constraint fk_id_voo_voo FOREIGN KEY (voo_id) REFERENCES VOO (id_voo)
 );
 
@@ -248,24 +248,24 @@ INSERT INTO VOO (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, t
 VALUES (SEQ_VOO.NEXTVAL, '14:00', TO_DATE('2023-11-28', 'YYYY-MM-DD'), '16:00', TO_DATE('2023-11-28', 'YYYY-MM-DD'), 15, 15, 500.00);
 
 -- Inserts para assentos válidos
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 1, 1, 'A');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 1, 1, 'B');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 1, 1, 'C');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 1, 1, 'D');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 2, 2, 'A');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 2, 2, 'B');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 2, 2, 'C');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 2, 2, 'D');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 3, 3, 'A');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 3, 3, 'B');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 3, 3, 'C');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 3, 3, 'D');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 4, 4, 'A');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 4, 4, 'B');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 4, 4, 'C');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 4, 4, 'D');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 5, 5, 'A');
-INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 5, 5, 'B');
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 1, 1, 1);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 1, 1, 2);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 1, 1, 3);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 1, 1, 4);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 2, 2, 1);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 2, 2, 2);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 2, 2, 3);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 2, 2, 4);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 3, 3, 1);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 3, 3, 2);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 3, 3, 3);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 3, 3, 4);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 4, 4, 1);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 4, 4, 2);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 4, 4, 3);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 4, 4, 4);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 5, 5, 1);
+INSERT INTO ASSENTO (id_assento, voo_id, linha, coluna) VALUES (SEQ_ASSENTO.NEXTVAL, 5, 5, 2);
 
 -- Inserts para passagens válidas
 INSERT INTO PASSAGEM (id_passagem, nome, cpf, assento_id, voo_id) VALUES (SEQ_PASSAGEM.NEXTVAL, 'João Silva', '123.456.789-01', 1, 1);

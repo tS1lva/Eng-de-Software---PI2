@@ -1161,7 +1161,6 @@ app.get("/exibirAssento", async (req, res) => {
   }
 });
 
-
 app.get("/consultarVooCliente", async (req, res) => {
   console.log("\nEntrou no GET! /consultarVooCliente\n");
 
@@ -1215,7 +1214,224 @@ app.get("/consultarVooCliente", async (req, res) => {
   }
 });
 
+const assentosA = Array(1);
 
+app.put("/gravandoAssentoIda", async(req,res)=> {
+  console.log("\nEntrou no PUT /gravandoAssentoIda");
+
+  let assentoIDA = req.body;
+
+  let resposta 
+
+  if(assentosA.length == 1) {
+    assentosA.pop();
+    assentosA.push(assentoIDA);
+    resposta = "Gravado com sucesso";
+  }
+
+  else if(assentosA.length == 2) {
+    assentosA.pop();
+    assentosA.pop();
+    assentosA.push(assentoIDA);
+    resposta = "Gravado com sucesso retirei o assento da volta";
+  }
+
+  else {
+    assentosA.push(assentoIDA);
+    resposta = "Gravado com sucesso";
+  }
+
+  console.log(assentosA[0])
+
+  res.send(resposta);
+})
+
+app.put("/gravandoAssentoVolta", async(req,res)=> {
+  console.log("\nEntrou no PUT /gravandoAssentoVolta");
+
+  let assentoVolta = req.body;
+  let resposta
+  if(assentosA.length == 1) {
+    assentosA.push(assentoVolta);
+    resposta = "Gravado com sucesso";
+  }
+
+  else if(assentosA.length == 2) {
+    assentosA.pop();
+    assentosA.push(assentoVolta);
+    resposta = "Gravado com sucesso";
+  }
+  
+
+  console.log(assentosA[1])
+
+  res.send(resposta);
+})
+
+
+//PUT Inserindo Assentos no BD
+app.get("/InserirAssento", async(req,res)=>{
+  console.log("\nEntrou no PUT! /InserirAssento\n");
+
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
+
+  for(let ax = 0; ax < assentosA.length; ax++) {
+    let connection;
+    try{
+      const cmdInsertVoo = `INSERT INTO ASSENTO  
+      (id_assento, voo_id, linha, coluna)
+      VALUES
+      (SEQ_ASSENTO.NEXTVAL, :1, :2, :3)`
+      const dados = [assentosA[ax].voo_id, assentosA[ax].linha, assentosA[ax].coluna];
+  
+      connection = await oracledb.getConnection(oraConnAttribs);
+      let resInsert = await connection.execute(cmdInsertVoo, dados);
+      
+      await connection.commit();
+      const rowsInserted = resInsert.rowsAffected
+
+      if(rowsInserted !== undefined &&  rowsInserted === 1) {
+        cr.status = "SUCCESS"; 
+        cr.message = "Assento inserido.";
+      }
+  
+    }catch(e){
+      if(e instanceof Error){
+        cr.message = e.message;
+        console.log(e.message);
+      }else{
+        cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+      }
+    } 
+    finally {
+      //fechar a conexao.
+      if(connection!== undefined){
+        await connection.close();
+      }
+    }  
+  }    
+  res.send(cr);
+});
+
+async function id_voos() {
+  let idsAssentos = [];
+
+  for (let ax = 0; ax < assentosA.length; ax++) {
+    let connection;
+
+    try {
+      connection = await oracledb.getConnection(oraConnAttribs);
+
+      let resultadoConsulta = await connection.execute(
+        "SELECT id_assento FROM ASSENTO WHERE VOO_ID = :1 AND LINHA = :2 AND COLUNA = :3",
+        [assentosA[ax].voo_id, assentosA[ax].linha, assentosA[ax].coluna]
+      );
+
+      let assentosEncontrados = rowsToAssentos(resultadoConsulta.rows);
+
+      if (assentosEncontrados.length > 0) {
+        idsAssentos.push(assentosEncontrados[0].id_assento);
+      } else {
+        console.log(`Nenhum assento encontrado para o assentoA[${ax}]`);
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        console.error(e.message);
+      } else {
+        console.log("Erro ao conectar ao Oracle. Sem detalhes");
+      }
+    } finally {
+      if (connection !== undefined) {
+        await connection.close();
+      }
+    }
+  }
+
+  return idsAssentos;
+}
+
+
+
+app.put("/gravandoDadosClientes", async (req, res) => {
+  console.log("\nEntrou no PUT /gravandoDadosClientes");
+
+  let dados = req.body;
+
+  // Aguardar pela resolução da Promise antes de continuar
+  let lista = await id_voos();
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
+
+  let connection;
+  try {
+    if (assentosA.length === 1) {
+      const cmdInsertVoo = `INSERT INTO PASSAGEM  
+        (id_passagem, nome, cpf, assento_id, voo_id)
+        VALUES
+        (SEQ_TRECHO.NEXTVAL, :1, :2, :3, :4)`;
+
+      const avião = [dados.nome, dados.cpf, lista[0], assentosA[0].voo_id];
+
+      connection = await oracledb.getConnection(oraConnAttribs);
+      let resInsert = await connection.execute(cmdInsertVoo, avião);
+
+      // Importante: efetuar o commit para gravar no Oracle.
+      await connection.commit();
+
+      // Obter a informação de quantas linhas foram inseridas.
+      // Neste caso, precisa ser exatamente 1
+      const rowsInserted = resInsert.rowsAffected;
+      if (rowsInserted !== undefined && rowsInserted === 1) {
+        cr.status = "SUCCESS";
+        cr.message = "Passagem inserida.";
+      }
+    } else if (assentosA.length === 2) {
+      for (let i = 0; i < lista.length; i++) {
+        const cmdInsertVoo = `INSERT INTO PASSAGEM  
+        (id_passagem, nome, cpf, assento_id, voo_id)
+        VALUES
+        (SEQ_TRECHO.NEXTVAL, :1, :2, :3, :4)`;
+
+        const avião = [dados.nome, dados.cpf, lista[i], assentosA[i].voo_id];
+
+        connection = await oracledb.getConnection(oraConnAttribs);
+        let resInsert = await connection.execute(cmdInsertVoo, avião);
+
+        // Importante: efetuar o commit para gravar no Oracle.
+        await connection.commit();
+
+        // Obter a informação de quantas linhas foram inseridas.
+        // Neste caso, precisa ser exatamente 1
+        const rowsInserted = resInsert.rowsAffected;
+        if (rowsInserted !== undefined && rowsInserted === 1) {
+          cr.status = "SUCCESS";
+          cr.message = "Passagem inserida.";
+        }
+      }
+    }
+  } catch (e) {
+    if (e instanceof Error) {
+      cr.message = e.message;
+      console.error(e.message);
+    } else {
+      cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+    }
+  } finally {
+    // Fechar a conexao.
+    if (connection !== undefined) {
+      await connection.close();
+    }
+  }
+
+  res.send(cr);
+});
 
 
 //LISTEN Servidor Rodando na porta configurada: 3000
