@@ -11,7 +11,7 @@ import { VooCliente } from "./vooCliente";
 import { Assento } from "./Assento"
 import { passagemComprada } from "./passagem_comprada";
 import { oraConnAttribs } from "./OracleConnAtribs";
-import { rowsToAeronaves, rowsToCidades, rowsToAeroportos, rowsToTrechos, rowsToVoos, rowsToVoosCliente, rowsToAssentos } from "./Conversores";
+import { rowsToAeronaves,rowsToVoosDados, rowsToCidades, rowsToAeroportos, rowsToTrechos, rowsToVoos, rowsToVoosCliente, rowsToAssentos } from "./Conversores";
 import { aeronaveValida, cidadeValida, aeroportoValida, trechoValida, vooValida } from "./Validadores";
 
 const app = express();
