@@ -1022,15 +1022,6 @@ app.get("/obterAssento", (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 }));
 /* METODOS DA AREA DO CLIENTE ********************************************************* */
-let filtro = undefined; // Inicializado como undefined
-app.put("/Filtro", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("\nEntrou no PUT! /Filtro\n");
-    let ax = req.body;
-    console.log(ax);
-    filtro = ax.codigo;
-    console.log(filtro);
-    res.send({ status: "SUCCESS", message: "Filtro atualizado com sucesso" });
-}));
 app.get("/exibirAssento", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou do GET! /exibirAssento");
     let filtro = req.query.filtro; // Supondo que o filtro será passado como um parâmetro de consulta na URL
@@ -1160,9 +1151,9 @@ app.put("/gravandoAssentoVolta", (req, res) => __awaiter(void 0, void 0, void 0,
     res.send(cr);
     console.log(assentosA[1]);
 }));
-//PUT Inserindo Assentos no BD
+//GET Inserindo Assentos no BD
 app.get("/InserirAssento", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("\nEntrou no PUT! /InserirAssento\n");
+    console.log("\nEntrou no GET! /InserirAssento\n");
     let cr = {
         status: "ERROR",
         message: "",
@@ -1236,6 +1227,88 @@ function id_voos() {
         return idsAssentos;
     });
 }
+app.get("/DadosCompra", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("\nEntrou no GET /DadosCompra");
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    let dados = [];
+    for (let ax = 0; ax < assentosA.length; ax++) {
+        let connection;
+        try {
+            connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
+            let resultadoConsulta = yield connection.execute("SELECT " +
+                "  v.id_voo, " +
+                "  v.hora_origem, " +
+                "  v.data_origem, " +
+                "  v.hora_chegada, " +
+                "  v.data_chegada, " +
+                "  aero_origem.nome as aeroporto_origem_nome, " +
+                "  aero_chegada.nome as aeroporto_chegada_nome, " +
+                "  v.trecho_id, " +
+                "  v.aeronave_id, " +
+                "  v.valor " +
+                "FROM VOO v " +
+                "JOIN AEROPORTO aero_origem ON v.aeroporto_origem = aero_origem.id_aeroporto " +
+                "JOIN AEROPORTO aero_chegada ON v.aeroporto_chegada = aero_chegada.id_aeroporto " +
+                "WHERE v.id_voo = :1", [assentosA[ax].voo_id]);
+            // Adicionando diretamente os voos ao array dados
+            dados.push(...(0, Conversores_1.rowsToVoosDados)(resultadoConsulta.rows));
+        }
+        catch (e) {
+            cr.message = "Não foi possível encontrar o voo";
+        }
+        finally {
+            if (connection !== undefined) {
+                yield connection.close();
+            }
+        }
+    }
+    let AssentoLinha = Array();
+    for (let ax = 0; ax < assentosA.length; ax++) {
+        AssentoLinha.push({
+            voo_id: assentosA[ax].voo_id,
+            linha: assentosA[ax].linha,
+            coluna: assentosA[ax].coluna,
+        });
+        if (assentosA[ax].linha === 1) {
+            AssentoLinha[ax].letra = 'A';
+        }
+        else if (assentosA[ax].linha === 2) {
+            AssentoLinha[ax].letra = 'B';
+        }
+        else if (assentosA[ax].linha === 3) {
+            AssentoLinha[ax].letra = 'C';
+        }
+        else {
+            AssentoLinha[ax].letra = 'D';
+        }
+    }
+    let dadosEnv = Array();
+    for (let ax = 0; ax < assentosA.length; ax++) {
+        let passagemComprada = {};
+        passagemComprada.voo_id = AssentoLinha[ax].voo_id;
+        passagemComprada.Coluna = AssentoLinha[ax].coluna;
+        passagemComprada.Linha = AssentoLinha[ax].letra;
+        passagemComprada.data_ida = dados[ax].data_origem;
+        passagemComprada.hora_ida = dados[ax].hora_origem;
+        passagemComprada.data_volta = dados[ax].data_chegada;
+        passagemComprada.hora_volta = dados[ax].hora_chegada;
+        // Ajuste aqui para pegar o nome do aeroporto corretamente
+        passagemComprada.aeroporto_ida = dados[ax].aeroporto_origem;
+        passagemComprada.aeroporto_saida = dados[ax].aeroporto_chegada;
+        passagemComprada.valor = dados[ax].valor;
+        dadosEnv.push(passagemComprada);
+    }
+    if (dadosEnv.length > 0) {
+        cr.status = "SUCCESS";
+        cr.message = "CADASTRADO COM SUCESSO";
+        cr.payload = dadosEnv;
+    }
+    res.send(cr);
+}));
 app.put("/gravandoDadosClientes", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou no PUT /gravandoDadosClientes");
     let dados = req.body;

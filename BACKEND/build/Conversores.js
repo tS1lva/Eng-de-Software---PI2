@@ -5,7 +5,7 @@
 // que convertam de "linha do oracle" para um array javascript onde
 // cada elemento represente um elemento de um tipo. 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rowsToAssentos = exports.rowsToVoos = exports.rowsToTrechos = exports.rowsToAeroportos = exports.rowsToCidades = exports.rowsToAeronaves = void 0;
+exports.rowsToVoosDados = exports.rowsToAssentos = exports.rowsToVoos = exports.rowsToTrechos = exports.rowsToAeroportos = exports.rowsToCidades = exports.rowsToAeronaves = void 0;
 function rowsToAeronaves(oracleRows) {
     // vamos converter um array any (resultados do oracle)
     // em um array de Aeronave
@@ -118,3 +118,26 @@ function rowsToAssentos(oracleRows) {
     return Assentos;
 }
 exports.rowsToAssentos = rowsToAssentos;
+function rowsToVoosDados(oracleRows) {
+    let Voos = [];
+    if (oracleRows !== undefined) {
+        oracleRows.forEach((registro) => {
+            const Voo = {
+                codigo: registro.ID_VOO,
+                hora_origem: registro.HORA_ORIGEM,
+                data_origem: (registro.DATA_ORIGEM).toLocaleDateString(),
+                hora_chegada: registro.HORA_CHEGADA,
+                data_chegada: (registro.DATA_CHEGADA).toLocaleDateString(),
+                aeroporto_origem: registro.AEROPORTO_ORIGEM_NOME,
+                aeroporto_chegada: registro.AEROPORTO_CHEGADA_NOME,
+                trecho_id: registro.TRECHO_ID,
+                aeronave_id: registro.AERONAVE_ID,
+                valor: registro.VALOR
+            };
+            // Inserindo o novo Array convertido.
+            Voos.push(Voo);
+        });
+    }
+    return Voos;
+}
+exports.rowsToVoosDados = rowsToVoosDados;
