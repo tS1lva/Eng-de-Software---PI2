@@ -1,3 +1,8 @@
+var aeroportoOrigem = 1;
+var aeroportoDestino = 1;
+var aeroportoOrigemVolta = 1;
+var aeroportoDestinoVolta = 1;
+
 function requestListaDeAeroportos() {
     const requestOptions = {
         method: 'GET',
@@ -7,8 +12,6 @@ function requestListaDeAeroportos() {
         .then((response) => response.json());
 }
 
-var aeroportoOrigem = 1;
-var aeroportoDestino = 1;
 
 function preencherSelectAeroportos(aeroportos) {
     const selectAeroportoOrigem = document.getElementById("aeroportoOrigem");
@@ -66,6 +69,20 @@ function preencherSelectAeroportos(aeroportos) {
         aeroportoDestino = Number(opcaoDestino);
         selectAeroportoOrigemVolta.value = selectAeroportoDestino.value;
     });
+
+    // Adicionando ouvinte de evento para o elemento aeroportoOrigemVolta
+    selectAeroportoOrigemVolta.addEventListener("change", function () {
+      const opcaoOrigemVolta = selectAeroportoOrigemVolta.value;
+      console.log("Origem Volta:", opcaoOrigemVolta);
+      aeroportoOrigemVolta = Number(opcaoOrigemVolta);
+  });
+
+  // Adicionando ouvinte de evento para o elemento aeroportoDestinoVolta
+  selectAeroportoDestinoVolta.addEventListener("change", function () {
+      const opcaoDestinoVolta = selectAeroportoDestinoVolta.value;
+      console.log("Destino Volta:", opcaoDestinoVolta);
+      aeroportoDestinoVolta = Number(opcaoDestinoVolta);
+  });
 }
 
 function exibirAeroportos() {
@@ -113,6 +130,25 @@ function fetchObter(rota) {
     });
   }
 
+  function consultarVooClienteVolta() {
+    return new Promise((resolve, reject) => {
+      const dataVolta = new Date(document.getElementById("dataVolta").value);
+      const dataLocal = new Date(dataVolta.getTime() - (dataVolta.getTimezoneOffset() * 60000));
+      const dataFormatada = dataLocal.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+      
+      let rota = `http://localhost:3000/consultarVooCliente?data_origem=${dataFormatada}&aeroporto_origem=${aeroportoOrigemVolta}&aeroporto_destino=${aeroportoDestinoVolta}`;
+
+  
+      fetchObter(rota)
+        .then((data) => {
+          resolve(data);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
   var opcaoVoltaSelecionado = 0;
   function selecaoVooVolta() {
     opcaoVoltaSelecionado = 1 - opcaoVoltaSelecionado;
@@ -130,6 +166,8 @@ function exibirVoos() {
   elementosAntigos.forEach(elemento => elemento.remove());
   const tblBody = document.getElementById("TblVoosDados");
   tblBody.innerHTML = ""; 
+  const tblBody2 = document.getElementById("TblVoosDadosVolta");
+  tblBody2.innerHTML = ""; 
 
   consultarVooCliente()
     .then((customResponse) => {
@@ -139,14 +177,6 @@ function exibirVoos() {
         const tabelaDivIda = document.getElementById("DivTabelaIda");
         tabelaDivIda.style.display = "block";
 
-        if (opcaoVoltaSelecionado == 1){
-          tabelaDivVolta = document.getElementById("DivTabelaVolta");
-          tabelaDivVolta.style.display = "block";
-        }else{
-          tabelaDivVolta.style.display = "none";
-        }
-
-
       } else {
         console.log(customResponse.message);
       }
@@ -154,30 +184,79 @@ function exibirVoos() {
     .catch((error) => {
       console.error("Erro ao exibir voos:", error);
     });
+
+
+  if (opcaoVoltaSelecionado == 1){
+    console.log(' Entrou Consulta volta ' + opcaoVoltaSelecionado);
+    tabelaDivVolta = document.getElementById("DivTabelaVolta");
+    tabelaDivVolta.style.display = "block";
+
+    consultarVooClienteVolta()
+      .then((customResponse) => {
+        if (customResponse.status === "SUCCESS") {
+          preencherTabelaVolta(customResponse.payload);
+
+          const tabelaDivVolta = document.getElementById("DivTabelaVolta");
+          tabelaDivVolta.style.display = "block";
+
+        } else {
+          console.log(customResponse.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Erro ao exibir voos:", error);
+      });
+  }else{
+      tabelaDivVolta.style.display = "none";
+  }
+      
 }
 
 function preencherTabela(voos) {
   const tblBody = document.getElementById("TblVoosDados");
 
   voos.forEach((voo) => {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td class="center">${voo.codigo}</td>
+      <td class="leftText">${voo.nome_cidade_origem}</td>
+      <td class="leftText">${voo.data_origem}</td>
+      <td class="leftText">${voo.hora_origem}</td>
+      <td class="leftText">${voo.nome_cidade_destino}</td>
+      <td class="leftText">${voo.data_chegada}</td>
+      <td class="leftText">${voo.hora_chegada}</td>
+      <td class="rightText">${voo.valor}</td> 
+      <td>
+        <button class="btn btn-primary" onclick="criarBotoes(${voo.codigo},'DivMapaAssentos')">Escolher Assento</button>
+      </td>`;
+
+    tblBody.appendChild(row);
+  });
+}
+
+
+
+function preencherTabelaVolta(voos) {
+  const tblBodyVolta = document.getElementById("TblVoosDadosVolta");
+
+  voos.forEach((voo) => {
       const row = document.createElement("tr");
 
       row.innerHTML = `
-          <td class="leftText">${voo.codigo}</td>
-          <td class="leftText">${voo.hora_origem}</td>
-          <td class="leftText">${voo.data_origem}</td>
-          <td class="leftText">${voo.hora_chegada}</td>
-          <td class="leftText">${voo.data_chegada}</td>
-          <td class="leftText">${voo.aeroporto_origem}</td>
-          <td class="leftText">${voo.aeroporto_chegada}</td>
-          <td class="leftText">${voo.trecho_id}</td>
-          <td class="leftText">${voo.aeronave_id}</td>
-          <td class="rightText">${voo.valor}</td> 
-          <td>
-            <button class="btn btn-primary" onclick="criarBotoes(${voo.codigo})">Escolher Assento</button>
-          </td>`;
+        <td class="center">${voo.codigo}</td>
+        <td class="leftText">${voo.nome_cidade_origem}</td>
+        <td class="leftText">${voo.data_origem}</td>
+        <td class="leftText">${voo.hora_origem}</td>
+        <td class="leftText">${voo.nome_cidade_destino}</td>
+        <td class="leftText">${voo.data_chegada}</td>
+        <td class="leftText">${voo.hora_chegada}</td>
+        <td class="rightText">${voo.valor}</td> 
+        <td>
+        <button class="btn btn-primary" onclick="criarBotoes(${voo.codigo},'DivMapaAssentos')">Escolher Assento</button>
+      </td>`;
 
-      tblBody.appendChild(row);
+      tblBodyVolta.appendChild(row);
   });
 }
 
@@ -268,7 +347,7 @@ function criarDivComBotaoSalvar(Filtro) {
   var botaoSalvarAssentoIDA = criarBotaoSalvarAssentoIda(Filtro);
   var botaoSalvarAssentoVOLTA = criarBotaoSalvarAssentoVolta(Filtro);
   // Adicionar botão ao conteúdo da div
-  minhaDiv.appendChild(botaoSalvarAssentoIDA);
+  DivMapaAssentos.appendChild(botaoSalvarAssentoIDA);
   minhaDiv.appendChild(botaoSalvarAssentoVOLTA);
 
   // Adicionar a div ao corpo do documento
@@ -284,14 +363,45 @@ function limparDiv() {
 }
 
 
-function criarBotoes(Filtro) {
-  limparDiv();
-  // Cria um novo elemento div para conter os botões de assento
-  const assentosDiv = document.createElement('div');
+function criarBotoes(Filtro, divPaiId) {
+  // Obtém a div de destino com base no ID fornecido
+  const divPai = document.getElementById(divPaiId);
 
-  // Remove os botões de assento existentes, se houver
-  const elementosAntigos = document.querySelectorAll('.linha');
-  elementosAntigos.forEach(elemento => elemento.remove());
+  // Remove todos os elementos filhos da div
+  while (divPai.firstChild) {
+    divPai.removeChild(divPai.firstChild);
+  }
+
+  // Cria um novo elemento div para conter a tabela, o bico e a cauda do avião
+  const container = document.createElement('div');
+  container.style.display = 'flex'; // Torna o container um contêiner flexível
+  container.style.alignItems = 'center'; // Centraliza verticalmente os itens
+
+  // Adiciona imagem do bico do avião à esquerda
+  const imagemBico = document.createElement('img');
+  imagemBico.src = 'aeronave-bico.png'; // Substitua pelo caminho da sua imagem
+  imagemBico.alt = 'Bico do Avião';
+  container.appendChild(imagemBico);
+
+  // Cria um novo elemento tabela para conter os botões de assento
+  const tabelaAssentos = document.createElement('table');
+  tabelaAssentos.classList.add('tabela-assentos', 'table', 'table-bordered', 'table-hover'); // Adiciona classes do Bootstrap
+  tabelaAssentos.style.marginTop = '20px'; // Adiciona margem superior
+
+
+  // Remove a tabela de assentos existente, se houver
+  const tabelaAntiga = document.querySelector('.tabela-assentos');
+  if (tabelaAntiga) {
+    tabelaAntiga.remove();
+  }
+
+  // Cria um novo elemento para exibir informações ao lado do ponteiro do mouse
+  const infoMouse = document.createElement('div');
+  infoMouse.style.position = 'absolute';
+  infoMouse.style.display = 'none';
+  document.body.appendChild(infoMouse);
+
+
 
   const colunas = 5;
   const linhas = 4;
@@ -300,17 +410,27 @@ function criarBotoes(Filtro) {
   fetchListaDeAssentos(filtro)
     .then((assentos) => {
       for (let i = 0; i < linhas; i++) {
-        const linhaDiv = document.createElement('div');
-        linhaDiv.classList.add('linha');
+        const linha = tabelaAssentos.insertRow();
 
         for (let j = 0; j < colunas; j++) {
           const numeroBotao = i * colunas + j + 1;
+          const celula = linha.insertCell();
+
+          // Criar um botão com ícone do Bootstrap
           const botao = document.createElement('button');
-          botao.innerText = numeroBotao;
           botao.setAttribute('data-coluna', j + 1);
           botao.setAttribute('data-linha', i + 1);
+          botao.classList.add('assento', 'btn', 'btn-light'); // Adiciona classes do Bootstrap
 
-          const assentoReservado = assentos.find(assento => assento.coluna === j + 1 && assento.linha === i + 1);
+          // Adiciona ícone do Bootstrap como filho do botão
+          /*
+          const icon = document.createElement('i');
+          icon.classList.add('bi', 'bi-layout-sidebar-reverse'); // Classe do ícone do Bootstrap
+          botao.appendChild(icon);*/
+
+          const assentoReservado = assentos.find(
+            (assento) => assento.coluna === j + 1 && assento.linha === i + 1
+          );
 
           if (assentoReservado) {
             botao.classList.add('assento-reservado');
@@ -318,54 +438,96 @@ function criarBotoes(Filtro) {
             botao.classList.add('assento-disponivel');
           }
 
-          botao.addEventListener('click', function(event) {
+          // Adiciona evento de mouseover para exibir linha e coluna
+          botao.addEventListener('mouseover', function (event) {
+            const coluna = botao.getAttribute('data-coluna');
+            const linha = botao.getAttribute('data-linha');
+            const rect = event.target.getBoundingClientRect();
+
+            // Posiciona o elemento infoMouse ao lado do ponteiro do mouse
+            infoMouse.style.left = rect.right + 'px';
+            infoMouse.style.top = rect.top + window.scrollY + 'px';
+            infoMouse.style.display = 'block';
+
+            // Atualiza o conteúdo do infoMouse
+            infoMouse.innerHTML = `Linha: ${linha}, Coluna: ${coluna}`;
+          });
+
+          // Adiciona evento de mouseout para esconder infoMouse
+          botao.addEventListener('mouseout', function () {
+            infoMouse.style.display = 'none';
+          });
+
+          botao.addEventListener('click', function (event) {
             const coluna = event.target.getAttribute('data-coluna');
             const linha = event.target.getAttribute('data-linha');
             assento_clicado.linha = linha;
             assento_clicado.coluna = coluna;
             assento_clicado.voo_id = Filtro;
-            const assentoClicado = assentos.find(assento => assento.coluna == coluna && assento.linha == linha);
+            const assentoClicado = assentos.find(
+              (assento) => assento.coluna == coluna && assento.linha == linha
+            );
             const numeroBotao = event.target.innerText;
 
             if (assentoClicado) {
-                alert('Assento Reservado!');
-                console.log(`Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`);
+              alert('Assento Reservado!');
+              console.log(
+                `Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`
+              );
             } else {
-                console.log(`Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`);
-                assento_clicado.coluna = coluna;
-                assento_clicado.linha = linha;
-                if (event.target.classList.contains('assento-selecionado')) {
-                    event.target.classList.remove('assento-selecionado');
-                    event.target.classList.add('assento-disponivel');
-                    limparDiv();
-                } else if (event.target.classList.contains('assento-disponivel')) {
-                    const assentosSelecionados = document.querySelectorAll('.assento-selecionado');
-                    
-                    if (assentosSelecionados.length >= 1) {
-                        alert('Deve ser comprado um assento por vez');
-                        return;
-                    }
-                    event.target.classList.remove('assento-disponivel');
-                    event.target.classList.add('assento-selecionado');
-                    criarDivComBotaoSalvar(Filtro);
+              console.log(
+                `Assento ${numeroBotao} - Coluna: ${coluna}, Linha: ${linha} clicado!`
+              );
+              assento_clicado.coluna = coluna;
+              assento_clicado.linha = linha;
+              if (event.target.classList.contains('assento-selecionado')) {
+                event.target.classList.remove('assento-selecionado');
+                event.target.classList.add('assento-disponivel');
+                limparDiv();
+              } else if (
+                event.target.classList.contains('assento-disponivel')
+              ) {
+                const assentosSelecionados = document.querySelectorAll(
+                  '.assento-selecionado'
+                );
+
+                if (assentosSelecionados.length >= 1) {
+                  alert('Deve ser comprado um assento por vez');
+                  return;
                 }
+                event.target.classList.remove('assento-disponivel');
+                event.target.classList.add('assento-selecionado');
+                criarDivComBotaoSalvar(Filtro);
+              }
             }
-        });
+          });
 
-          linhaDiv.appendChild(botao);
+          celula.appendChild(botao);
         }
-
-        // Adiciona a linhaDiv ao elemento assentosDiv
-        assentosDiv.appendChild(linhaDiv);
       }
 
-      // Adiciona o elemento assentosDiv ao corpo do documento
-      document.body.appendChild(assentosDiv);
+  // Adiciona a tabelaAssentos ao elemento container
+  container.appendChild(tabelaAssentos);
+
+  // Adiciona imagem da cauda do avião à direita
+  const imagemCauda = document.createElement('img');
+  imagemCauda.src = 'aeronave-cauda.png'; // Substitua pelo caminho da sua imagem
+  imagemCauda.alt = 'Cauda do Avião';
+  container.appendChild(imagemCauda);
+
+  // Obtém a div de destino com base no ID fornecido
+  const divPai = document.getElementById(divPaiId);
+
+  // Adiciona o elemento container à divPai
+  divPai.appendChild(container);
     })
     .catch((error) => {
       console.error('Erro ao obter lista de assentos:', error.message);
     });
 }
+
+
+
 
 function inserirAssentoIda(Filtro) {
   const Voo_id = assento_clicado.voo_id;

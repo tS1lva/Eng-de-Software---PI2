@@ -7,10 +7,11 @@ import { Cidade } from "./Cidade";
 import { Aeroporto } from "./Aeroportos";
 import { Trecho } from "./trecho";
 import { Voo } from "./voo";
+import { VooCliente } from "./vooCliente";
 import { Assento } from "./Assento"
 import { Filtro } from "./filtro";
 import { oraConnAttribs } from "./OracleConnAtribs";
-import { rowsToAeronaves, rowsToCidades, rowsToAeroportos, rowsToTrechos, rowsToVoos, rowsToAssentos } from "./Conversores";
+import { rowsToAeronaves, rowsToCidades, rowsToAeroportos, rowsToTrechos, rowsToVoos, rowsToVoosCliente, rowsToAssentos } from "./Conversores";
 import { aeronaveValida, cidadeValida, aeroportoValida, trechoValida, vooValida } from "./Validadores";
 
 const app = express();
@@ -1192,13 +1193,14 @@ app.get("/consultarVooCliente", async (req, res) => {
     connection = await oracledb.getConnection(oraConnAttribs);
 
     let resultadoConsulta = await connection.execute(
-      "SELECT id_voo, hora_origem, data_origem, hora_chegada, data_chegada, aeroporto_origem, aeroporto_chegada, trecho_id, aeronave_id, valor FROM VOO WHERE data_origem >= TO_DATE(:dataLimite, 'DD/MM/YY') AND aeroporto_origem = :1 AND aeroporto_chegada = :2 ORDER BY data_origem",
-      [dataPartida, aeroportoOrigem, aeroportoDestino] 
+      "SELECT VOO.id_voo, VOO.hora_origem, VOO.data_origem, VOO.hora_chegada, VOO.data_chegada, VOO.aeroporto_origem, VOO.aeroporto_chegada, VOO.trecho_id, VOO.aeronave_id, VOO.valor, CIDADE_ORIGEM.ID_CIDADE AS ID_CIDADE_ORIGEM, CIDADE_ORIGEM.NOME AS NOME_CIDADE_ORIGEM, CIDADE_DESTINO.ID_CIDADE AS ID_CIDADE_DESTINO, CIDADE_DESTINO.NOME AS NOME_CIDADE_DESTINO FROM VOO JOIN CIDADE CIDADE_ORIGEM ON VOO.AEROPORTO_ORIGEM = CIDADE_ORIGEM.ID_CIDADE JOIN CIDADE CIDADE_DESTINO ON VOO.AEROPORTO_CHEGADA = CIDADE_DESTINO.ID_CIDADE WHERE VOO.data_origem >= TO_DATE(:dataLimite, 'DD/MM/YY') AND VOO.aeroporto_origem = :1 AND VOO.aeroporto_chegada = :2 ORDER BY VOO.data_origem",
+      [dataPartida, aeroportoOrigem, aeroportoDestino]
     );
+    
 
     cr.status = "SUCCESS";
     cr.message = "Dados obtidos";
-    cr.payload = rowsToVoos(resultadoConsulta.rows);
+    cr.payload = rowsToVoosCliente(resultadoConsulta.rows);
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;

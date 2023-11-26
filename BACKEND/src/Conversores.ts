@@ -8,7 +8,8 @@ import { Aeronave } from "./Aeronave";
 import { Cidade } from "./Cidade";
 import { Aeroporto } from "./Aeroportos";
 import { Trecho } from "./trecho";
-import { Voo } from "./voo";
+import { Voo} from "./voo";
+import { VooCliente } from "./vooCliente";
 import { Assento } from "./Assento";
 
 export function rowsToAeronaves(oracleRows: unknown[] | undefined) : Array<Aeronave> {
@@ -116,6 +117,36 @@ export function rowsToVoos(oracleRows: unknown[] | undefined) : Array<Voo> {
     })
   }
   return Voos;
+}
+
+export function rowsToVoosCliente(oracleRows: unknown[] | undefined) : Array<VooCliente> {
+  
+  let VoosCliente: Array<VooCliente> = [];
+  let VooCliente;
+  if (oracleRows !== undefined){
+    oracleRows.forEach((registro: any) => {
+      VooCliente = {
+        codigo: registro.ID_VOO,
+        hora_origem: registro.HORA_ORIGEM,
+        data_origem: (registro.DATA_ORIGEM).toLocaleDateString(),
+        hora_chegada: registro.HORA_CHEGADA,
+        data_chegada: (registro.DATA_CHEGADA).toLocaleDateString(),
+        aeroporto_origem: registro.AEROPORTO_ORIGEM,
+        aeroporto_chegada: registro.AEROPORTO_CHEGADA,
+        trecho_id: registro.TRECHO_ID,
+        aeronave_id: registro.AERONAVE_ID,
+        valor: registro.VALOR,
+        id_cidade_origem: registro.ID_CIDADE_ORIGEM,
+        nome_cidade_origem: registro.NOME_CIDADE_ORIGEM,
+        id_cidade_destino: registro.ID_CIDADE_DESTINO,
+        nome_cidade_destino: registro.NOME_CIDADE_DESTINO
+      } as VooCliente;
+
+      // inserindo o novo Array convertido.
+      VoosCliente.push(VooCliente);
+    })
+  }
+  return VoosCliente;
 }
 
 

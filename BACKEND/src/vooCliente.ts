@@ -1,0 +1,16 @@
+  export type VooCliente = {
+    codigo?: number, 
+    hora_origem?: string,
+    data_origem?: string, 
+    hora_chegada?: string,
+    data_chegada?: string,
+    aeroporto_origem?: number,
+    aeroporto_chegada?: number,
+    trecho_id?: number,
+    aeronave_id?: number,
+    valor?: number,
+    id_cidade_origem?: number,
+    nome_cidade_origem?: string,
+    id_cidade_destino?: number,
+    nome_cidade_destino?: string,
+  }

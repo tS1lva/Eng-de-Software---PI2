@@ -6,6 +6,16 @@
     <title>Busca de Voos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css" integrity="sha384-oGq6s5V/23I53j5YbBkEN+J78SnA5bpD5mCvq+RjCG5i6HYYCE1Yn5aTUIwDE6mQ" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="/FRONTEND/css/stylesListagen.css">
+
+
+
     <style>
       #DivTabelaIda {
         display: none;
@@ -28,6 +38,20 @@
       .assento-selecionado {
         background-color: green;
       }
+      
+      .tabela-assentos {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 6px solid #2e2a2a34; /* Cor e largura da borda externa da tabela */
+      }
+
+      
+      .tabela-assentos td, .tabela-assentos tr {
+        border: none; /* Remover todas as bordas internas das células */
+      }
+
+
+
   </style>
     
 </head>
@@ -86,18 +110,16 @@
 
         <div class="mt-4" id="DivTabelaIda">
           <p>Selecione o voo de IDA</p>
-              <table >
-                <thead>
+              <table id="tabelaIda" >
+                <thead >
                     <tr>
-                        <th>Código</th>
-                        <th>Hora de Origem</th>
-                        <th>Data de Origem</th>
-                        <th>Hora de Chegada</th>
-                        <th>Data de Chegada</th>
-                        <th>Aeroporto de Origem</th>
-                        <th>Aeroporto de Chegada</th>
-                        <th>ID do Trecho</th>
-                        <th>ID da Aeronave</th>
+                        <th>Voo</th>
+                        <th>Origem</th>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Destino</th>
+                        <th>Data</th>
+                        <th>Hora</th>
                         <th>Valor</th>
                     </tr>
                 </thead>
@@ -110,20 +132,23 @@
               <table >
                 <thead>
                     <tr>
-                        <th>Código</th>
-                        <th>Hora de Origem</th>
-                        <th>Data de Origem</th>
-                        <th>Hora de Chegada</th>
-                        <th>Data de Chegada</th>
-                        <th>Aeroporto de Origem</th>
-                        <th>Aeroporto de Chegada</th>
-                        <th>ID do Trecho</th>
-                        <th>ID da Aeronave</th>
+                      <tr >
+                        <th>Voo</th>
+                        <th>Origem</th>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Destino</th>
+                        <th>Data</th>
+                        <th>Hora</th>
                         <th>Valor</th>
                     </tr>
                 </thead>
                 <tbody id="TblVoosDadosVolta"></tbody>
             </table>
+        </div>
+
+        <div class="mt-4" id="DivMapaAssentos">
+          
         </div>
     </header>
 

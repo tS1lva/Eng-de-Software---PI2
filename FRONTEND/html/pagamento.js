@@ -29,4 +29,3 @@ function inserirPassagem() {
       alert("Erro para incluir cliente: " + error.message);
     });
   }
-

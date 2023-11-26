@@ -5,7 +5,7 @@
 // que convertam de "linha do oracle" para um array javascript onde
 // cada elemento represente um elemento de um tipo. 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rowsToAssentos = exports.rowsToVoos = exports.rowsToTrechos = exports.rowsToAeroportos = exports.rowsToCidades = exports.rowsToAeronaves = void 0;
+exports.rowsToAssentos = exports.rowsToVoosCliente = exports.rowsToVoos = exports.rowsToTrechos = exports.rowsToAeroportos = exports.rowsToCidades = exports.rowsToAeronaves = void 0;
 function rowsToAeronaves(oracleRows) {
     // vamos converter um array any (resultados do oracle)
     // em um array de Aeronave
@@ -100,6 +100,34 @@ function rowsToVoos(oracleRows) {
     return Voos;
 }
 exports.rowsToVoos = rowsToVoos;
+function rowsToVoosCliente(oracleRows) {
+    let VoosCliente = [];
+    let VooCliente;
+    if (oracleRows !== undefined) {
+        oracleRows.forEach((registro) => {
+            VooCliente = {
+                codigo: registro.ID_VOO,
+                hora_origem: registro.HORA_ORIGEM,
+                data_origem: (registro.DATA_ORIGEM).toLocaleDateString(),
+                hora_chegada: registro.HORA_CHEGADA,
+                data_chegada: (registro.DATA_CHEGADA).toLocaleDateString(),
+                aeroporto_origem: registro.AEROPORTO_ORIGEM,
+                aeroporto_chegada: registro.AEROPORTO_CHEGADA,
+                trecho_id: registro.TRECHO_ID,
+                aeronave_id: registro.AERONAVE_ID,
+                valor: registro.VALOR,
+                id_cidade_origem: registro.ID_CIDADE_ORIGEM,
+                nome_cidade_origem: registro.NOME_CIDADE_ORIGEM,
+                id_cidade_destino: registro.ID_CIDADE_DESTINO,
+                nome_cidade_destino: registro.NOME_CIDADE_DESTINO
+            };
+            // inserindo o novo Array convertido.
+            VoosCliente.push(VooCliente);
+        });
+    }
+    return VoosCliente;
+}
+exports.rowsToVoosCliente = rowsToVoosCliente;
 function rowsToAssentos(oracleRows) {
     let Assentos = [];
     let Assento;
