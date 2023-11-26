@@ -169,3 +169,29 @@ export function rowsToAssentos(oracleRows: unknown[] | undefined) : Array<Assent
   }
   return Assentos;
 }
+
+export function rowsToVoosDados(oracleRows: unknown[] | undefined): Array<Voo> {
+  let Voos: Array<Voo> = [];
+
+  if (oracleRows !== undefined) {
+    oracleRows.forEach((registro: any) => {
+      const Voo: Voo = {
+        codigo: registro.ID_VOO,
+        hora_origem: registro.HORA_ORIGEM,
+        data_origem: (registro.DATA_ORIGEM).toLocaleDateString(),
+        hora_chegada: registro.HORA_CHEGADA,
+        data_chegada: (registro.DATA_CHEGADA).toLocaleDateString(),
+        aeroporto_origem: registro.AEROPORTO_ORIGEM_NOME, // Ajuste aqui
+        aeroporto_chegada: registro.AEROPORTO_CHEGADA_NOME, // Ajuste aqui
+        trecho_id: registro.TRECHO_ID,
+        aeronave_id: registro.AERONAVE_ID,
+        valor: registro.VALOR
+      };
+
+      // Inserindo o novo Array convertido.
+      Voos.push(Voo);
+    });
+  }
+
+  return Voos;
+}
