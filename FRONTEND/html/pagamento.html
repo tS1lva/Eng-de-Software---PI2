@@ -4,17 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagamento</title>
+    <link rel="stylesheet" href="pagamentoStyles.css">
 </head>
 <body>
-    <label>Insira seu nome: </label>
-    <input type="text" id="Nome" placeholder="Vinicius">
-    <label>Insira seu cpf: </label>
-    <input type="text" id="Cpf" placeholder="999.999.999-99">
-    <button id="btnDados" onclick="inserirPassagem();">Confirmar Pagamento</button>
-    <button id="assentos" onclick="gravarAssentos();">Gravar</button>
-    <a href="buscar_voo.html">
-        <button>Voltar</button>
-    </a>
+    <div class="container">
+    <!-- Tabela para exibir os dados da passagem comprada -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Voo ID</th>
+                <th>Coluna</th>
+                <th>Linha</th>
+                <th>Data Ida</th>
+                <th>Hora Ida</th>
+                <th>Data Volta</th>
+                <th>Hora Volta</th>
+                <th>Aeroporto Ida</th>
+                <th>Aeroporto Saída</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody id="tabelaDados">
+            <!-- Os dados da tabela serão inseridos aqui dinamicamente com JavaScript -->
+        </tbody>
+    </table>
+    <div id="valorTotal"></div>
+    <div id="dados">
+        <label>Insira seu nome: </label>
+        <input type="text" id="Nome" placeholder="Vinicius">
+        <label>Insira seu cpf: </label>
+        <input type="text" id="Cpf" placeholder="999.999.999-99">
+        <label>Insira seu email:</label>
+        <input type="text" id="Email" placeholder="Vinicius@abcd.com">
+        <button onclick="confirmarDadosCliente()">Confirmar Dados do Cliente</button>
+    </div>
+
+    <div id="opcoesPagamento" style="display: none;">
+    <label for="metodoPagamento">Escolha o método de pagamento:</label>
+    <select id="metodoPagamento" onchange="exibirFormularioPagamento()">
+        <option value="pix">Pix</option>
+        <option value="cartao">Cartão de Crédito</option>
+    </select>
+
+    <!-- Elementos para exibir o código Pix fictício e os campos do cartão -->
+    <div id="codigoPixDiv" style="display: none;">
+        <label for="codigoPix">Código Pix Fictício:</label>
+        <input type="text" id="codigoPix" readonly>
+        <button onclick="confirmarPagamentoPix()">Confirmar</button>
+    </div>
+
+    <div id="dadosCartaoDiv" style="display: none;">
+        <label for="numeroCartao">Número do Cartão:</label>
+        <input type="text" id="numeroCartao" placeholder="XXXX XXXX XXXX XXXX">
+
+        <label for="titularCartao">Titular do Cartão:</label>
+        <input type="text" id="titularCartao" placeholder="Nome do Titular">
+
+        <label for="cvvCartao">CVV:</label>
+        <input type="text" id="cvvCartao" placeholder="XXX">
+
+        <label for="dataValidadeCartao">Data de Validade:</label>
+        <input type="text" id="dataValidadeCartao" placeholder="MM/AA">
+
+        <button onclick="confirmarPagamentoCartao()">Confirmar</button>
+    </div>
+        <div id="mensagemCompra" style="display: none;">
+            <h2>Parabéns pela compra!</h2>
+            <p>Nós desejamos uma excelente viagem. Seu ticket será enviado para o seu e-mail.</p>
+        </div>
+          
+    </div>
+
+    <!-- Seu script JavaScript -->
     <script src="pagamento.js"></script>
+    </div>
 </body>
 </html>

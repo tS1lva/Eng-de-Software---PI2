@@ -1457,6 +1457,8 @@ app.put("/gravandoDadosClientes", async (req, res) => {
 
   let dados = req.body;
 
+  console.log(dados);
+  
   // Aguardar pela resolução da Promise antes de continuar
   let lista = await id_voos();
 

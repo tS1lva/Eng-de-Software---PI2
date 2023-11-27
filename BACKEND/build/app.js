@@ -1312,6 +1312,7 @@ app.get("/DadosCompra", (req, res) => __awaiter(void 0, void 0, void 0, function
 app.put("/gravandoDadosClientes", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("\nEntrou no PUT /gravandoDadosClientes");
     let dados = req.body;
+    console.log(dados);
     // Aguardar pela resolução da Promise antes de continuar
     let lista = yield id_voos();
     let cr = {
