@@ -25,7 +25,7 @@
             </tr>
         </thead>
         <tbody id="tabelaDados">
-            <!-- Os dados da tabela serão inseridos aqui dinamicamente com JavaScript -->
+            
         </tbody>
     </table>
     <div id="valorTotal"></div>
@@ -37,6 +37,9 @@
         <label>Insira seu email:</label>
         <input type="text" id="Email" placeholder="Vinicius@abcd.com">
         <button onclick="confirmarDadosCliente()">Confirmar Dados do Cliente</button>
+        <a href="buscar_voo.html">
+            <button class="btn retornar">Retornar</button>
+        </a>
     </div>
 
     <div id="opcoesPagamento" style="display: none;">
@@ -46,7 +49,7 @@
         <option value="cartao">Cartão de Crédito</option>
     </select>
 
-    <!-- Elementos para exibir o código Pix fictício e os campos do cartão -->
+    
     <div id="codigoPixDiv" style="display: none;">
         <label for="codigoPix">Código Pix Fictício:</label>
         <input type="text" id="codigoPix" readonly>
@@ -75,7 +78,7 @@
           
     </div>
 
-    <!-- Seu script JavaScript -->
+    
     <script src="pagamento.js"></script>
     </div>
 </body>
