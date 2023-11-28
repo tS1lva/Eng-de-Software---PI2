@@ -12,12 +12,12 @@ async function gravarAssentos() {
   try {
     const resposta = await requestInserindoAssento();
     if (resposta.status === "SUCCESS") {
-      alert(resposta.message);
+      console.log(resposta.message);
     } else {
-      alert("Erro ao inserir assento: " + resposta.message);
+      console.log("Erro ao inserir assento: " + resposta.message);
     }
   } catch (erro) {
-    alert("Erro na requisição: " + erro.message);
+    console.log("Erro na requisição: " + erro.message);
   }
 }
 
@@ -71,7 +71,7 @@ function requestDadosCompra() {
     .then((response) => response.json());
 }
 
-// Função para preencher a tabela com os dados de compra
+
 // Função para preencher a tabela com os dados de compra
 function preencherTabelaCompra(dadosCompra) {
   // Acessando o tbody pelo id.
@@ -174,6 +174,8 @@ function exibirCodigoPixFicticio() {
 }
 
 function confirmarPagamentoPix() {
+  gravarAssentos();
+  inserirPassagem();
   exibirMensagemCompra();
 }
 
