@@ -333,6 +333,18 @@ function criarBotaoSalvarAssentoIda(Filtro) {
   return botaoSalvarAssentoIDA;
 }
 
+function criarBotaoAncora(Filtro) {
+  // Criar botão "Salvar AssentoIDA"
+  botaoAncora = document.createElement("button");
+  botaoAncora.id = "botaoAncora; // Defina um ID para referência posterior se necessário"
+  botaoAncora.innerHTML = "Confirmar";
+  botaoAncora.classList.add('btn', 'btn-primary'); // Adiciona classes do Bootstrap
+  botaoAncora.addEventListener("click", function () {
+    window.location.href = "pagamento.html";
+  });
+
+  return botaoAncora;
+}
 
 
 function criarBotaoSalvarAssentoVolta(Filtro) {
@@ -358,8 +370,10 @@ function criarDivComBotaoSalvar(Filtro) {
   // Criar botão "Salvar Assento"
   var botaoSalvarAssentoIDA = criarBotaoSalvarAssentoIda(Filtro);
   var botaoSalvarAssentoVOLTA = criarBotaoSalvarAssentoVolta(Filtro);
+  var botãoAncora = criarBotaoAncora();
   // Adicionar botão ao conteúdo da div
   DivMapaAssentos.appendChild(botaoSalvarAssentoIDA);
+  DivMapaAssentos.appendChild(botãoAncora);
   minhaDiv.appendChild(botaoSalvarAssentoVOLTA);
 
   // Adicionar a div ao corpo do documento
@@ -534,28 +548,35 @@ function criarBotoes(Filtro, divPaiId) {
                 if (opcaoVoltaSelecionado) {
                   // Cria o botão "Salvar Assento Volta"
                   botaoSalvarAssentoVolta = criarBotaoSalvarAssentoVolta(Filtro);
+                  botaoAncora=criarBotaoAncora();
             
                   // Adiciona o botão à div que contém a tabela de assentos
                   divPai.appendChild(botaoSalvarAssentoVolta);
+                  divPai.appendChild(botaoAncora);
                 }
               } else {
                 // Remove o botão "Salvar Assento Volta" se o assento de volta for desmarcado
                 if (botaoSalvarAssentoVolta) {
                   botaoSalvarAssentoVolta.remove();
+                  botaoAncora.remove();
                 }
               }
             }else{
 
               if (event.target.classList.contains('assento-selecionado')) {
                 // Cria o botão "Salvar AssentoIDA"
+                botaoAncora=criarBotaoAncora();
                 botaoSalvarAssentoIDA = criarBotaoSalvarAssentoIda(Filtro);
+
             
                 // Adiciona o botão à div que contém a tabela de assentos
                 divPai.appendChild(botaoSalvarAssentoIDA);
+                divPai.appendChild(botaoAncora);
               } else {
                 // Remove o botão "Salvar AssentoIDA" se o assento for desmarcado
                 if (botaoSalvarAssentoIDA) {
                   botaoSalvarAssentoIDA.remove();
+                  botaoAncora.remove();
                 }
               }
             }
