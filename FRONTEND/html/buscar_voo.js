@@ -2,6 +2,8 @@ var aeroportoOrigem = 1;
 var aeroportoDestino = 1;
 var aeroportoOrigemVolta = 1;
 var aeroportoDestinoVolta = 1;
+let botaoSalvarAssentoIDA = null;
+let botaoSalvarAssentoVolta = null; 
 
 function requestListaDeAeroportos() {
     const requestOptions = {
@@ -161,6 +163,8 @@ function fetchObter(rota) {
     }
     return opcaoVoltaSelecionado;
   }
+
+
 function exibirVoos() {
   const elementosAntigos = document.querySelectorAll('.linha');
   elementosAntigos.forEach(elemento => elemento.remove());
@@ -317,31 +321,39 @@ function fetchInserir(rota, body) {
 }
 
 function criarBotaoSalvarAssentoIda(Filtro) {
-  // Criar botão "Salvar Assento"
-  var botaoSalvarAssentoIDA = document.createElement("button");
-  botaoSalvarAssentoIDA.innerHTML = "Salvar AssentoIDA";
-  botaoSalvarAssentoIDA.addEventListener("click", function() {
+  // Criar botão "Salvar AssentoIDA"
+  botaoSalvarAssentoIDA = document.createElement("button");
+  botaoSalvarAssentoIDA.id = "botaoSalvarAssentoIDA"; // Defina um ID para referência posterior se necessário
+  botaoSalvarAssentoIDA.innerHTML = "Confirmar Assento IDA";
+  botaoSalvarAssentoIDA.classList.add('btn', 'btn-primary'); // Adiciona classes do Bootstrap
+  botaoSalvarAssentoIDA.addEventListener("click", function () {
     inserirAssentoIda(Filtro);
   });
 
   return botaoSalvarAssentoIDA;
 }
 
+
+
 function criarBotaoSalvarAssentoVolta(Filtro) {
-  // Criar botão "Salvar Assento"
-  var botaoSalvarAssentoVOLTA = document.createElement("button");
-  botaoSalvarAssentoVOLTA.innerHTML = "Salvar Assento";
-  botaoSalvarAssentoVOLTA.addEventListener("click", function() {
+  // Criar botão "Salvar Assento Volta"
+  botaoSalvarAssentoVolta = document.createElement("button");
+  botaoSalvarAssentoVolta.id = "botaoSalvarAssentoVolta"; // Defina um ID para referência posterior se necessário
+  botaoSalvarAssentoVolta.innerHTML = "Confirmar Assento VOLTA";
+  botaoSalvarAssentoVolta.classList.add('btn', 'btn-primary'); // Adiciona classes do Bootstrap
+  botaoSalvarAssentoVolta.addEventListener("click", function () {
     inserirAssentoVolta(Filtro);
   });
 
-  return botaoSalvarAssentoVOLTA;
+  return botaoSalvarAssentoVolta;
 }
+
+
 
 function criarDivComBotaoSalvar(Filtro) {
   // Criar div dinamicamente
   var minhaDiv = document.createElement("div");
-  minhaDiv.id = "minhaDiv"; // Definir o ID da div
+  minhaDiv.id = "divConfirmarAssento"; // Definir o ID da div
 
   // Criar botão "Salvar Assento"
   var botaoSalvarAssentoIDA = criarBotaoSalvarAssentoIda(Filtro);
@@ -354,32 +366,43 @@ function criarDivComBotaoSalvar(Filtro) {
   document.body.appendChild(minhaDiv);
 }
 
+
+/*
 function limparDiv() {
-  var minhaDiv = document.getElementById("minhaDiv");
+  var minhaDiv = document.getElementById("divConfirmarAssento");
   if (minhaDiv) {
     minhaDiv.innerHTML = ""; // Limpa o conteúdo da div
     minhaDiv.remove(); // Remove a div do DOM
   }
 }
+*/
+
+function limparDiv() {
+  const divAssentoIDA = document.getElementById('divAssentoIDA'); // Substitua 'divAssentoIDA' pelo ID real da sua div
+  divAssentoIDA.innerHTML = ''; // Limpa o conteúdo da div
+}
+
+
+
 
 
 function criarBotoes(Filtro, divPaiId) {
-  // Obtém a div de destino com base no ID fornecido
+  //Div com id de destino
   const divPai = document.getElementById(divPaiId);
 
-  // Remove todos os elementos filhos da div
+  //Remove todos os elementos filhos da div
   while (divPai.firstChild) {
     divPai.removeChild(divPai.firstChild);
   }
 
-  // Cria um novo elemento div para conter a tabela, o bico e a cauda do avião
+  //Cria um novo elemento div para conter a tabela, o bico e a cauda do avião
   const container = document.createElement('div');
-  container.style.display = 'flex'; // Torna o container um contêiner flexível
-  container.style.alignItems = 'center'; // Centraliza verticalmente os itens
+  container.style.display = 'flex'; //Torna o container um contêiner flexível
+  container.style.alignItems = 'center'; //Centraliza verticalmente os itens
 
-  // Adiciona imagem do bico do avião à esquerda
+  //Adiciona imagem do bico do avião à esquerda
   const imagemBico = document.createElement('img');
-  imagemBico.src = 'aeronave-bico.png'; // Substitua pelo caminho da sua imagem
+  imagemBico.src = 'aeronave-bico.png'; //Substitua pelo caminho da sua imagem
   imagemBico.alt = 'Bico do Avião';
   container.appendChild(imagemBico);
 
@@ -483,7 +506,7 @@ function criarBotoes(Filtro, divPaiId) {
               if (event.target.classList.contains('assento-selecionado')) {
                 event.target.classList.remove('assento-selecionado');
                 event.target.classList.add('assento-disponivel');
-                limparDiv();
+                //limparDiv();
               } else if (
                 event.target.classList.contains('assento-disponivel')
               ) {
@@ -497,9 +520,50 @@ function criarBotoes(Filtro, divPaiId) {
                 }
                 event.target.classList.remove('assento-disponivel');
                 event.target.classList.add('assento-selecionado');
-                criarDivComBotaoSalvar(Filtro);
+                //criarDivComBotaoSalvar(Filtro);
+                //limparDiv();
               }
             }
+
+
+
+
+            if(opcaoVoltaSelecionado == 1){
+              if (event.target.classList.contains('assento-selecionado')) {
+                // Verifica se o voo é de volta
+                if (opcaoVoltaSelecionado) {
+                  // Cria o botão "Salvar Assento Volta"
+                  botaoSalvarAssentoVolta = criarBotaoSalvarAssentoVolta(Filtro);
+            
+                  // Adiciona o botão à div que contém a tabela de assentos
+                  divPai.appendChild(botaoSalvarAssentoVolta);
+                }
+              } else {
+                // Remove o botão "Salvar Assento Volta" se o assento de volta for desmarcado
+                if (botaoSalvarAssentoVolta) {
+                  botaoSalvarAssentoVolta.remove();
+                }
+              }
+            }else{
+
+              if (event.target.classList.contains('assento-selecionado')) {
+                // Cria o botão "Salvar AssentoIDA"
+                botaoSalvarAssentoIDA = criarBotaoSalvarAssentoIda(Filtro);
+            
+                // Adiciona o botão à div que contém a tabela de assentos
+                divPai.appendChild(botaoSalvarAssentoIDA);
+              } else {
+                // Remove o botão "Salvar AssentoIDA" se o assento for desmarcado
+                if (botaoSalvarAssentoIDA) {
+                  botaoSalvarAssentoIDA.remove();
+                }
+              }
+            }
+
+
+
+            
+
           });
 
           celula.appendChild(botao);
