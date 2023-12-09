@@ -8,32 +8,27 @@ function fetchInserir(rota, body) {
     return fetch(rota, requestOptions).then((response) => response.json());
 }
 
-async function gravarAssentos() {
-  try {
-    const resposta = await requestInserindoAssento();
-    if (resposta.status === "SUCCESS") {
-      console.log(resposta.message);
-    } else {
-      console.log("Erro ao inserir assento: " + resposta.message);
-    }
-  } catch (erro) {
-    console.log("Erro na requisição: " + erro.message);
-  }
+function requestInserindoAssento() {
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  };
+  return fetch('http://localhost:3000/inserirAssento', requestOptions)
+    .then((response) => response.json());
 }
 
-async function requestInserindoAssento() {
-  try {
-    const requestOptions = {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    };
 
-    const response = await fetch('http://localhost:3000/InserirAssento', requestOptions);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    throw new Error("Erro na requisição: " + error.message);
-  }
+ function gravarAssentos() {
+  requestInserindoAssento()
+  .then((data) => {
+    if(data.status === "SUCCESS") {
+      console.log("Assento inserido com sucesso");
+    }
+    inserirPassagem();
+  })
+  .catch((e) => {
+    console.log(e.message)
+  });
 }
 
 
@@ -175,7 +170,6 @@ function exibirCodigoPixFicticio() {
 
 function confirmarPagamentoPix() {
   gravarAssentos();
-  inserirPassagem();
   exibirMensagemCompra();
 }
 
@@ -186,11 +180,6 @@ function confirmarPagamentoCartao() {
   const cvvCartao = document.getElementById("cvvCartao").value;
   const dataValidadeCartao = document.getElementById("dataValidadeCartao").value;
   gravarAssentos();
-  inserirPassagem();
-
-  // Valide os dados do cartão e prossiga conforme necessário
-  // ...
-
   exibirMensagemCompra();
 }
 
@@ -212,8 +201,3 @@ function exibirOpcoesPagamento() {
 function confirmarDadosCliente() {
   exibirOpcoesPagamento();
 }
-
-
-
-
-

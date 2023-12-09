@@ -156,8 +156,8 @@ function rowsToVoosDados(oracleRows) {
                 data_origem: (registro.DATA_ORIGEM).toLocaleDateString(),
                 hora_chegada: registro.HORA_CHEGADA,
                 data_chegada: (registro.DATA_CHEGADA).toLocaleDateString(),
-                aeroporto_origem: registro.AEROPORTO_ORIGEM_NOME,
-                aeroporto_chegada: registro.AEROPORTO_CHEGADA_NOME,
+                aeroporto_origem: registro.AEROPORTO_ORIGEM_NOME, // Ajuste aqui
+                aeroporto_chegada: registro.AEROPORTO_CHEGADA_NOME, // Ajuste aqui
                 trecho_id: registro.TRECHO_ID,
                 aeronave_id: registro.AERONAVE_ID,
                 valor: registro.VALOR

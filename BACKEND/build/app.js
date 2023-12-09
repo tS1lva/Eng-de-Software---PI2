@@ -1201,13 +1201,16 @@ function id_voos() {
             let connection;
             try {
                 connection = yield oracledb_1.default.getConnection(OracleConnAtribs_1.oraConnAttribs);
+                console.log("Voo ID:", assentosA[ax].voo_id);
+                console.log("Linha:", assentosA[ax].linha);
+                console.log("Coluna:", assentosA[ax].coluna);
                 let resultadoConsulta = yield connection.execute("SELECT id_assento FROM ASSENTO WHERE VOO_ID = :1 AND LINHA = :2 AND COLUNA = :3", [assentosA[ax].voo_id, assentosA[ax].linha, assentosA[ax].coluna]);
                 let assentosEncontrados = (0, Conversores_1.rowsToAssentos)(resultadoConsulta.rows);
                 if (assentosEncontrados.length > 0) {
                     idsAssentos.push(assentosEncontrados[0].id_assento);
                 }
                 else {
-                    console.log(`Nenhum assento encontrado para o assentoA[${ax}]`);
+                    console.log("Nenhum assento encontrado para o voo", assentosA[ax].voo_id);
                 }
             }
             catch (e) {
@@ -1270,20 +1273,24 @@ app.get("/DadosCompra", (req, res) => __awaiter(void 0, void 0, void 0, function
     for (let ax = 0; ax < assentosA.length; ax++) {
         AssentoLinha.push({
             voo_id: assentosA[ax].voo_id,
-            linha: assentosA[ax].linha,
+            linha: undefined,
             coluna: assentosA[ax].coluna,
         });
-        if (assentosA[ax].linha === 1) {
-            AssentoLinha[ax].letra = 'A';
+        if (assentosA[ax].linha === '1') {
+            AssentoLinha[ax].linha = 'A';
+            console.log('Linha A:', assentosA[ax].linha);
         }
-        else if (assentosA[ax].linha === 2) {
-            AssentoLinha[ax].letra = 'B';
+        else if (assentosA[ax].linha === '2') {
+            AssentoLinha[ax].linha = 'B';
+            console.log('Linha B:', assentosA[ax].linha);
         }
-        else if (assentosA[ax].linha === 3) {
-            AssentoLinha[ax].letra = 'C';
+        else if (assentosA[ax].linha === '3') {
+            AssentoLinha[ax].linha = 'C';
+            console.log('Linha C:', assentosA[ax].linha);
         }
-        else {
-            AssentoLinha[ax].letra = 'D';
+        else if (assentosA[ax].linha === '4') {
+            AssentoLinha[ax].linha = 'D';
+            console.log('Linha D:', assentosA[ax].linha);
         }
     }
     let dadosEnv = Array();
@@ -1291,7 +1298,7 @@ app.get("/DadosCompra", (req, res) => __awaiter(void 0, void 0, void 0, function
         let passagemComprada = {};
         passagemComprada.voo_id = AssentoLinha[ax].voo_id;
         passagemComprada.Coluna = AssentoLinha[ax].coluna;
-        passagemComprada.Linha = AssentoLinha[ax].letra;
+        passagemComprada.Linha = AssentoLinha[ax].linha;
         passagemComprada.data_ida = dados[ax].data_origem;
         passagemComprada.hora_ida = dados[ax].hora_origem;
         passagemComprada.data_volta = dados[ax].data_chegada;
