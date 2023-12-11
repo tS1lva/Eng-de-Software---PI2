@@ -920,7 +920,7 @@ app.put("/inserirVoo", async(req,res)=>{
       const cmdInsertVoo = `INSERT INTO VOO  
       (id_voo, hora_origem, data_origem, hora_chegada, data_chegada, trecho_id, aeronave_id, valor)
       VALUES
-      (SEQ_TRECHO.NEXTVAL, :1, TO_DATE(:2, 'YYYY-MM-DD'), :3, TO_DATE(:4, 'YYYY-MM-DD'),:5, :6, :7)`
+      (SEQ_VOO.NEXTVAL, :1, TO_DATE(:2, 'YYYY-MM-DD'), :3, TO_DATE(:4, 'YYYY-MM-DD'),:5, :6, :7)`
       const dados = [voo.hora_origem, voo.data_origem, voo.hora_chegada, voo.data_chegada, voo.trecho_id, voo.aeronave_id, voo.valor];
   
       connection = await oracledb.getConnection(oraConnAttribs);
